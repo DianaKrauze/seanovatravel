@@ -12,12 +12,13 @@ import pandas as pd
 import io
 from flask import send_file
 import pdfkit
+import platform
 
 # Ініціалізація Flask додатка
 app = Flask(__name__)
 
 # Конфігурація бази даних PostgreSQL та секретний ключ для захисту сесій
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:Diana260505@localhost:5432/seanova_db'
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL', 'postgresql://postgres:Diana260505@localhost:5432/seanova_db')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SECRET_KEY'] = 'a32b57CO2H2OALL' 
 
@@ -47,8 +48,11 @@ os.makedirs(app.config['UPLOAD_FOLDER_TOURS'], exist_ok=True)
 os.makedirs(app.config['UPLOAD_FOLDER_CHAT'], exist_ok=True)
 
 # Конфігурація утиліти для генерації PDF-ваучерів
-path_to_wkhtmltopdf = r'C:\Program Files\wkhtmltopdf\bin\wkhtmltopdf.exe'
-config = pdfkit.configuration(wkhtmltopdf=path_to_wkhtmltopdf)
+if platform.system() == 'Windows':
+    path_to_wkhtmltopdf = r'C:\Program Files\wkhtmltopdf\bin\wkhtmltopdf.exe'
+    config = pdfkit.configuration(wkhtmltopdf=path_to_wkhtmltopdf)
+else:
+    config = pdfkit.configuration(wkhtmltopdf='/usr/bin/wkhtmltopdf')
 
 # Функції-фільтри для перевірки розширень завантажуваних файлів
 def allowed_file_tour(filename):
