@@ -6,6 +6,7 @@ Flask-SocketIO==5.6.1
 psycopg2-binary==2.9.12
 eventlet==0.35.2
 pandas
+pdfkit
 gunicorn==26.0.0
 Jinja2==3.1.6
 Werkzeug==3.1.8
