@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="uk">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Бронювання - SeaNova Travel</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/admin_bookings.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@700&family=Pattaya&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+    {% include 'flash.html' %}
+    <header class="admin-header">
+        <div class="logo">SeaNova <span>Travel</span></div>
+        <div class="header-right">
+            <button class="theme-toggle admin-theme-btn">
+                <img src="{{ url_for('static', filename='images/sun.png') }}" alt="Світла тема" class="icon-img">
+            </button>
+            <div class="admin-avatar-static">
+                <img src="{{ url_for('static', filename='images/user.png') }}" alt="Адмін" class="admin-icon-img">
+            </div>
+            <div class="admin-welcome-container">
+                <div id="nickname-display" class="admin-welcome">
+                    <span id="current-nickname">Вітаємо, {{ current_user.nickname if current_user.nickname else
+                        current_user.email }}!</span>
+                    <img src="{{ url_for('static', filename='images/pencil.png') }}" alt="Редагувати"
+                        class="pencil-icon" onclick="enterEditMode()">
+                </div>
+                <form id="nickname-form" action="{{ url_for('update_nickname_admin') }}" method="POST"
+                    style="display: none;">
+                    <input type="text" name="new_nickname" id="nickname-input" class="edit-input-admin" maxlength="50"
+                        value="{{ current_user.nickname if current_user.nickname else current_user.email }}">
+                </form>
+            </div>
+        </div>
+    </header>
+
+    <div class="admin-container">
+        <aside class="admin-sidebar">
+            <nav class="admin-menu">
+                <a href="{{ url_for('admin_panel') }}" class="admin-menu-item">Дашборд</a>
+                <a href="{{ url_for('admin_tours') }}" class="admin-menu-item">Управління турами</a>
+                <a href="{{ url_for('admin_bookings') }}" class="admin-menu-item active">Бронювання</a>
+                <a href="{{ url_for('admin_users') }}" class="admin-menu-item">Користувачі</a>
+                <a href="{{ url_for('admin_reviews') }}" class="admin-menu-item">Відгуки</a>
+                <a href="{{ url_for('admin_reports') }}" class="admin-menu-item">Звіти</a>
+                <a href="{{ url_for('admin_chat') }}" class="admin-menu-item">Чат</a>
+                <a href="{{ url_for('logout') }}" class="admin-menu-item logout-btn">Вийти</a>
+            </nav>
+        </aside>
+
+        <main class="admin-content">
+            <h1 class="page-title">Управління бронюваннями</h1>
+
+            <!-- Поле пошуку -->
+            <div class="content-header-row">
+                <div class="search-filter-container">
+                    <input type="text" id="bookingSearch" placeholder="Пошук за туром або клієнтом..."
+                        class="admin-search-input">
+
+                    <select id="statusFilter" class="admin-filter-select">
+                        <option value="">Всі статуси</option>
+                        <option value="Очікує підтвердження">Очікує підтвердження</option>
+                        <option value="Підтверджено">Підтверджено</option>
+                        <option value="Очікує оплати">Очікує оплати</option>
+                        <option value="Оплачено">Оплачено</option>
+                        <option value="Скасовано">Скасовано</option>
+                    </select>
+                </div>
+            </div>
+            <div class="admin-table-wrapper">
+                {% if bookings %}
+                <!-- Заголовки таблиці -->
+                <table class="admin-table" id="bookingsTable">
+                    <thead>
+                        <tr>
+                            <th onclick="sortTable(0)">ID <img src="{{ url_for('static', filename='images/sort.png') }}"
+                                    class="sort-icon"></th>
+                            <th onclick="sortTable(1)">Клієнт <img
+                                    src="{{ url_for('static', filename='images/sort.png') }}" class="sort-icon"></th>
+                            <th onclick="sortTable(2)">Тур <img
+                                    src="{{ url_for('static', filename='images/sort.png') }}" class="sort-icon"></th>
+                            <th onclick="sortTable(3)">Дата виїзду <img
+                                    src="{{ url_for('static', filename='images/sort.png') }}" class="sort-icon"></th>
+                            <th onclick="sortTable(4)">Осіб <img
+                                    src="{{ url_for('static', filename='images/sort.png') }}" class="sort-icon"></th>
+                            <th onclick="sortTable(5)">Сума <img
+                                    src="{{ url_for('static', filename='images/sort.png') }}" class="sort-icon"></th>
+                            <th>Статус</th>
+                            <th>Дії</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for booking in bookings %}
+                        <tr>
+                            <td>#{{ booking.id }}</td>
+                            <td>
+                                <strong>{{ booking.full_name }}</strong>
+                            </td>
+                            <td>{{ booking.tour.title }}</td>
+                            <td>
+                                {{ booking.tour.departure_date.strftime('%d.%m.%Y') }}
+                            </td>
+                            <td>{{ booking.people_count }}</td>
+                            <td>{{ booking.total_price }} грн</td>
+                            <td>{{ booking.status }}</td>
+                            <td>
+                                <div class="admin-controls">
+                                    <button type="button"
+                                        class="btn-admin-text-edit open-edit-modal {% if booking.status == 'Оплачено' %}btn-disabled{% endif %}"
+                                        data-id="{{ booking.id }}" {% if booking.status=='Оплачено' %}
+                                        title="Статус 'Оплачено' змінити неможливо" {% endif %}
+                                        data-name="{{ booking.full_name }}" data-phone="{{ booking.phone }}"
+                                        data-email="{{ booking.user.email }}" data-tour="{{ booking.tour.title }}"
+                                        data-status="{{ booking.status }}"
+                                        data-comment="{{ booking.comment or 'Немає' }}">
+                                        Редагувати
+                                    </button>
+
+                                    <button type="button" class="btn-admin-text-delete"
+                                        onclick="openDeleteBookingModal('{{ booking.id }}', '{{ booking.tour.title }}')">
+                                        Видалити
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                {% else %}
+                <div class="admin-empty-wrapper">
+                    <p>Бронювань поки немає.</p>
+                </div>
+                {% endif %}
+            </div>
+        </main>
+    </div>
+    <!-- Модальне вікно редагування бронювання -->
+    <div id="editBookingModal" class="modal-overlay" style="display: none;">
+        <div class="modal-content-custom">
+            <h2>Деталі бронювання #<span id="modalBookingIdTitle"></span></h2>
+            <div class="modal-info-grid">
+                <p><strong>Тур:</strong> <span id="modalTourName"></span></p>
+                <p><strong>Клієнт:</strong> <span id="modalClientName"></span></p>
+                <p><strong>Телефон:</strong> <span id="modalClientPhone"></span></p>
+                <p><strong>Email:</strong> <span id="modalClientEmail"></span></p>
+                <p><strong>Коментар клієнта:</strong> <span id="modalClientComment"></span></p>
+            </div>
+
+            <form id="editBookingForm" method="POST">
+                <label for="modalStatusSelect">Статус замовлення:</label>
+                <select name="status" id="modalStatusSelect" class="admin-select">
+                    <option value="Очікує підтвердження">Очікує підтвердження</option>
+                    <option value="Підтверджено">Підтверджено</option>
+                    <option value="Скасовано">Скасовано</option>
+                </select>
+                <div class="modal-actions-center">
+                    <button type="submit" class="btn-table save">Зберегти зміни</button>
+                    <button type="button" class="btn-table cancel" onclick="closeEditBookingModal()">Закрити</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Модальне вікно видалення бронювання -->
+    <div id="deleteBookingModal" class="modal-overlay" style="display: none;">
+        <div class="modal-content-custom modal-delete">
+            <h2>Видалення замовлення</h2>
+            <p class="modal-text-delete">
+                Ви впевнені, що хочете <strong>видалити</strong> замовлення туру <strong id="deleteTourName"></strong>?
+                Цю дію неможливо буде скасувати.
+            </p>
+            <form id="deleteBookingForm" method="POST">
+                <div class="modal-actions-center">
+                    <button type="submit" class="btn-table delete confirm-delete-btn">Так, видалити</button>
+                    <button type="button" class="btn-table cancel" onclick="closeDeleteBookingModal()">Назад</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <script src="{{ url_for('static', filename='js/admin_bookings.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/admin.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/base.js') }}"></script>
+</body>
+
+</html>

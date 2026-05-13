@@ -1,0 +1,152 @@
+{% extends "base.html" %}
+
+{% block title %}Мої відгуки - SeaNova Travel{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/profile.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/reviews.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="profile-container">
+    <aside class="profile-sidebar">
+        <div class="user-info">
+            <div class="avatar-container">
+                <img src="{{ url_for('static', filename='images/user.png') }}" alt="Аватар" class="profile-big-avatar">
+            </div>
+            <div class="nickname-container">
+                <div id="nickname-display" style="display: flex; align-items: center; gap: 10px;">
+                    <h2 class="user-email" id="current-nickname">
+                        {{ current_user.nickname if current_user.nickname else current_user.email }}
+                    </h2>
+                    <img src="{{ url_for('static', filename='images/pencil.png') }}" alt="Редагувати"
+                        class="pencil-icon" onclick="enterEditMode()">
+                </div>
+                <form id="nickname-form" action="{{ url_for('update_nickname') }}" method="POST" style="display: none;">
+                    <input type="text" name="new_nickname" id="nickname-input" class="edit-input" maxlength="50"
+                        value="{{ current_user.nickname if current_user.nickname else current_user.email }}">
+                </form>
+            </div>
+        </div>
+        <nav class="profile-menu">
+            <a href="{{ url_for('profile') }}" class="menu-item">Мої замовлення</a>
+            <a href="{{ url_for('wishlist') }}" class="menu-item">Список бажань</a>
+            <a href="{{ url_for('chat') }}" class="menu-item">Чат з менеджером</a>
+            <a href="{{ url_for('reviews') }}" class="menu-item active">Мої відгуки</a>
+            <a href="{{ url_for('logout') }}" class="menu-item logout-item">Вийти</a>
+        </nav>
+    </aside>
+
+    <main class="profile-content">
+        <h1 class="content-title">Мої відгуки</h1>
+        <p class="content-subtitle">Ваші оцінки допомагають іншим мандрівникам зробити правильний вибір</p>
+
+        <div class="review-form-container">
+            <h2 class="form-title">Написати відгук</h2>
+            <form action="{{ url_for('submit_review') }}" method="POST" id="mainReviewForm">
+                <div class="rating-stars-container">
+                    <div class="stars-row" id="starRating">
+                        <span class="star" data-value="1">&#9733;</span>
+                        <span class="star" data-value="2">&#9733;</span>
+                        <span class="star" data-value="3">&#9733;</span>
+                        <span class="star" data-value="4">&#9733;</span>
+                        <span class="star" data-value="5">&#9733;</span>
+                    </div>
+                    <input type="hidden" name="rating" id="ratingValue" value="0">
+                </div>
+
+                <div class="form-group">
+                    <select name="tour_id" class="tour-select" required>
+                        <option value="" disabled {% if not selected_tour_id %}selected{% endif %}>Оберіть тур для
+                            відгуку...</option>
+                        {% for tour in tours %}
+                        <option value="{{ tour.id }}" {% if selected_tour_id==tour.id %}selected{% endif %}>
+                            {{ tour.title }} {{ tour.stars }}*, {{ tour.country }}, {{ tour.city }}
+                        </option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <textarea name="review_text" class="review-textarea"
+                        placeholder="Розкажіть про свій досвід подорожі..." required minlength="10"></textarea>
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="btn-submit-review">Надіслати відгук</button>
+                </div>
+            </form>
+        </div>
+
+        <div class="user-reviews-list">
+            {% for review in reviews %}
+            <div class="review-card">
+                <div class="review-header">
+                    <div class="review-tour-info">
+                        <strong>{{ review.tour.title }} {{ review.tour.stars }}*, {{ review.tour.country }}, {{
+                            review.tour.city }}</strong>
+                    </div>
+                    <div class="review-date">
+                        {% set months = {1:'січня', 2:'лютого', 3:'березня', 4:'квітня', 5:'травня', 6:'червня',
+                        7:'липня', 8:'серпня', 9:'вересня', 10:'жовтня', 11:'листопада', 12:'грудня'} %}
+                        {{ review.timestamp.day }} {{ months[review.timestamp.month] }} {{ review.timestamp.year }}
+                    </div>
+                </div>
+
+                <div class="review-stars">
+                    {% for i in range(5) %}
+                    <span class="star-static {% if i < review.rating %}active{% endif %}">&#9733;</span>
+                    {% endfor %}
+                </div>
+
+                <div class="review-text-content">{{ review.text }}</div>
+
+                <div class="review-footer">
+                    <button class="btn-edit-review" data-id="{{ review.id }}"
+                        data-title="{{ review.tour.title }} {{ review.tour.stars }}*, {{ review.tour.country }}, {{ review.tour.city }}"
+                        data-rating="{{ review.rating }}" data-text="{{ review.text }}"
+                        onclick="prepareEditModal(this)">
+                        Редагувати
+                    </button>
+                    <span class="status-badge">Опубліковано</span>
+                </div>
+            </div>
+            {% else %}
+            <p class="no-reviews">Ви ще не залишили жодного відгуку </p>
+            {% endfor %}
+        </div>
+    </main>
+
+    <div id="editReviewModal" class="modal-overlay" style="display: none;">
+        <div class="modal-content-edit">
+            <h2 id="editModalTitle">Редагувати відгук</h2>
+            <form id="editReviewForm" method="POST">
+                <div class="form-group-edit">
+                    <p class="modal-tour-name" id="modalTourName"></p>
+                    <div class="rating-stars-container">
+                        <div class="stars-row" id="modalStarRating">
+                            <span class="modal-star" data-value="1">&#9733;</span>
+                            <span class="modal-star" data-value="2">&#9733;</span>
+                            <span class="modal-star" data-value="3">&#9733;</span>
+                            <span class="modal-star" data-value="4">&#9733;</span>
+                            <span class="modal-star" data-value="5">&#9733;</span>
+                        </div>
+                        <input type="hidden" name="rating" id="modalRatingValue">
+                    </div>
+                </div>
+                <div class="form-group-edit">
+                    <textarea name="review_text" id="modalReviewText" class="modal-textarea" required></textarea>
+                </div>
+                <div class="modal-actions-edit">
+                    <button type="submit" class="btn-modal-save">Зберегти</button>
+                    <button type="button" class="btn-modal-cancel" onclick="closeEditModal()">Скасувати</button>
+
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script src="{{ url_for('static', filename='js/reviews.js') }}"></script>
+<script src="{{ url_for('static', filename='js/user.js') }}"></script>
+{% endblock %}

@@ -1,0 +1,154 @@
+
+/* Головний контейнер секції */
+.about-container 
+{
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 0 20px;
+    font-family: 'Open Sans', sans-serif;
+}
+
+/* Основна велика картка */
+.about-main-card 
+{
+    background: var(--card-bg);
+    padding: 40px;
+    border-radius: 20px;
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+/* Заголовок першої картки */
+.about-main-card h1 
+{
+    color: var(--accent-color);
+    font-size: 36px;
+    margin-bottom: 20px;
+}
+
+/* Основний опис у великій картці */
+.about-main-card p 
+{
+    font-size: 24px;
+    font-family: 'Pattaya', sans-serif;
+    line-height: 1.6;
+    margin-bottom: 15px;
+    color: #000;
+}
+
+/* Сітка для нижніх карток */
+.about-grid 
+{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+}
+
+/* Другорядні картки в сітці */
+.about-card.secondary 
+{
+    background: var(--card-bg);
+    padding: 30px;
+    border-radius: 20px;
+}
+
+/* Заголовки всередині малих карток */
+.about-card h2 
+{
+    color: var(--accent-color);
+    font-size: 36px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+/* Стилізація списків переваг */
+.about-card ul 
+{
+    list-style-type: disc;
+    padding-left: 20px;
+}
+
+/* Елементи списку */
+.about-card li 
+{
+    margin-bottom: 10px;
+    line-height: 1.4;
+    font-family: 'Pattaya', sans-serif;
+    font-size: 18px;
+}
+
+/* Текст у малих картках */
+.about-card p 
+{
+    text-align: center;
+    line-height: 1.6;
+    font-family: 'Pattaya', sans-serif;
+    font-size: 18px;
+}
+
+/* Адаптивність для телефонів */
+@media (max-width: 768px) 
+{
+    .about-container 
+    {
+        margin: 20px auto; 
+        padding: 0 10px;
+    }
+
+    /* Велика картка */
+    .about-main-card 
+    {
+        padding: 25px 20px;
+        margin-bottom: 20px;
+    }
+
+    .about-main-card h1 
+    {
+        font-size: 28px; 
+    }
+
+    .about-main-card p 
+    {
+        font-size: 18px; 
+    }
+    /* Перетворення сітки з 2-х колонок в 1 стовпчик */
+    .about-grid 
+    {
+        grid-template-columns: 1fr;
+    }
+    /* Малі картки */
+    .about-card.secondary 
+    {
+        padding: 20px;
+    }
+
+    .about-card h2 
+    {
+        font-size: 24px; 
+        margin-bottom: 15px;
+    }
+
+    .about-card li, .about-card p 
+    {
+        font-size: 16px; 
+    }
+}
+
+/* Для дуже маленьких екранів (320px - 360px) */
+@media (max-width: 380px) 
+{
+    .about-main-card h1 
+    {
+        font-size: 24px;
+    }
+
+    .about-main-card p 
+    {
+        font-size: 16px;
+    }
+    
+    .about-card h2 
+    {
+        font-size: 22px;
+    }
+}

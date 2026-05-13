@@ -1,0 +1,156 @@
+/* Основні стилі сторінки ваучера */
+body 
+{ 
+    font-family: 'Open Sans', sans-serif; 
+    color: #000; 
+    margin: 0; 
+    padding: 40px;
+    background: #fff;
+}
+
+/* Верхня частина ваучера (логотип та номер) */
+.header-top 
+{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+/* Стилізація текстового логотипу */
+.logo 
+{ 
+    color: #4973B1; 
+    font-size: 32px; 
+    font-weight: bold; 
+    letter-spacing: 1px;
+}
+
+.logo span 
+{ 
+    color: #000; 
+}
+
+/* Блок з номером ваучера */
+.voucher-number 
+{
+    background: #B4D3EE;
+    color: #000;
+    padding: 10px 20px;
+    border-radius: 5px;
+    text-align: center;
+}
+
+/* Головний заголовок документа */
+.voucher-title 
+{ 
+    font-size: 28px; 
+    color: #4973B1;
+    margin: 20px 0 5px;
+    text-align: left;
+    border-bottom: 3px solid #4973B1;
+}
+
+/* Підзаголовок під назвою ваучера */
+.subtitle 
+{ 
+    color: #000; 
+    font-size: 14px; 
+    margin-bottom: 30px; 
+}
+
+/* Таблиця з деталями бронювання */
+.info-table 
+{ 
+    width: 100%; 
+    border-collapse: collapse; 
+}
+
+.info-table td 
+{ 
+    padding: 15px; 
+    border-bottom: 1px solid #e0e0e0; 
+}
+
+/* Ліва колонка таблиці (назви полів) */
+.label 
+{ 
+    font-weight: bold; 
+    color: #5079B5; 
+    width: 35%; 
+    background-color: #f9f9f9;
+}
+
+/* Права колонка таблиці (значення) */
+.value 
+{
+    color: #000; 
+}
+
+/* Мітка статусу оплати */
+.status-paid 
+{
+    color: #28a745;
+    font-weight: bold;
+    border: 1px solid #28a745;
+    padding: 3px 10px;
+    border-radius: 3px;
+}
+
+/* Секція підпису та QR-коду */
+.signature-section 
+{
+    margin-top: 50px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    text-align: right;
+}
+
+/* Контейнер для QR-коду */
+.qr-code 
+{
+    margin-left: auto; 
+    width: 120px;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* Рамка самого QR-коду */
+.qr-box 
+{
+    width: 90px;
+    height: 90px;
+    border: 1px solid #ccc;
+    display: block;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 5px auto;
+}
+
+/* Блок з інформацією про менеджера */
+.manager-info 
+{ 
+    margin-left: auto;
+    text-align: right; 
+    width: 250px;
+}
+
+/* Лінія для фізичного підпису */
+.line 
+{ 
+    border-bottom: 1px solid #000;
+     margin: 15px 0 5px; 
+}
+
+/* Нижня частина сторінки (футер) */
+.footer 
+{ 
+    margin-top: 60px; 
+    padding-top: 20px;
+    border-top: 1px solid #eee;
+    font-size: 11px; 
+    text-align: right; 
+    color: #777; 
+}

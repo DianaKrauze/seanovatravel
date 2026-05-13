@@ -1,0 +1,95 @@
+{% extends "base.html" %}
+
+{% block title %}Тури - SeaNova Travel{% endblock %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/tours.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="tours-container">
+    <div class="tours-grid">
+        
+        <div class="tour-card">
+            <img src="{{ url_for('static', filename='images/turkey.png') }}" alt="Туреччина">
+            <h3>Туреччина</h3>
+            <p>Теплі пляжі Анталії, розкішні готелі та яскраве середземноморське сонце.</p>
+            <span class="price">Від 18500 грн</span>
+            <a href="{{ url_for('search_tours', country='Туреччина') }}" class="btn-select">Обрати</a>
+        </div>
+
+        <div class="tour-card">
+            <img src="{{ url_for('static', filename='images/egypt.png') }}" alt="Єгипет">
+            <h3>Єгипет</h3>
+            <p>Коралові рифи Хургади, піраміди та незмінне сонце — ідеально взимку та влітку.</p>
+            <span class="price">Від 22000 грн</span>
+           <a href="{{ url_for('search_tours', country='Єгипет') }}" class="btn-select">Обрати</a>
+        </div>
+
+        <div class="tour-card">
+            <img src="{{ url_for('static', filename='images/spain.png') }}" alt="Іспанія">
+            <h3>Іспанія</h3>
+            <p>Барселона, Коста-Брава і Тенерифе — поєднання пляжного відпочинку з багатою культурою.</p>
+            <span class="price">Від 35000 грн</span>
+            <a href="{{ url_for('search_tours', country='Іспанія') }}" class="btn-select">Обрати</a>
+        </div>
+
+        <div class="tour-card">
+            <img src="{{ url_for('static', filename='images/greece.png') }}" alt="Греція">
+            <h3>Греція</h3>
+            <p>Лазурні острови Крит і Санторіні, антична архітектура та найсмачніша середземноморська кухня.</p>
+            <span class="price">Від 28000 грн</span>
+            <a href="{{ url_for('search_tours', country='Греція') }}" class="btn-select">Обрати</a>
+        </div>
+
+        <div class="tour-card">
+            <img src="{{ url_for('static', filename='images/bulgaria.png') }}" alt="Болгарія">
+            <h3>Болгарія</h3>
+            <p>Сонячний берег і Золоті піски — доступний і затишний відпочинок на Чорному морі.</p>
+            <span class="price">Від 12000 грн</span>
+            <a href="{{ url_for('search_tours', country='Болгарія') }}" class="btn-select">Обрати</a>
+        </div>
+
+        <div class="tour-card">
+            <img src="{{ url_for('static', filename='images/uae.png') }}" alt="ОАЕ">
+            <h3>ОАЕ</h3>
+            <p>Дубай і Абу-Дабі — розкіш, хмарочоси, шопінг та незайманий пляжний відпочинок серед пустелі.</p>
+            <span class="price">Від 42000 грн</span>
+           <a href="{{ url_for('search_tours', country='ОАЕ') }}" class="btn-select">Обрати</a>
+        </div>
+
+        <div class="tour-card">
+            <img src="{{ url_for('static', filename='images/italy.png') }}" alt="Італія">
+            <h3>Італія</h3>
+            <p>Рим, Венеція та Амальфійське узбережжя — мистецтво, гастрономія та неперевершена архітектура.</p>
+            <span class="price">Від 38000 грн</span>
+            <a href="{{ url_for('search_tours', country='Італія') }}" class="btn-select">Обрати</a>
+        </div>
+
+        <div class="tour-card">
+            <img src="{{ url_for('static', filename='images/thailand.png') }}" alt="Таїланд">
+            <h3>Таїланд</h3>
+            <p>Пхукет, Самуї та Паттайя — екзотична природа, буддійські храми та кришталевий океан.</p>
+            <span class="price">Від 45000 грн</span>
+            <a href="{{ url_for('search_tours', country='Таїланд') }}" class="btn-select">Обрати</a>
+        </div>
+
+        <div class="tour-card">
+            <img src="{{ url_for('static', filename='images/romania.png') }}" alt="Румунія">
+            <h3>Румунія</h3>
+            <p>Замки Трансильванії, Карпатські гори та самобутня культура — ідеально для екскурсійних турів.</p>
+            <span class="price">Від 9500 грн</span>
+           <a href="{{ url_for('search_tours', country='Румунія') }}" class="btn-select">Обрати</a>
+        </div>
+
+        <div class="tour-card">
+            <img src="{{ url_for('static', filename='images/maldives.png') }}" alt="Мальдіви">
+            <h3>Мальдіви</h3>
+            <p>Бірюзовий океан, бунгало над водою та ідеальна тиша — рай для особливих подій у житті.</p>
+            <span class="price">Від 89000 грн</span>
+            <a href="{{ url_for('search_tours', country='Мальдіви') }}" class="btn-select">Обрати</a>
+        </div>
+
+    </div>
+</div>
+{% endblock %}

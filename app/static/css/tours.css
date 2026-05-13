@@ -1,0 +1,183 @@
+/* Основний контейнер для обмеження ширини блоку з турами */
+.tours-container 
+{
+    width: 95%; 
+    max-width: 1400px; 
+    margin: 20px auto;
+}
+
+/* Сітка для відображення п'яти карток турів у ряд */
+.tours-grid 
+{
+    display: grid;
+    grid-template-columns: repeat(5, 1fr); 
+    gap: 15px; 
+    width: 100%;
+}
+
+/* Стилізація окремої картки туру */
+.tour-card 
+{
+    background: var(--card-bg);
+    border-radius: 12px;
+    padding: 12px;
+    text-align: center;
+    width: auto; 
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    box-sizing: border-box; 
+}
+
+/* Невеликий підйом картки при наведенні курсора */
+.tour-card:hover 
+{
+    transform: translateY(-5px); 
+}
+
+/* Налаштування розміру та закруглення зображення туру */
+.tour-card img 
+{
+    width: 100%;
+    height: 110px;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+/* Заголовок з назвою туру всередині картки */
+.tour-card h3 
+{
+    color: #000;
+    font-size: 24px;
+    margin: 10px 0;
+}
+
+/* Текстовий опис туру з акцентним шрифтом */
+.tour-card p 
+{
+    font-size: 18px; 
+    font-family: 'Pattaya', sans-serif;
+    margin: 8px 0;
+    line-height: 1.2;
+}
+
+/* Блок відображення вартості туру */
+.price 
+{
+    display: block;
+    color: var(--accent-color);
+    font-weight: bold;
+    margin: 10px 0;
+}
+
+/* Кнопка вибору туру з кастомним шрифтом */
+.btn-select 
+{
+    background-color: var(--btn-login-bg);
+    color: var(--btn-text);
+    border: none;
+    padding: 8px 25px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-family: 'Pattaya', sans-serif;
+    font-size: 24px;
+    transition: background 0.3s;
+}
+
+/* Зміна фону кнопки при наведенні */
+.btn-select:hover 
+{
+    background-color: #355a8f;
+}
+
+/* Прибирання стандартного підкреслення посилань у картці */
+.tour-card a
+{
+    text-decoration: none;
+}
+
+/* Планшети та великі екрани (до 1200px) */
+@media (max-width: 1200px) 
+{
+    .tours-grid 
+    {
+        grid-template-columns: repeat(3, 1fr); 
+        gap: 20px;
+    }
+}
+
+/* Планшети (до 992px) */
+@media (max-width: 992px) 
+{
+    .tours-grid 
+    {
+        grid-template-columns: repeat(2, 1fr); 
+    }
+    
+    .tour-card h3 
+    {
+        font-size: 20px;
+    }
+}
+
+/* Смартфони (до 768px) */
+@media (max-width: 768px) 
+{
+    .tours-container 
+    {
+        width: 100%;
+        padding: 0 15px;
+        margin: 15px auto;
+    }
+
+    .tours-grid 
+    {
+        grid-template-columns: 1fr; 
+        gap: 25px;
+    }
+
+    .tour-card 
+    {
+        padding: 20px; 
+    }
+
+    .tour-card img 
+    {
+        height: 200px; 
+    }
+
+    .tour-card h3 
+    {
+        font-size: 24px;
+    }
+
+    .tour-card p 
+    {
+        font-size: 18px;
+    }
+
+    .btn-select 
+    {
+        width: 100%; 
+        padding: 12px;
+    }
+}
+
+/* Маленькі смартфони (до 380px) */
+@media (max-width: 380px) 
+{
+    .tour-card h3 
+    {
+        font-size: 20px;
+    }
+
+    .tour-card img 
+    {
+        height: 160px;
+    }
+    
+    .btn-select 
+    {
+        font-size: 20px;
+    }
+}

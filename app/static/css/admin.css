@@ -1,0 +1,1976 @@
+/* Для світлої теми */
+:root 
+{
+    --bg-image: url('../images/tour_world.png');
+    --header-footer-bg: #B4D3EE;
+    --header:#FFF;
+    --content-bg: #F4F7F9;
+    --card-bg: #B4D3EE; 
+    --container-background:#FFF;
+    --mini-cards:#B4D3EE;
+    --text-color: #000;
+    --tittle:#4973B1;
+    --accent-color: #4973B1;
+    --input-bg: #fff;
+    --toggle-border: #6fbef3;
+    --btn-login-bg: #3B699A;
+    --btn-register-bg: #45A8FF;
+    --btn-text: #FFF;
+    --text:#45A8FF;
+    --btn-active:#45A8FF;
+    --btn:#82A6D1;
+    --btn-profile:#5079B5;
+    --hover:#a9d3f7;
+    --status:#53AFFE;
+    --chat-main:#E8F1F8;
+    --chat-header:#FFF;
+    --chat-sidebar:#f8fbff;
+    --block:#182635;
+    --message-received:#FFF;
+    --message-text:#000;
+    --message-sent:#5079B5;
+    --btn-attach:#f0f4f8;
+    --btn-edit-review:#1D579C;
+    --btn-submit-review:#82A6D1;
+    --star-label:#567fb3;
+    --btn-favorite:#5d81bc;
+    --userSearch:#FFF;
+    --btn-one:#579CED;
+    --btn-two:#0B77F8;
+    --btn-three:#32639E;
+    --admin_table:#FFF
+}
+
+/* Для темної теми */
+[data-theme="dark"] 
+{
+    --bg-image: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url('../images/tour_world.png');
+    --header-footer-bg: #1a2a3a;
+    --header:#182635;
+    --content-bg: #121212;
+    --card-bg: #1e2d3d; 
+    --container-background:#1e2d3d;
+    --mini-cards:#213347;
+    --text-color: #777;
+    --accent-color: #3d81ae;
+    --input-bg: #2b2b2b;
+    --toggle-border: #8D8C8C;
+    --btn-login-bg: #132741;
+    --btn-register-bg: #256fa0;              
+    --btn-text: #777;
+    --text:#327ab9;
+    --btn-active:#3d81ae;
+    --btn:#132741;
+    --btn-profile:#14243c;
+    --hover:#2a435e;
+    --status:#2c5d89;
+    --chat-main:#1b3a5d;
+    --chat-header:#182635;
+    --chat-sidebar:#213347;
+    --message-received:#173367;
+    --message-text:#3f8ac7;
+    --message-sent:#365482;
+    --btn-attach:#24405c;
+    --btn-edit-review:#132741;
+    --btn-submit-review:#132741;
+    --star-label:#132741;
+    --btn-favorite:#14243c;
+    --userSearch:#000000;
+    --btn-one:#132741;
+    --btn-two:#0a59b9;
+    --btn-three:#224570;
+    --admin_table:#aeaaaa;
+}
+
+* 
+{
+    box-sizing: border-box;
+}
+
+body 
+{
+    overflow-x: hidden;
+    width: 100%;
+    margin: 0;
+    font-family: 'Open Sans', sans-serif;
+    background: var(--bg-image) no-repeat center center fixed;
+    background-size: cover;
+    min-height: 100vh;
+}
+
+/* Верхня панель адміністратора(хедер) */
+.admin-header 
+{
+    width: 100% !important;
+    max-width: 100vw;
+    flex: 0 0 auto;
+    left: 0;
+    right: 0;
+    margin: 0;
+    background: var(--header-footer-bg);
+    padding: 10px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-sizing: border-box;
+}
+
+/* Логотип */
+.logo 
+{ 
+    font-size: 24px; 
+    font-weight: bold; 
+    color: var(--accent-color); 
+}
+.logo span 
+{ 
+    color: #000; 
+}
+
+/* Права частина хедера: профіль, тема */
+.header-right 
+{
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+/* Кнопка перемикання теми */
+.admin-theme-btn 
+{
+    background-color: var(--input-bg);
+    border: 2px solid var(--toggle-border);
+    border-radius: 30px;
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: transform 0.3s ease;
+    padding: 0; 
+}
+
+/* Анімація при наведенні для кнопки адміна */
+.admin-theme-btn:hover 
+{
+    transform: scale(1.1);
+}
+
+/* Налаштування розміру іконки всередині */
+.admin-theme-btn .icon-img 
+{
+    width: 26px;
+    height: 26px;
+    object-fit: contain;
+}
+
+/* Аватар адміністратора */
+.admin-icon-img 
+{
+     width: 40px; 
+    height: 40px;
+    border-radius: 50%; 
+    object-fit: cover;  
+    border: 2px solid var(--toggle-border); 
+    vertical-align: middle;
+}
+
+/* Контейнер привітання та редагування нікнейму */
+.admin-welcome-container 
+{
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.admin-welcome 
+{
+    background: #FFF;
+    padding: 5px 15px;
+    border-radius: 8px;
+    border: 1px solid var(--toggle-border);
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/* Іконка олівця для зміни нікнейму */
+.pencil-icon 
+{
+    width: 20px;
+    height: 16px;
+    cursor: pointer;
+    opacity: 0.7;
+    transition: opacity 0.3s;
+}
+
+.pencil-icon:hover 
+{
+    opacity: 1;
+}
+
+/* Поле вводу при редагуванні нікнейму */
+.edit-input-admin 
+{
+    padding: 5px 10px;
+    border-radius: 5px;
+    border: 1px solid var(--toggle-border);
+    font-size: 14px;
+    outline: none;
+}
+
+/* Головний контейнер панелі */
+.admin-container 
+{
+    flex: 1 1 auto;
+    display: flex;
+    padding: 30px 40px;
+    gap: 30px;
+    width: 100%;
+}
+
+/* Бокова панель */
+.admin-sidebar 
+{
+    width: 300px;
+    background: var(--card-bg);
+    border-radius: 20px;
+    padding: 20px;
+    align-self: flex-start;
+}
+
+/* Список меню в сайдбарі */
+.admin-menu 
+{ 
+    display: flex;
+    flex-direction: column; 
+    box-sizing: border-box;
+    justify-content: flex-start;
+    gap: 25px;
+}
+
+/* Елемент меню */
+.admin-menu-item 
+{
+    display: block;
+    background: var(--btn-submit-review);
+    color: var(--btn-text);
+    text-decoration: none;
+    padding: 20px 14px;
+    border-radius: 12px;
+    text-align: center;
+    font-size: 20px;
+    font-family: 'Pattaya', sans-serif;
+    transition: background 0.3s ease;
+}
+
+/* Активний пункт меню */
+.admin-menu-item.active 
+{ 
+    background-color: var(--btn-active);
+}
+
+.admin-menu-item:hover:not(.active) 
+{ 
+    background: #579CED;
+}
+
+/* Кнопка виходу */
+.admin-menu-item.logout-btn 
+{
+    background: var(--btn-login-bg);
+    margin-top: 15px;
+    font-weight: bold;
+    font-style: normal;
+    margin-top: auto;
+}
+
+/* Права частина контенту */
+.admin-content 
+{
+    flex: 1;
+    min-width: 0;
+    margin: 0 auto;
+    background: var(--content-bg);
+    border-radius: 20px;
+    padding: 40px;
+    min-height: 500px;
+    text-align: center;
+}
+
+/* Заголовок поточної сторінки */
+.page-title 
+{
+    font-size: 36px;
+    color: var(--text-color);
+    margin-bottom: 40px;
+}
+
+/*Флеш повідомлення*/
+.flash-message 
+{
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    padding: 15px 25px;
+    background-color: #e74c3c; 
+    color: #FFF;
+    border-radius: 8px;
+    z-index: 9999;
+    font-family: 'Open Sans', sans-serif;
+}
+
+/* Різні типи сповіщень */
+.alert-warning 
+{ 
+    background-color: #f39c12; 
+}
+.alert-success 
+{ 
+    background-color: #2ecc71; 
+}
+
+/* Адаптація для планшетів та мобільних пристроїв */
+
+@media (max-width: 1024px) 
+{
+    .admin-header 
+    {
+        padding: 10px 20px;
+    }
+
+    .admin-container 
+    {
+        padding: 20px;
+        gap: 20px;
+    }
+
+    .admin-sidebar 
+    {
+        width: 250px;
+    }
+
+    .admin-menu-item 
+    {
+        font-size: 18px;
+        padding: 15px 10px;
+    }
+}
+
+@media (max-width: 850px) 
+{
+    .admin-container 
+    {
+        flex-direction: column;
+    }
+
+    .admin-sidebar 
+    {
+        width: 100%;
+        height: auto;
+    }
+
+    .admin-menu 
+    {
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 10px;
+    }
+
+    .admin-menu-item 
+    {
+        flex: 1 1 calc(50% - 10px); 
+        min-width: 140px;
+    }
+
+    .admin-menu-item.logout-btn 
+    {
+        margin-top: 10px;
+        flex: 1 1 100%; 
+    }
+
+    .admin-content 
+    {
+        padding: 20px;
+    }
+
+    .page-title 
+    {
+        font-size: 28px;
+        margin-bottom: 20px;
+    }
+}
+
+@media (max-width: 600px) 
+{
+    .admin-header 
+    {
+        flex-direction: column;
+        gap: 15px;
+        text-align: center;
+    }
+
+    .header-right 
+    {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .admin-welcome 
+    {
+        padding: 5px 10px;
+        font-size: 12px;
+    }
+
+    .admin-menu-item 
+    {
+        flex: 1 1 100%;
+        font-size: 16px;
+    }
+
+    .admin-content 
+    {
+        border-radius: 15px;
+    }
+}
+
+@media (max-width: 480px) 
+{
+    .logo 
+    {
+        font-size: 20px;
+    }
+
+    .admin-icon-img, .admin-theme-btn 
+    {
+        width: 35px;
+        height: 35px;
+    }
+
+    .admin-theme-btn .icon-img 
+    {
+        width: 22px;
+        height: 22px;
+    }
+
+    .page-title 
+    {
+        font-size: 24px;
+    }
+
+    .flash-message 
+    {
+        left: 20px; 
+        text-align: center;
+    }
+}
+
+/* Дуже маленьки екрани */
+@media (max-width: 350px) 
+{
+    .admin-welcome-container 
+    {
+        display: none; 
+    }
+}
+
+
+
+/*РОЗДІЛ ДЛЯ admin_users*/
+
+
+.search-group 
+{
+    display: flex;
+    gap: 10px;
+}
+
+/* Спільні стилі для полів пошуку, фільтра ролей та турів */
+#userSearch, #roleFilter,#tourSearch 
+{
+    padding: 10px 15px;
+    border: 1px solid #579CED;
+    border-radius: 20px; 
+    outline: none;
+    font-family: 'Open Sans', sans-serif;
+    transition: 0.3s;
+}
+
+/* Налаштування ширини для текстових полів пошуку */
+#userSearch,#tourSearch 
+{
+    width: 250px;
+    background-color: var(--userSearch);
+}
+
+/* Колір рамки при активному стані (фокусі) */
+#userSearch:focus, #roleFilter, #tourSearch:focus 
+{
+    border-color: #579CED;
+}
+
+/* Стиль випадаючого списку фільтрації ролей */
+ #roleFilter
+ {
+    color: #777;
+    background-color: var(--userSearch);
+ }
+
+ /* Контейнер для верхніх дій (пошук та кнопка додавання) */
+.top-actions 
+{
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 25px;
+}
+
+/* Кнопка Додати */
+.main-btn-add 
+{
+    background: var(--btn-one);
+    color: var(--btn-text);
+    border: none;
+    border-radius: 12px;
+    padding: 10px 25px;
+    font-family: 'Pattaya', sans-serif;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.main-btn-add:hover
+{
+    background-color:var(--btn-two);
+}
+
+/* Контейнер таблиці з прокруткою */
+.table-container-fixed 
+{
+    border: 1px solid #000;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+/* Основна таблиця */
+.seanova-admin-table 
+{
+    width: 100%;
+    min-width: 800px;
+    border-collapse: collapse;
+    table-layout: fixed;
+}
+
+/* Заголовки таблиці */
+.seanova-admin-table th 
+{
+    background: var(--card-bg);
+    border: 1px solid #000;
+    padding: 12px;
+    text-align: center;
+    color: #000;
+}
+
+/* Комірки таблиці */
+.seanova-admin-table td 
+{
+    border: 1px solid #000;
+    padding: 10px;
+    text-align: center;
+    background: var(--admin_table);
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    white-space: normal;
+    padding: 12px;
+}
+
+
+.bold-id 
+{ 
+    font-weight: bold; 
+}
+
+/* Флекс-контейнер для кнопок дій */
+.action-flex 
+{
+    display: flex;
+    justify-content: center;
+    gap: 10px; 
+}
+
+/* Спільні стилі для кнопок у таблиці */
+.btn-table 
+{
+    padding: 6px 12px;
+    border-radius: 6px;
+    border: none;
+    color: var(--btn-text);
+    font-size: 14px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.btn-table.edit 
+{ 
+    background: var(--btn-two); 
+}
+.btn-table.delete 
+{ 
+    background: var(--btn-three); 
+}
+
+.btn-table.edit:hover 
+{ 
+    opacity: 0.8; 
+    background-color: #8FC2FF;
+}
+
+.btn-table.delete:hover
+{ 
+    background-color: #8FC2FF; 
+}
+
+/* Напівпрозорий фон модального вікна */
+.modal-overlay 
+{
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    display: flex; 
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+/* Контент модального вікна */
+.modal-content-custom 
+{
+    background: #FFF;
+    padding: 30px;
+    border-radius: 15px;
+    width: 400px;
+}
+
+/* Групування елементів форми */
+.form-group-custom 
+{
+    margin-bottom: 15px;
+    text-align: left;
+}
+
+.form-group-custom input, .form-group-custom select 
+{
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #B4D3EE;
+    border-radius: 5px;
+}
+
+/* Специфічні стилі для вікна видалення */
+.modal-delete 
+{
+    text-align: center;
+}
+
+.modal-text 
+{
+    margin-bottom: 20px;
+    font-size: 24px;
+    color: #000; 
+}
+
+.modal-actions-center 
+{
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+}
+
+/* Кнопка Скасувати */
+.btn-table.cancel 
+{
+    font-family: 'Pattaya', sans-serif;
+    font-size: 24px;
+    background: #32639E;
+    border-color: #32639E;
+    color: #FFF;
+}
+
+.btn-table.cancel:hover 
+{
+    background: #8FC2FF;
+}
+
+/* Кнопка підтвердження видалення */
+.btn-table.delete.confirm-delete-btn 
+{
+   font-family: 'Pattaya', sans-serif;
+    font-size: 24px;
+    background: #579CED;
+    color: #FFF;
+}
+
+.btn-table.delete.confirm-delete-btn:hover 
+{
+    background: #8FC2FF;
+}
+
+/* Заголовок у вікні видалення */
+#deleteModalTitle
+{
+    color: #4973B1;
+    font-size: 32px;
+}
+
+.modal-text-delete
+{
+    font-family: 'Pattaya', sans-serif;
+    font-size: 24px;
+}
+
+/* Поля тільки для читання */
+.readonly-input 
+{
+    background-color: #f0f0f0 !important; 
+    cursor: not-allowed; 
+    border: 1px solid #ccc !important;
+    color: #777;
+}
+
+/* Контейнер для таблиці з прокруткою */
+.table-container-fixed 
+{
+    width: 100%;
+    overflow-x: auto;
+    border: 1px solid #000;
+    border-radius: 8px;
+    background: white;
+    max-width: calc(100vw - 300px); 
+}
+
+/* Статуси ролей */
+.status-role 
+{
+    padding: 4px 12px;
+    border-radius: 15px;
+    font-size: 13px;
+    font-weight: bold;
+}
+
+.status-role.admin 
+{
+    background: #579CED;
+    color: #FFF;
+}
+
+.status-role.user 
+{
+    background: #B4D3EE;
+    color: #4973B1;
+}
+
+/* Ширина колонок таблиці */
+.seanova-admin-table th:nth-child(1) 
+{ 
+    width: 50px; 
+}  
+
+.seanova-admin-table th:nth-child(2) 
+{ 
+    width: 20%; 
+}  
+
+.seanova-admin-table th:nth-child(3) 
+{ 
+    width: 30%; 
+}  
+
+.seanova-admin-table th:nth-child(4) 
+{ 
+    width: 15%; 
+}  
+
+.seanova-admin-table th:nth-child(5) 
+{ 
+    width: 200px; 
+} 
+
+/* Іконки сортування */
+.sort-icon 
+{
+    width: 14px;
+    height: 14px;
+    margin-left: 8px;
+    vertical-align: middle;
+    opacity: 0.6; 
+    transition: opacity 0.3s;
+}
+
+.seanova-admin-table th:hover .sort-icon 
+{
+    opacity: 1; 
+}
+
+/* Адаптивність для пристроїв */
+
+@media (max-width: 1024px) 
+{
+    .table-container-fixed 
+    {
+        max-width: 100%;
+        overflow-x: auto; 
+    }
+    
+    #userSearch, #tourSearch 
+    {
+        width: 150px; 
+    }
+}
+
+@media (max-width: 768px) 
+{
+    .admin-content 
+    {
+        padding: 15px !important;
+        width: 100% !important;
+        min-width: 0 !important; 
+    }
+
+    .top-actions 
+    {
+        flex-direction: column;
+        gap: 12px;
+        align-items: stretch;
+    }
+
+    .search-group 
+    {
+        flex-direction: column;
+        width: 100%;
+        gap: 8px;
+    }
+
+    #userSearch, #roleFilter, #tourSearch 
+    {
+        width: 100% !important;
+        box-sizing: border-box;
+    }
+
+    .main-btn-add 
+    {
+        width: 100%;
+        text-align: center;
+        font-size: 18px !important;
+        padding: 8px 15px !important;
+    }
+
+    #deleteModalTitle 
+    {
+        font-size: 22px;
+    }
+}
+
+@media (max-width: 600px) 
+{
+    .page-title 
+    {
+        font-size: 22px !important;
+        margin-bottom: 15px !important;
+    }
+
+    .table-container-fixed 
+    {
+        border-radius: 8px;
+        border: 1px solid #ccc;
+        width: 100%;
+        overflow-x: auto; 
+        display: block; 
+    }
+
+    .seanova-admin-table 
+    {
+        min-width: 550px; 
+    }
+
+    .seanova-admin-table th, .seanova-admin-table td 
+    {
+        padding: 6px !important;
+        font-size: 12px !important; 
+    }
+
+    .action-flex 
+    {
+        flex-direction: column;
+        gap: 4px;
+    }
+
+    .btn-table 
+    {
+        width: 100%;
+        padding: 5px !important;
+        font-size: 11px !important;
+    }
+
+    .modal-content-custom 
+    {
+        width: 95%;
+        padding: 15px;
+    }
+
+    .modal-actions-center 
+    {
+        flex-direction: column;
+        gap: 8px;
+    }
+    
+    .btn-table.cancel, .btn-table.delete.confirm-delete-btn 
+    {
+        width: 100%;
+        font-size: 18px !important; 
+        padding: 10px !important;
+    }
+
+    .status-role 
+    {
+        font-size: 11px !important; 
+        min-width: 50px;            
+        padding: 2px 6px !important;
+    }
+}
+
+@media (max-width: 480px) 
+{
+    .admin-container 
+    {
+        padding: 10px !important;
+    }
+
+    .seanova-admin-table td 
+    {
+        word-break: break-all;
+    }
+}
+
+/*РОЗДІЛ ДЛЯ admin_chat*/
+
+/* Головний контейнер чату */
+.chat-container 
+{
+    display: flex;
+    height: 600px; 
+    background: #FFF;
+    border-radius: 15px;
+    overflow: hidden;
+    border: 1px solid var( --mini-cards);
+    margin-top: 20px;
+    text-align: left;
+    width: 100%;
+}
+
+/* Список контактів */
+.chat-sidebar 
+{
+    width: 280px;
+    border-right: 1px solid var( --mini-cards);
+    background: var(--chat-sidebar);
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+}
+
+/* Пошук у списку контактів */
+.chat-search 
+{
+    padding: 15px;
+    border-bottom: 1px solid var(--mini-cards);
+    background: var(--userSearch);
+}
+
+.chat-search input 
+{
+    width: 100%;
+    padding: 10px 15px;
+    border-radius: 20px;
+    border: 1px solid var(--mini-cards);
+    outline: none;
+    font-size: 14px;
+    display: block;
+}
+
+/* Список користувачів з прокруткою */
+.contacts-list 
+{
+    overflow-y: auto;
+    flex-grow: 1;
+}
+
+/* Окремий елемент контакту */
+.contact-item 
+{
+    display: flex;
+    align-items: center;
+    padding: 12px;
+    cursor: pointer;
+    transition: 0.2s;
+    gap: 10px;
+    border-bottom: 1px solid var(--card-bg);
+}
+
+#contactSearch
+{
+    background-color: var(--userSearch);
+}
+
+.contact-item:hover 
+{ 
+    background: #eef5ff; 
+}
+
+/* Стиль для обраного (активного) чату */
+.contact-item.active 
+{ 
+    background: var(--btn-active); 
+    border-left: 4px solid var(--mini-cards); 
+    padding-left: 8px;
+}
+
+/* Аватар та статус "В мережі" */
+.contact-avatar 
+{ 
+    position: relative; 
+    width: 40px; 
+    height: 40px; 
+    flex-shrink: 0; 
+}
+
+.contact-avatar img 
+{ 
+    width: 100%; 
+    height: 100%; 
+    border-radius: 50%; 
+    object-fit: cover; 
+}
+
+.online-status 
+{
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    border: 2px solid var(--btn-text);
+}
+
+.online-status.online 
+{ 
+    background: #28a745; 
+}
+
+.online-status.offline 
+{ 
+    background: #dc3545; 
+}
+
+/* Основна область вікна чату */
+.chat-window 
+{ 
+    flex-grow: 1; 
+    display: flex; 
+    flex-direction: column; 
+    background: var(--chat-main); 
+    height: 100%;
+    overflow: hidden; 
+    min-width: 0;
+}
+
+/* Обгортка активного діалогу */
+.active-chat-wrapper 
+{
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+}
+
+/* Заглушка, коли жоден чат не обраний */
+.no-chat-selected 
+{ 
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+    height: 100%; 
+    color: #000; 
+}
+
+/* Верхня панель активного чату (ім'я співрозмовника) */
+.chat-header-active 
+{ 
+    padding: 15px; 
+    background: var(--chat-header); 
+    border-bottom: 1px solid var(--hover); 
+    font-weight: bold; 
+    color: #000;
+    z-index: 10;
+}
+
+.chat-header-active h3 
+{ 
+    margin: 0; 
+    font-size: 16px; 
+}
+
+/* Область повідомлень */
+.messages-display 
+{ 
+    flex-grow: 1; 
+    padding: 20px; 
+    overflow-y: auto; 
+    display: flex; 
+    flex-direction: column; 
+    gap: 15px; 
+    scroll-behavior: smooth;
+}
+
+/* Базовий стиль хмаринки повідомлення */
+.message 
+{
+    max-width: 75%;
+    padding: 10px 15px;
+    border-radius: 15px;
+    font-size: 15px;
+    line-height: 1.4;
+    word-wrap: break-word;
+}
+
+/* Повідомлення, надіслані адміном (праворуч) */
+.message.sent 
+{
+    align-self: flex-end;
+    background: var(--message-sent);
+    color: var(--btn-text);
+    border-bottom-right-radius: 2px;
+}
+
+/* Повідомлення від користувача (ліворуч) */
+.message.received 
+{
+    align-self: flex-start;
+    background: var(--message-received);
+    color: var(--message-text);
+    border-bottom-left-radius: 2px;
+    border: 1px solid var(--mini-cards);
+}
+
+/* Час відправки */
+.message-time 
+{
+    display: block;
+    font-size: 0.7em;
+    margin-top: 5px;
+    opacity: 0.7;
+    text-align: right;
+}
+
+/* Поле вводу */
+.message-input-area 
+{
+    padding: 15px;
+    background: var(--chat-header);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border-top: 1px solid var(--mini-cards);
+    flex-shrink: 0;
+}
+
+.message-input-area input 
+{
+    flex-grow: 1;
+    border: 1px solid var(--mini-cards);
+    background-color: var(--input-bg);
+    border-radius: 25px;
+    padding: 12px 20px;
+    outline: none;
+    font-size: 14px;
+}
+
+/* Кнопка відправки */
+.btn-send 
+{
+    background: var(--btn-profile);
+    border: none;
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+/* Корекція іконки всередині кнопки відправки */
+.btn-send img 
+{
+    width: 20px !important;
+    height: 20px !important;
+    filter: brightness(0) invert(1); 
+}
+
+/* Скроллбар */
+.messages-display::-webkit-scrollbar, .contacts-list::-webkit-scrollbar 
+{
+    width: 6px;
+}
+.messages-display::-webkit-scrollbar-thumb, .contacts-list::-webkit-scrollbar-thumb 
+{
+    background-color: #B4D3EE;
+    border-radius: 10px;
+}
+
+/* Інформація про контакт у списку */
+.contact-info 
+{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.contact-name 
+{
+    font-weight: 500;
+    font-size: 14px;
+    color: #000;
+}
+
+.contact-status-text 
+{
+    font-size: 11px;
+    color: #777;
+    margin-top: 2px;
+}
+
+/* Кнопка прикріплення файлів */
+.btn-attach 
+{
+    background: var(--btn-attach); 
+    border: 1px solid #B4D3EE;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: background 0.2s;
+}
+
+.btn-attach:hover 
+{
+    background: #e1ecf7;
+}
+
+.btn-attach img 
+{
+    width: 18px !important;
+    height: 18px !important;
+    object-fit: contain;
+}
+
+/* Відображення прикріпленого файлу в повідомленні */
+.file-attachment 
+{
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 5px 0;
+}
+
+.file-attachment a 
+{
+    color: inherit;
+    text-decoration: underline;
+    font-weight: 500;
+}
+
+/* Адаптивність для мобільних пристроїв */
+@media (max-width: 1110px) 
+{
+    .chat-container 
+    {
+        width: 100% !important;
+        max-width: 100% !important;
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+        box-sizing: border-box;
+    }
+
+    .chat-sidebar 
+    {
+        width: 220px !important; 
+        flex-shrink: 0;
+    }
+
+    .message-input-area 
+    {
+        padding: 10px 15px !important;
+        gap: 8px !important;
+        width: 100% !important;
+        box-sizing: border-box;
+    }
+
+    .message-input-area input 
+    {
+        min-width: 0 !important; 
+        flex: 1 !important;
+        font-size: 14px;
+    }
+
+    .btn-send, .btn-attach 
+    {
+        flex-shrink: 0 !important; 
+    }
+}
+
+@media (max-width: 950px) 
+{
+    .chat-sidebar 
+    {
+        width: 180px !important;
+    }
+
+    .contact-item 
+    {
+        padding: 10px 8px !important;
+        gap: 5px !important;
+    }
+
+    .contact-name 
+    {
+        font-size: 13px !important;
+    }
+
+    .message 
+    {
+        max-width: 80% !important;
+    }
+}
+
+/* Мобільний режим (768px і нижче) */
+@media (max-width: 768px) 
+{
+    .chat-container 
+    {
+        flex-direction: column !important;
+        height: 650px !important; 
+    }
+
+    .chat-sidebar 
+    {
+        width: 100% !important;
+        height: 180px !important;
+        border-right: none !important;
+        border-bottom: 1px solid var(--mini-cards) !important;
+    }
+
+    .chat-window 
+    {
+        height: calc(100% - 180px) !important;
+    }
+
+    .message-input-area 
+    {
+        padding: 12px !important;
+    }
+}
+
+/* Смартфони (480px і нижче) */
+@media (max-width: 480px) 
+{
+    .chat-container 
+    {
+        height: calc(100vh - 140px) !important;
+    }
+
+    .message 
+    {
+        max-width: 95% !important;
+        font-size: 13px !important;
+    }
+
+    .btn-send 
+    {
+        width: 40px !important;
+        height: 40px !important;
+    }
+}
+/*РОЗДІЛ admin_tours*/
+
+/* Зірки у формі */
+.stars-selection 
+{
+    display: flex;
+    gap: 10px;
+}
+
+/* Приховування стандартної радіокнопки */
+.stars-selection input 
+{ 
+    display: none; 
+}
+
+/* Стилізація мітки */
+.stars-selection label 
+{
+    width: 30px;
+    height: 30px;
+    border: 1px solid #ccc;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+/* Стан при виборі зірки */
+.stars-selection input:checked + label 
+{
+    background: #4A90E2;
+    color: white;
+    border-color: #4A90E2;
+}
+
+/* Двоколонкова сітка для полів форми */
+.tour-grid-form 
+{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+}
+
+/* Область для завантаження головного зображення */
+.upload-area 
+{
+    border: 2px dashed #ddd;
+    padding: 40px;
+    text-align: center;
+    border-radius: 15px;
+    cursor: pointer;
+    position: relative;
+    height: 250px;
+}
+
+/* Елемент попереднього перегляду фото */
+.image-preview-element 
+{
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    object-fit: cover;
+    border-radius: 15px;
+}
+
+/* Фонова підкладка модального вікна */
+.modal 
+{
+    display: none; 
+    position: fixed;
+    z-index: 1000; 
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6); 
+    justify-content: center;
+    align-items: center;
+    backdrop-filter: blur(5px); 
+}
+
+/* Контентна частина модального вікна */
+.modal-content 
+{
+    background-color: #FFF;
+    padding: 30px;
+    border-radius: 20px;
+    width: 90%;
+    max-width: 900px; 
+    max-height: 90vh;
+    overflow-y: auto; 
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    position: relative;
+}
+
+/* Заголовок сторінки та таблиця */
+.content-header 
+{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+
+/* Сама таблиця */
+.admin-table 
+{
+    width: 100%;
+    min-width: 800px;
+    border-collapse: collapse;
+    table-layout: fixed; 
+}
+
+/* Заголовки */
+.admin-table th 
+{
+    background: var(--card-bg);
+    border: 1px solid #000;
+    padding: 12px;
+    text-align: center;
+    font-family: 'Open Sans', sans-serif;
+}
+
+/* Комірки */
+.admin-table td 
+{
+    border: 1px solid #000;
+    padding: 12px;
+    text-align: center;
+    background: var(--admin_table);
+    word-wrap: break-word;
+    vertical-align: middle;
+}
+
+/* Кнопка додавання нового запису */
+.btn-add-tour 
+{
+    background: var(--btn-one);
+    color: var(--btn-text);
+    border: none;
+    border-radius: 12px;
+    padding: 10px 25px;
+    font-family: 'Pattaya', sans-serif;
+    font-size: 20px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.btn-add-tour:hover 
+{
+    background-color: #0B77F8;
+}
+
+/* Кнопки Дій */
+.table-actions 
+{
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+.btn-edit, .btn-delete 
+{
+    padding: 6px 12px;
+    border-radius: 6px;
+    border: none;
+    color: var(--btn-text);
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-edit 
+{ 
+    background: var(--btn-two); 
+}
+.btn-delete 
+{ 
+    background: var(--btn-three); 
+}
+
+.btn-edit:hover, .btn-delete:hover 
+{
+    background-color: #8FC2FF;
+    opacity: 1;
+}
+
+/* Міні-прев'ю картинки в рядку таблиці */
+.table-thumb 
+{
+    width: 50px;
+    height: 50px;
+    border: 1px solid #000;
+    border-radius: 4px;
+    object-fit: cover;
+}
+
+/* Фіксована ширина колонок для таблиці турів */
+.admin-table th:nth-child(1) 
+{ 
+    width: 70px; 
+}  
+.admin-table th:nth-child(2) 
+{ 
+    width: 70px; 
+}   
+.admin-table th:nth-child(3) 
+{ 
+    width: 70px; 
+}   
+.admin-table th:nth-child(4) 
+{ 
+    width: 70px; 
+}   
+.admin-table th:nth-child(5) 
+{ 
+    width: 70px; 
+}   
+.admin-table th:nth-child(6) 
+{ 
+    width: 150px; 
+} 
+
+.admin-search-input 
+{
+    padding: 10px 15px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    width: 250px;
+    font-family: 'Open Sans', sans-serif;
+}
+
+.table-actions 
+{
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    flex-wrap: nowrap; 
+}
+
+/* Іконка сортування в заголовках */
+.sort-icon 
+{
+    width: 14px;
+    height: 14px;
+    margin-left: 8px;
+    vertical-align: middle;
+    opacity: 0.6; 
+    transition: opacity 0.3s;
+    cursor: default; 
+}
+
+.admin-table th:hover .sort-icon 
+{
+    opacity: 1; 
+}
+
+/* Основні стилі форми */
+.form-group 
+{
+    margin-bottom: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.form-group label 
+{
+    font-weight: bold;
+    font-size: 14px;
+    color: #000;
+}
+
+.tour-single-column-form input,.tour-single-column-form select,.tour-single-column-form textarea 
+{
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 14px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* Рядки з двома полями (Країна/Місто) */
+.form-row 
+{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    margin-bottom: 15px;
+}
+
+/* Блок завантаження */
+.upload-area 
+{
+    border: 2px dashed #579CED;
+    padding: 20px;
+    text-align: center;
+    border-radius: 15px;
+    cursor: pointer;
+    position: relative;
+    height: 500px; 
+    background: #f9fbfd;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    margin-top: 10px; 
+}
+
+.upload-icon 
+{
+    width: 40px; 
+    margin-bottom: 10px;
+    opacity: 0.5;
+}
+
+.upload-area p 
+{
+    color: #000;
+    font-size: 14px;
+    margin: 0;
+}
+
+.image-preview-element 
+{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 13px;
+    z-index: 5;
+}
+
+/* Секція чекбоксів */
+.services-checkbox-group 
+{
+    display: flex;
+    gap: 20px;
+    padding: 5px 0;
+}
+
+.checkbox-container 
+{
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+}
+
+.transport-selection-row 
+{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr; 
+    gap: 10px;
+}
+
+.transport-option 
+{
+    display: block;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 13px;
+    background: #FFF;
+    text-align: center;
+    cursor: pointer;
+}
+
+.transport-selection-row input[type="radio"] 
+{
+    display: none;
+}
+
+/* Підсвітка обраного типу транспорту */
+.transport-selection-row input[type="radio"]:checked + .transport-option 
+{
+    background: #0B77F8;
+    color: #FFF;
+    border-color: #0B77F8;
+}
+
+/* Кнопки управління внизу модального вікна */
+.modal-buttons 
+{
+    margin-top: 20px;
+    display: flex;
+    gap: 15px;
+    justify-content: flex-end;
+}
+
+.btn-save 
+{
+    background: #0B77F8;
+    color: #FFF;
+    padding: 10px 30px;
+    font-family: 'Pattaya', sans-serif;
+    font-size: 24px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.btn-cancel 
+{
+    background: #5079B5;
+    color: #FFF;
+    padding: 10px 30px;
+    font-family: 'Pattaya', sans-serif;
+    font-size: 24px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.btn-cancel:hover 
+{
+    background: #579CED;
+}
+
+.btn-save:hover 
+{ 
+    background: #579CED; 
+}
+
+@media (max-width: 1130px) 
+{
+    .admin-content 
+    {
+        width: 100% !important;
+        max-width: 100% !important;
+        padding: 20px !important;
+        min-width: 0 !important;
+    }
+
+    .admin-table-container 
+    {
+        max-width: 100%;
+        overflow-x: auto; 
+        border: 1px solid #ccc;
+        border-radius: 8px;
+    }
+
+    .admin-table 
+    {
+        min-width: 900px; 
+    }
+}
+
+@media (max-width: 950px) 
+{
+    .top-actions 
+    {
+        flex-direction: column;
+        gap: 12px;
+        align-items: stretch;
+    }
+
+    .admin-search-input 
+    {
+        width: 100% !important;
+        box-sizing: border-box;
+    }
+
+    .btn-add-tour 
+    {
+        width: 100%;
+        text-align: center;
+        font-size: 18px !important;
+        padding: 8px 15px !important;
+    }
+}
+
+@media (max-width: 768px) 
+{
+    .admin-table th:last-child, .admin-table td:last-child 
+    {
+        width: 200px !important; 
+    }
+
+    .table-actions 
+    {
+        display: flex !important;
+        gap: 8px !important;
+        justify-content: center;
+    }
+
+    .tour-grid-form, .form-row, .transport-selection-row 
+    {
+        grid-template-columns: 1fr !important;
+        gap: 15px !important;
+    }
+
+    .upload-area 
+    {
+        height: 300px !important;
+    }
+}
+
+@media (max-width: 600px) 
+{
+    .page-title 
+    {
+        font-size: 22px !important;
+        margin-bottom: 15px !important;
+    }
+
+    .admin-table th, .admin-table td 
+    {
+        padding: 8px !important;
+        font-size: 12px !important;
+    }
+
+    .table-actions 
+    {
+        flex-direction: column;
+        gap: 5px;
+    }
+
+    .btn-edit, .btn-delete 
+    {
+        width: 100%;
+        padding: 6px !important;
+        font-size: 12px !important;
+    }
+
+    .modal-content 
+    {
+        width: 95%;
+        padding: 15px;
+    }
+
+    .modal-buttons 
+    {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .btn-save, .btn-cancel 
+    {
+        width: 100%;
+        font-size: 20px !important;
+        padding: 10px !important;
+    }
+}
+
+@media (max-width: 480px) 
+{
+    .admin-container 
+    {
+        padding: 10px !important;
+    }
+
+    .admin-table td 
+    {
+        word-break: break-word;
+    }
+}

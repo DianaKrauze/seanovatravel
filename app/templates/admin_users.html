@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="uk">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Користувачі - SeaNova Travel</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@700&family=Pattaya&display=swap"
+        rel="stylesheet">
+
+</head>
+
+<body>
+    {% include 'flash.html' %}
+    <header class="admin-header">
+        <div class="logo">SeaNova <span>Travel</span></div>
+        <div class="header-right">
+            <button class="theme-toggle admin-theme-btn">
+                <img src="{{ url_for('static', filename='images/sun.png') }}" alt="Світла тема" class="icon-img">
+            </button>
+            <div class="admin-avatar-static">
+                <img src="{{ url_for('static', filename='images/user.png') }}" alt="Адмін" class="admin-icon-img">
+            </div>
+            <div class="admin-welcome-container">
+                <div id="nickname-display" class="admin-welcome">
+                    <span id="current-nickname">Вітаємо, {{ current_user.nickname if current_user.nickname else
+                        current_user.email }}!</span>
+                    <img src="{{ url_for('static', filename='images/pencil.png') }}" alt="Редагувати"
+                        class="pencil-icon" onclick="enterEditMode()">
+                </div>
+                <form id="nickname-form" action="{{ url_for('update_nickname_admin') }}" method="POST"
+                    style="display: none;">
+                    <input type="text" name="new_nickname" id="nickname-input" class="edit-input-admin" maxlength="50"
+                        value="{{ current_user.nickname if current_user.nickname else current_user.email }}">
+                </form>
+            </div>
+        </div>
+    </header>
+
+    <div class="admin-container">
+        <aside class="admin-sidebar">
+            <nav class="admin-menu">
+                <a href="{{ url_for('admin_panel') }}" class="admin-menu-item">Дашборд</a>
+                <a href="{{ url_for('admin_tours') }}" class="admin-menu-item">Управління турами</a>
+                <a href="{{ url_for('admin_bookings') }}" class="admin-menu-item">Бронювання</a>
+                <a href="{{ url_for('admin_users') }}" class="admin-menu-item active">Користувачі</a>
+                <a href="{{ url_for('admin_reviews') }}" class="admin-menu-item">Відгуки</a>
+                <a href="{{ url_for('admin_reports') }}" class="admin-menu-item">Звіти</a>
+                <a href="{{ url_for('admin_chat') }}" class="admin-menu-item">Чат</a>
+                <a href="{{ url_for('logout') }}" class="admin-menu-item logout-btn">Вийти</a>
+            </nav>
+        </aside>
+
+        <main class="admin-content">
+            <h1 class="page-title">Користувачі</h1>
+
+            <div class="users-control-panel">
+                <div class="top-actions">
+                    <div class="search-group">
+                        <input type="text" id="userSearch" placeholder="Пошук..." onkeyup="filterUsers()">
+                        <select id="roleFilter" onchange="filterUsers()">
+                            <option value="all">Усі ролі</option>
+                            <option value="admin">Адмін</option>
+                            <option value="user">Користувач</option>
+                        </select>
+                    </div>
+                    <button class="main-btn-add" onclick="openAddModal()">Додати користувача</button>
+                </div>
+
+                <div class="table-container-fixed">
+                    <table class="seanova-admin-table" id="usersTable">
+                        <thead>
+                            <tr>
+                                <th onclick="sortTable(0)">
+                                    ID <img src="{{ url_for('static', filename='images/sort.png') }}" class="sort-icon"
+                                        alt="Сортування">
+                                </th>
+                                <th onclick="sortTable(1)">
+                                    Нікнейм <img src="{{ url_for('static', filename='images/sort.png') }}"
+                                        class="sort-icon" alt="sort">
+                                </th>
+                                <th onclick="sortTable(2)">
+                                    Email <img src="{{ url_for('static', filename='images/sort.png') }}"
+                                        class="sort-icon" alt="sort">
+                                </th>
+                                <th>Роль</th>
+                                <th>Дії</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for user in users %}
+                            <tr>
+                                <td class="bold-id">{{ user.id }}</td>
+                                <td>{{ user.nickname if user.nickname else '---' }}</td>
+                                <td>{{ user.email }}</td>
+                                <td><span class="status-role {{ user.role }}">{{ user.role }}</span></td>
+                                <td>
+                                    <div class="action-flex">
+                                        <button class="btn-table edit"
+                                            onclick="editUser('{{ user.id }}', '{{ user.nickname }}', '{{ user.role }}', '{{ user.email }}')">Редагувати</button>
+                                        <form action="{{ url_for('delete_user', user_id=user.id) }}" method="POST"
+                                            onsubmit="return confirm('Видалити?')">
+                                            <button type="button" class="btn-table delete"
+                                                onclick="confirmDelete('{{ user.id }}', '{{ user.nickname if user.nickname else user.email }}')">
+                                                Видалити
+                                            </button>
+                                        </form>
+                                    </div>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <div id="userModal" class="modal-overlay" style="display: none;">
+        <div class="modal-content-custom">
+            <h2 id="modalTitle">Додати користувача</h2>
+            <form id="userForm" method="POST" autocomplete="off">
+                <div class="form-group-custom">
+                    <label>Email:</label>
+                    <input type="email" name="email" id="modalEmail" required>
+                </div>
+
+                <div id="passwordField" class="form-group-custom">
+                    <label>Пароль:</label>
+                    <input type="password" name="password" id="modalPassword" placeholder="********"
+                        autocomplete="new-password">
+                </div>
+
+                <div class="form-group-custom">
+                    <label>Нікнейм:</label>
+                    <input type="text" name="nickname" id="modalNickname">
+                </div>
+
+                <div class="form-group-custom">
+                    <label>Роль:</label>
+                    <select name="role" id="modalRole">
+                        <option value="user">User</option>
+                        <option value="admin">Admin</option>
+                    </select>
+                </div>
+                <div class="modal-actions">
+                    <button type="submit" class="btn-table edit">Зберегти</button>
+                    <button type="button" class="btn-table delete" onclick="closeModal()">Скасувати</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="deleteConfirmModal" class="modal-overlay" style="display: none;">
+        <div class="modal-content-custom modal-delete">
+            <h2 id="deleteModalTitle">Видалення</h2>
+            <p class="modal-text-delete">
+                Ви впевнені, що хочете видалити користувача <strong id="deleteTargetName"></strong>?
+            </p>
+            <form id="deleteForm" method="POST">
+                <div class="modal-actions-center">
+                    <button type="submit" class="btn-table delete confirm-delete-btn">Так, видалити</button>
+                    <button type="button" class="btn-table cancel" onclick="closeDeleteModal()">Скасувати</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <script src="{{ url_for('static', filename='js/admin.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/admin_users.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/base.js') }}"></script>
+</body>
+
+</html>

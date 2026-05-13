@@ -1,0 +1,199 @@
+/* Позиціонування логотипу всередині картки реєстрації */
+.auth-card .logo 
+{
+    text-align: left;       
+    margin-bottom: 20px;   
+    width: 100%;           
+}
+
+/* Налаштування відступу для посилання в логотипі */
+.auth-card .logo a 
+{
+    padding-left: 5px;      
+}
+
+/* Центрування форми на екрані по вертикалі та горизонталі */
+.auth-container 
+{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 80vh; 
+}
+
+/* Основна картка форми реєстрації */
+.auth-card 
+{
+    background-color: var(--card-bg); 
+    border-radius: 20px;
+    padding: 30px 40px;
+    width: 100%;
+    max-width: 450px;
+    text-align: center;
+}
+
+/* Іконка користувача над заголовком */
+.user-icon img 
+{
+    width: 80px;
+    margin: 15px 0;
+}
+
+/* Головний заголовок вікна реєстрації */
+.auth-card h2 
+{
+    font-size: 28px;
+    color: #000;
+    margin-bottom: 5px;
+}
+
+/* Підзаголовок з використанням акцентного шрифту */
+.subtitle 
+{
+    font-family: 'Pattaya', sans-serif;
+    color: var( --accent-color);
+    font-size: 18px;
+    margin-bottom: 25px;
+}
+
+/* Контейнер для поля вводу та текстового підпису */
+.input-group 
+{
+    text-align: left;
+    margin-bottom: 15px;
+    font-size: 20px;
+}
+
+/* Стилізація підпису до поля вводу */
+.input-group label 
+{
+    display: block;
+    font-weight: 800;
+    margin-bottom: 5px;
+    font-size: 20px;
+}
+
+/* Загальні стилі для текстових полів реєстрації */
+.input-group input 
+{
+    width: 100%;
+    padding: 10px 15px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    font-size: 14px;
+}
+
+/* Групування чекбокса та тексту згоди з правилами */
+.checkbox-group 
+{
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    text-align: left;
+    margin: 20px 0;
+    font-size: 12px;
+    color: var(--accent-color);
+}
+
+/* Головна кнопка для створення акаунта */
+.auth-btn 
+{
+    width: 100%;
+    background-color: var(--btn-login-bg);
+    color: var(--btn-text);
+    border: none;
+    padding: 12px;
+    border-radius: 10px;
+    font-family: 'Pattaya', sans-serif;
+    font-size: 20px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+/* Ефект зміни фону при наведенні на кнопку */
+.auth-btn:hover 
+{
+    background-color: #4973B1;
+}
+
+/* Адаптація для планшетів та смартфонів (до 768px) */
+@media (max-width: 768px) 
+{
+    .auth-container 
+    {
+        min-height: auto; 
+        padding: 40px 15px; 
+    }
+
+    .auth-card 
+    {
+        padding: 25px 20px;
+        max-width: 100%;
+        border-radius: 15px;
+    }
+
+    .auth-card h2 
+    {
+        font-size: 24px;
+    }
+
+    .subtitle 
+    {
+        font-size: 16px;
+        margin-bottom: 20px;
+    }
+
+    .input-group label 
+    {
+        font-size: 18px;
+    }
+
+    .input-group input 
+    {
+        padding: 12px;
+        font-size: 16px; 
+    }
+
+    .auth-btn 
+    {
+        padding: 14px;
+        font-size: 22px;
+        margin-top: 10px;
+    }
+
+    .checkbox-group 
+    {
+        font-size: 13px;
+        margin: 15px 0;
+    }
+}
+
+/* Екстремально маленькі екрани (до 380px) */
+@media (max-width: 380px) 
+{
+    .auth-card 
+    {
+        padding: 20px 15px;
+    }
+
+    .user-icon img 
+    {
+        width: 60px;
+        margin: 10px 0;
+    }
+
+    .auth-card h2 
+    {
+        font-size: 22px;
+    }
+
+    .input-group label 
+    {
+        font-size: 16px;
+    }
+
+    .auth-btn 
+    {
+        font-size: 20px;
+    }
+}

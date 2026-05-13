@@ -1,0 +1,299 @@
+/* Контейнер для зірок у таблиці */
+.admin-review-stars 
+{
+    display: flex;
+    justify-content: center;
+    gap: 2px;
+    font-size: 20px; 
+}
+
+/* Базовий колір порожньої зірки */
+.admin-review-stars .star-static 
+{
+    color: #E0E0E0;
+}
+
+/* Колір активної зірки */
+.admin-review-stars .star-static.active 
+{
+    color: #388DF1;
+}
+
+/* Кнопка редагування відгуку */
+.btn-table-edit
+{
+    background: var(--btn-two);
+    padding: 6px 12px;
+    border-radius: 6px;
+    border: none;
+    color: var(--btn-text);
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-table-edit:hover
+{
+    background-color: #8FC2FF;
+    opacity: 1;
+}
+
+
+/* Темна підкладка для фокусування на модалці */
+.modal-overlay 
+{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5); 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+/* Заголовок у модальному вікні */
+#deleteModalTitle
+{
+    color: #000;
+    margin-bottom: 20px;
+    text-align: center;
+    border-bottom: 2px solid #388DF1;
+    padding-bottom: 10px;
+}
+
+/* Рядки з даними */
+.modal-detail-row 
+{
+    display: flex;
+    justify-content: space-between;
+    padding: 12px 0;
+    font-family: 'Open Sans', sans-serif;
+}
+
+/* Назва поля */
+.detail-label 
+{
+    color: #4973B1; 
+    font-size: 18px;
+}
+
+/* Значення поля (праворуч) */
+.detail-value 
+{
+    color: #000;
+    font-weight: 500;
+    text-align: right;
+    max-width: 60%;
+}
+
+/* Пунктирна лінія */
+.detail-divider 
+{
+    border-top: 1px dashed #B4D3EE;
+    margin: 4px 0;
+}
+
+/* Секція з текстом відгуку */
+.text-section 
+{
+    margin-top: 20px;
+}
+
+/* Блок для самого тексту відгуку з прокруткою */
+.detail-text-p 
+{
+    background: #F4F9FF; 
+    padding: 15px;
+    border-radius: 10px;
+    color: #000;
+    line-height: 1.6;
+    margin-top: 10px;
+    max-height: 200px;
+    overflow-y: auto; 
+    word-wrap: break-word;
+}
+
+/* Контейнер для поля пошуку */
+.admin-controls-row 
+{
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    margin-bottom: 20px; 
+}
+
+/* Стиль поля пошуку по відгуках */
+#reviewSearch 
+{
+    padding: 10px 15px;
+    width: 300px; 
+    border: 1px solid #579CED;
+    border-radius: 20px; 
+    outline: none;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 14px;
+    transition: 0.3s;
+    background-color: var(--userSearch);
+}
+
+/* Ефект фокусу на пошуковому рядку */
+#reviewSearch:focus 
+{
+    border-color: #32639E;
+    box-shadow: 0 0 5px rgba(87, 156, 237, 0.3); 
+}
+
+/* Колір тексту-підказки */
+#reviewSearch::placeholder 
+{
+    color: #A0A0A0;
+}
+
+@media (max-width: 1130px) 
+{
+    .admin-content 
+    {
+        width: 100% !important;
+        max-width: 100% !important;
+        padding: 20px !important;
+        min-width: 0 !important;
+    }
+
+    .admin-table-container 
+    {
+        max-width: 100%;
+        overflow-x: auto;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        display: block;
+    }
+
+    .admin-table 
+    {
+        min-width: 900px; 
+    }
+}
+
+@media (max-width: 950px) 
+{
+    .admin-controls-row 
+    {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 12px;
+    }
+
+    #reviewSearch 
+    {
+        width: 100% !important;
+        box-sizing: border-box;
+    }
+}
+
+@media (max-width: 768px) 
+{
+    .page-title 
+    {
+        font-size: 22px !important;
+        text-align: center;
+    }
+
+    .admin-table th, .admin-table td 
+    {
+        padding: 8px 5px !important;
+        font-size: 13px !important;
+    }
+
+    .admin-review-stars 
+    {
+        font-size: 16px; 
+    }
+
+    .modal-content-custom 
+    {
+        width: 95% !important;
+        padding: 20px !important;
+    }
+
+    .modal-detail-row 
+    {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 5px;
+    }
+
+    .detail-value 
+    {
+        text-align: left;
+        max-width: 100%;
+    }
+}
+
+@media (max-width: 600px) 
+{
+    .modal-actions-center 
+    {
+        flex-direction: column !important;
+        gap: 10px !important;
+        width: 100%;
+    }
+
+    .btn-table.save, .btn-table.cancel, .btn-table.delete 
+    {
+        width: 100% !important;
+        font-size: 20px !important; 
+        padding: 12px !important;
+        text-align: center;
+        display: block;
+        box-sizing: border-box;
+    }
+
+    .table-actions 
+    {
+        flex-direction: column;
+        gap: 5px;
+    }
+
+    .btn-table-edit, .btn-delete 
+    {
+        width: 100% !important;
+        padding: 6px !important;
+        font-size: 12px !important;
+    }
+
+    .admin-review-stars 
+    {
+        font-size: 14px;
+    }
+}
+
+@media (max-width: 480px) 
+{
+    .admin-container 
+    {
+        padding: 10px !important;
+    }
+
+    .detail-label 
+    {
+        font-size: 16px;
+    }
+
+    .detail-text-p 
+    {
+        padding: 10px;
+        font-size: 13px;
+    }
+
+    .sort-icon 
+    {
+        display: none;
+    }
+}

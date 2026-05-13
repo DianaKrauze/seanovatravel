@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="uk">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Управління турами - SeaNova Travel</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@700&family=Pattaya&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+    {% include 'flash.html' %}
+    <header class="admin-header">
+        <div class="logo">SeaNova <span>Travel</span></div>
+        <div class="header-right">
+            <button class="theme-toggle admin-theme-btn">
+                <img src="{{ url_for('static', filename='images/sun.png') }}" alt="Світла тема" class="icon-img">
+            </button>
+            <div class="admin-avatar-static">
+                <img src="{{ url_for('static', filename='images/user.png') }}" alt="Адмін" class="admin-icon-img">
+            </div>
+            <div class="admin-welcome-container">
+                <div id="nickname-display" class="admin-welcome">
+                    <span id="current-nickname">Вітаємо, {{ current_user.nickname if current_user.nickname else
+                        current_user.email }}!</span>
+                    <img src="{{ url_for('static', filename='images/pencil.png') }}" alt="Редагувати"
+                        class="pencil-icon" onclick="enterEditMode()">
+                </div>
+                <form id="nickname-form" action="{{ url_for('update_nickname_admin') }}" method="POST"
+                    style="display: none;">
+                    <input type="text" name="new_nickname" id="nickname-input" class="edit-input-admin" maxlength="50"
+                        value="{{ current_user.nickname if current_user.nickname else current_user.email }}">
+                </form>
+            </div>
+        </div>
+    </header>
+
+    <div class="admin-container">
+        <aside class="admin-sidebar">
+            <nav class="admin-menu">
+                <a href="{{ url_for('admin_panel') }}" class="admin-menu-item">Дашборд</a>
+                <a href="{{ url_for('admin_tours') }}" class="admin-menu-item active">Управління турами</a>
+                <a href="{{ url_for('admin_bookings') }}" class="admin-menu-item">Бронювання</a>
+                <a href="{{ url_for('admin_users') }}" class="admin-menu-item">Користувачі</a>
+                <a href="{{ url_for('admin_reviews') }}" class="admin-menu-item">Відгуки</a>
+                <a href="{{ url_for('admin_reports') }}" class="admin-menu-item">Звіти</a>
+                <a href="{{ url_for('admin_chat') }}" class="admin-menu-item">Чат</a>
+                <a href="{{ url_for('logout') }}" class="admin-menu-item logout-btn">Вийти</a>
+            </nav>
+        </aside>
+
+        <main class="admin-content">
+            <h1 class="page-title">Управління турами</h1>
+
+            <div class="users-control-panel">
+                <div class="top-actions">
+                    <div class="search-group">
+                        <input type="text" id="tourSearch" class="admin-search-input" placeholder="Пошук туру..."
+                            onkeyup="filterTours()">
+                    </div>
+                    <button class="btn-add-tour" onclick="openTourModal()">Додати тур</button>
+                </div>
+
+                <div class="admin-table-container">
+                    <table class="admin-table" id="toursTable"> 
+                        <thead>
+                            <tr>
+                                <th>Фото</th>
+                                <th onclick="sortTableTours(1)">Назва <img
+                                        src="{{ url_for('static', filename='images/sort.png') }}" class="sort-icon">
+                                </th>
+                                <th onclick="sortTableTours(2)">Напрямок <img
+                                        src="{{ url_for('static', filename='images/sort.png') }}" class="sort-icon">
+                                </th>
+                                <th onclick="sortTableTours(3)">Дата <img
+                                        src="{{ url_for('static', filename='images/sort.png') }}" class="sort-icon">
+                                </th>
+                                <th onclick="sortTableTours(4)">Ціна <img
+                                        src="{{ url_for('static', filename='images/sort.png') }}" class="sort-icon">
+                                </th>
+                                <th>Дії</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for tour in tours %}
+                            <tr>
+                                <td>
+                                    <img src="{{ url_for('static', filename='uploads/tours/' + tour.image_filename) if tour.image_filename else url_for('static', filename='images/no-photo.png') }}"
+                                        class="table-thumb">
+                                </td>
+                                <td><strong>{{ tour.title }}</strong><br><small>{{ tour.stars }}★</small></td>
+                                <td>{{ tour.country }}, {{ tour.city }}</td>
+                                <td>{{ tour.departure_date.strftime('%d.%m.%Y') }}</td>
+                                <td data-price="{{ tour.price }}">{{ tour.price }} грн</td>
+                                <td>
+                                    <div class="table-actions"> 
+                                        <button class="btn-edit" onclick="editTour('{{ tour.id }}')">Редагувати</button>
+                                        <button type="button" class="btn-delete"
+                                            onclick="confirmDeleteTour('{{ tour.id }}', '{{ tour.title }}')">Видалити</button>
+                                    </div>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+
+        <!-- Модальне вікно додавання туру -->
+        <div id="tourModal" class="modal">
+            <div class="modal-content tour-form-modal">
+                <h2 id="modalTitle">Додати тур</h2>
+                <form action="{{ url_for('add_tour') }}" method="POST" enctype="multipart/form-data"
+                    class="tour-single-column-form" id="tourForm">
+                    <input type="hidden" name="tour_id" id="tourIdInput">
+
+                    <div class="form-group">
+                        <label>Назва готелю/туру</label>
+                        <input type="text" name="title" required>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Країна</label>
+                            <input type="text" name="country" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Місто</label>
+                            <input type="text" name="city" required>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Ціна, грн</label>
+                            <input type="number" name="price" min="1" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Зірковість готелю</label>
+                            <div class="stars-selection">
+                                {% for i in range(1, 6) %}
+                                <input type="radio" name="stars" value="{{ i }}" id="star{{ i }}" {{ 'checked' if i==3
+                                    }}>
+                                <label for="star{{ i }}">{{ i }}</label>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Тип харчування</label>
+                            <select name="meal_type">
+                                <option value="RO">RO (Без харчування)</option>
+                                <option value="BB">BB (Сніданки)</option>
+                                <option value="HB">HB (Сніданок+Вечеря)</option>
+                                <option value="AI" selected>AI (Все включено)</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Тривалість (ночей)</label>
+                            <input type="number" name="duration" min="1" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Тип транспорту</label>
+                        <div class="transport-selection-row"> 
+                            <label><input type="radio" name="transport_type" value="none" checked><span
+                                    class="transport-option">Без транспорту</span></label>
+                            <label><input type="radio" name="transport_type" value="bus"><span
+                                    class="transport-option">Автобус</span></label>
+                            <label><input type="radio" name="transport_type" value="flight"><span
+                                    class="transport-option">Авіа</span></label>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Опис туру</label>
+                        <textarea name="description" rows="2"></textarea>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Дата виїзду</label>
+                            <input type="date" name="departure_date" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Тип номера</label>
+                            <input type="text" name="room_type" placeholder="Standard Double" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Додаткові послуги:</label>
+                        <div class="services-checkbox-group">
+                            <label class="checkbox-container"><input type="checkbox" name="has_insurance"
+                                    id="check_insurance" checked><span>Страховка</span></label>
+                            <label class="checkbox-container"><input type="checkbox" name="has_transfer"
+                                    id="check_transfer" checked><span>Трансфер</span></label>
+                            <label class="checkbox-container"><input type="checkbox" name="has_visa"
+                                    id="check_visa"><span>Віза</span></label>
+                        </div>
+                    </div>
+
+                    <div class="upload-area" id="dropZone" onclick="document.getElementById('tourImageInput').click()">
+                        <img src="{{ url_for('static', filename='images/upload-icon.png') }}" class="upload-icon">
+                        <p>Натисніть або перетягніть фото готелю</p>
+                        <input type="file" name="tour_image" id="tourImageInput" hidden accept="image/*"
+                            onchange="previewImage(this)">
+                        <img id="imagePreview" class="image-preview-element" style="display:none;">
+                    </div>
+
+                    <div class="modal-buttons">
+                        <button type="submit" class="btn-save">Зберегти</button>
+                        <button type="button" class="btn-cancel" onclick="closeTourModal()">Скасувати</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Модальне вікно підтвердження видалення туру -->
+    <div id="deleteTourModal" class="modal-overlay" style="display: none;">
+        <div class="modal-content-custom modal-delete">
+            <h2 id="deleteModalTitle">Видалення туру</h2>
+            <p class="modal-text-delete">
+                Ви впевнені, що хочете видалити тур <strong id="deleteTourName"></strong>?
+            </p>
+            <form id="deleteTourForm" method="POST">
+                <div class="modal-actions-center">
+                    <button type="submit" class="btn-table delete confirm-delete-btn">Так, видалити</button>
+                    <button type="button" class="btn-table cancel" onclick="closeDeleteTourModal()">Скасувати</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/admin.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/base.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/admin_tours.js') }}"></script>
+</body>
+
+</html>

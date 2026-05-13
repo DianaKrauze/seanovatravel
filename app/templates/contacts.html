@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block title %}Контакти - SeaNova Travel{% endblock %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/contacts.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="contacts-container">
+    <section class="contacts-hero">
+        <h1>Основна інформація</h1>
+        <p>Ми завжди раді допомогти вам із вибором і бронюванням міжнародних турів. Наша команда працює для того, щоб зробити вашу подорож максимально комфортною та безпечною.</p>
+    </section>
+
+    <div class="contacts-grid">
+        <article class="contact-card">
+            <h2>Дані для зв'язку</h2>
+            <div class="card-content">
+                <p>Адреса:<br>м. Харків, вул. Туристична, 15</p>
+                <p>Телефон:<br>+38 (067) 123-45-67</p>
+                <p>Email:<br>seanovatravel@gmail.com</p>
+            </div>
+        </article>
+
+        <article class="contact-card">
+            <h2>Графік роботи</h2>
+            <div class="card-content">
+                <p>Графік роботи офісу:<br>
+                Понеділок - П'ятниця: 09:00 - 18:00<br>
+                Субота: 10:00 - 16:00<br>
+                Неділя: вихідний</p>
+                <p>Онлайн-підтримка:<br>
+                доступна щоденно через особистий кабінет користувача</p>
+            </div>
+        </article>
+
+        <article class="contact-card">
+            <h2>Онлайн підтримка</h2>
+            <div class="card-content">
+                <p>Для швидкого вирішення питань ви можете скористатися онлайн-чатом із менеджером. Чат доступний у особистому кабінеті користувача після авторизації.</p>
+                <p>Наші менеджери допоможуть: підібрати тур, уточнити деталі бронювання, вирішити питання під час подорожі.</p>
+            </div>
+        </article>
+    </div>
+</div>
+{% endblock %}

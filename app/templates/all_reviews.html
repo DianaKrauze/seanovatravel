@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+
+{% block title %}Відгуки клієнтів - SeaNova Travel{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/all_reviews.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="all-reviews-container">
+    <section class="reviews-hero">
+        <h1 class="main-title">Відгуки клієнтів</h1>
+        <div class="hero-flex">
+            <p class="hero-description">
+                Тут представлені відгуки користувачів, які вже скористалися послугами нашого сервісу онлайн-бронювання
+                міжнародних турів.
+                У відгуках користувачі діляться своїми враженнями від подорожі, рівнем сервісу та умовами проживання.
+            </p>
+
+            <div class="filter-wrapper">
+                <select class="tour-filter-dropdown" onchange="location.href='/all_reviews?tour_id=' + this.value">
+                    <option value="">Всі тури</option>
+                    {% for tour in reviewed_tours %}
+                    <option value="{{ tour.id }}" {% if tour.id==selected_tour_id %}selected{% endif %}>
+                        {{ tour.title }} {{ tour.stars }}*, {{ tour.country }}{% if tour.city %}, {{ tour.city }}{%
+                        endif %}
+                    </option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+    </section>
+
+    <div class="reviews-grid">
+        {% set months = {
+        1: 'січня', 2: 'лютого', 3: 'березня', 4: 'квітня',
+        5: 'травня', 6: 'червня', 7: 'липня', 8: 'серпня',
+        9: 'вересня', 10: 'жовтня', 11: 'листопада', 12: 'грудня'
+        } %}
+
+        {% for review in reviews %}
+        <div class="public-review-card">
+            <div class="review-card-top">
+                <span class="review-date">
+                    {{ review.timestamp.day }} {{ months[review.timestamp.month] }} {{ review.timestamp.year }}
+                </span>
+            </div>
+
+            <div class="user-meta-center">
+                <img src="{{ url_for('static', filename='images/user.png') }}" alt="Avatar" class="review-avatar">
+                <span class="user-name">{{ review.user.nickname if review.user.nickname else
+                    review.user.email.split('@')[0] }}</span>
+            </div>
+
+            <div class="review-details-left">
+                <div class="tour-info-mini">
+                    <a href="{{ url_for('tour_details', tour_id=review.tour.id) }}" class="review-tour-link">
+                        <strong>
+                            {{ review.tour.title }} {{ review.tour.stars }}*,
+                            {{ review.tour.country }}{% if review.tour.city %}, {{ review.tour.city }}{% endif %}
+                        </strong>
+                    </a>
+                </div>
+
+                <div class="public-review-stars">
+                    {% for i in range(5) %}
+                    <span class="star-static {% if i < review.rating %}active{% endif %}">&#9733;</span>
+                    {% endfor %}
+                </div>
+
+                <div class="public-review-text">
+                    {{ review.text }}
+                </div>
+            </div>
+        </div>
+        {% else %}
+        <div class="no-reviews-placeholder">
+            <p>На цей тур ще немає відгуків. Будьте першим!</p>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

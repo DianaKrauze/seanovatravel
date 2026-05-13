@@ -1,0 +1,252 @@
+/* Головний контейнер сторінки */
+.all-reviews-container 
+{
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 20px;
+    background: var(--header-footer-bg); 
+    border-radius: 15px;
+}
+
+.main-title 
+{
+    color: var(--accent-color);
+    font-size: 36px;
+    margin-bottom: 20px;
+}
+
+/* Верхня частина сторінки (текст та фільтр) */
+.hero-flex 
+{
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 40px;
+    gap: 40px;
+}
+
+.hero-description 
+{
+    font-family: 'Pattaya', sans-serif;
+    font-size: 18px;
+    color: var(--text-color);
+    flex: 2;
+}
+
+/* Кастомний селект */
+.filter-wrapper 
+{
+    flex: 1;
+    text-align: right;
+}
+
+.tour-filter-dropdown 
+{
+    width: 250px;
+    padding: 10px 40px 10px 15px;
+    font-size: 18px;
+    border: 2px solid #000;
+    border-radius: 0;
+    appearance: none;
+    background: var(--input-bg) url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E") no-repeat right 15px center;
+    background-size: 20px;
+    cursor: pointer;
+}
+
+/* Сітка карток відгуків */
+.reviews-grid 
+{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* 3 в ряд */
+    gap: 30px;
+}
+
+.review-card-top 
+{
+    text-align: right;
+    margin-bottom: 5px;
+}
+
+/* Картка відгуку */
+.public-review-card 
+{
+    background: var(--container-background);
+    padding: 25px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    display: flex;
+    flex-direction: column;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    word-break: break-word;
+}
+
+.card-header 
+{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+/* Блок з аватаром та ім'ям по центру */
+.user-meta-center 
+{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.review-avatar 
+{
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+}
+
+.user-name 
+{
+    color: var(--accent-color);
+    font-weight: bold;
+    font-size: 18px;
+}
+
+.review-date 
+{
+    font-size: 14px;
+    color: #000;
+    align-self: flex-start;
+}
+
+.review-tour-link
+{
+    text-decoration: none;
+    color: #000;
+}
+
+/* Інформація про тур (назва), до якого залишено відгук */
+.tour-info-mini 
+{
+    text-align: center;
+    margin-bottom: 10px;
+    font-size: 16px;
+}
+
+/* Відображення зірок */
+.public-review-stars 
+{
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+.star-static 
+{
+    font-size: 35px;
+    color: #E0E0E0;
+}
+
+.star-static.active 
+{
+    color: #4973B1;
+}
+
+/* Текст відгуку */
+.public-review-text 
+{
+    font-size: 15px;
+    line-height: 1.5;
+    color: #000;
+    text-align: center;
+}
+
+/* Адаптивність для планшетів (до 992px) */
+@media (max-width: 992px) 
+{
+    .reviews-grid 
+    { 
+        grid-template-columns: repeat(2, 1fr); 
+        gap: 20px;
+    }
+
+    .main-title 
+    {
+        font-size: 30px;
+        text-align: center;
+    }
+}
+
+/* Адаптивність для смартфонів (до 768px) */
+@media (max-width: 768px) 
+{
+    .all-reviews-container 
+    {
+        margin: 20px 0;
+        padding: 15px;
+        border-radius: 0; 
+    }
+
+    .hero-flex 
+    { 
+        flex-direction: column; 
+        align-items: center; 
+        text-align: center;
+        gap: 20px;
+        margin-bottom: 30px;
+    }
+
+    .hero-description 
+    {
+        font-size: 16px;
+        flex: none;
+    }
+
+    .filter-wrapper 
+    { 
+        flex: none;
+        width: 100%;
+        text-align: center; 
+        display: flex;
+        justify-content: center;
+    }
+
+    .tour-filter-dropdown 
+    { 
+        width: 100%; 
+        max-width: 300px; 
+        font-size: 16px;
+    }
+}
+
+/* Для вузьких екранів (до 600px) */
+@media (max-width: 600px) 
+{
+    .reviews-grid 
+    { 
+        grid-template-columns: 1fr; 
+    }
+
+    .star-static 
+    {
+        font-size: 28px; 
+    }
+
+    .public-review-card 
+    {
+        padding: 20px;
+    }
+}
+
+/* Екстремально маленькі екрани (до 360px) */
+@media (max-width: 360px) 
+{
+    .main-title 
+    {
+        font-size: 24px;
+    }
+    
+    .user-name 
+    {
+        font-size: 16px;
+    }
+}

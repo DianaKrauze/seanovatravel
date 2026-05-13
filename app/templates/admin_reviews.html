@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="uk">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Відгуки - SeaNova Travel</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/admin_reviews.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@700&family=Pattaya&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+    {% include 'flash.html' %}
+    <header class="admin-header">
+        <div class="logo">SeaNova <span>Travel</span></div>
+        <div class="header-right">
+            <button class="theme-toggle admin-theme-btn">
+                <img src="{{ url_for('static', filename='images/sun.png') }}" alt="Світла тема" class="icon-img">
+            </button>
+            <div class="admin-avatar-static">
+                <img src="{{ url_for('static', filename='images/user.png') }}" alt="Адмін" class="admin-icon-img">
+            </div>
+            <div class="admin-welcome-container">
+                <div id="nickname-display" class="admin-welcome">
+                    <span id="current-nickname">Вітаємо, {{ current_user.nickname if current_user.nickname else
+                        current_user.email }}!</span>
+                    <img src="{{ url_for('static', filename='images/pencil.png') }}" alt="Редагувати"
+                        class="pencil-icon" onclick="enterEditMode()">
+                </div>
+                <form id="nickname-form" action="{{ url_for('update_nickname_admin') }}" method="POST"
+                    style="display: none;">
+                    <input type="text" name="new_nickname" id="nickname-input" class="edit-input-admin" maxlength="50"
+                        value="{{ current_user.nickname if current_user.nickname else current_user.email }}">
+                </form>
+            </div>
+        </div>
+    </header>
+
+    <div class="admin-container">
+        <aside class="admin-sidebar">
+            <nav class="admin-menu">
+                <a href="{{ url_for('admin_panel') }}" class="admin-menu-item">Дашборд</a>
+                <a href="{{ url_for('admin_tours') }}" class="admin-menu-item">Управління турами</a>
+                <a href="{{ url_for('admin_bookings') }}" class="admin-menu-item">Бронювання</a>
+                <a href="{{ url_for('admin_users') }}" class="admin-menu-item">Користувачі</a>
+                <a href="{{ url_for('admin_reviews') }}" class="admin-menu-item active">Відгуки</a>
+                <a href="{{ url_for('admin_reports') }}" class="admin-menu-item">Звіти</a>
+                <a href="{{ url_for('admin_chat') }}" class="admin-menu-item">Чат</a>
+                <a href="{{ url_for('logout') }}" class="admin-menu-item logout-btn">Вийти</a>
+            </nav>
+        </aside>
+
+        <main class="admin-content">
+            <h1 class="page-title">Управління відгуками</h1>
+
+            <div class="admin-controls-row">
+                <div class="search-box">
+                    <input type="text" id="reviewSearch" placeholder="Пошук за назвою або нікнеймом..."
+                        onkeyup="filterReviews()">
+                </div>
+            </div>
+
+            <div class="table-container-fixed">
+                <table class="seanova-admin-table" id="reviewsTable">
+                    <thead>
+                        <tr>
+                            <th onclick="sortReviews(0)">ID <img
+                                    src="{{ url_for('static', filename='images/sort.png') }}" class="sort-icon"></th>
+                            <th>Користувач</th>
+                            <th onclick="sortReviews(2)">Тур / Країна / Місто <img
+                                    src="{{ url_for('static', filename='images/sort.png') }}" class="sort-icon"></th>
+                            <th>Оцінка</th>
+                            <th>Дії</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% set months = {
+                        1: 'січня', 2: 'лютого', 3: 'березня', 4: 'квітня',
+                        5: 'травня', 6: 'червня', 7: 'липня', 8: 'серпня',
+                        9: 'вересня', 10: 'жовтня', 11: 'листопада', 12: 'грудня'
+                        } %}
+                        {% for review in reviews %}
+                        <tr>
+                            <td class="bold-id">{{ review.id }}</td>
+                            <td>{{ review.user.nickname if review.user.nickname else review.user.email }}</td>
+                            <td>{{ review.tour.title }}, {{ review.tour.country }}, {{ review.tour.city }}</td>
+                            <td>
+                                <div class="admin-review-stars">
+                                    {% for i in range(5) %}
+                                    <span class="star-static {% if i < review.rating %}active{% endif %}">&#9733;</span>
+                                    {% endfor %}
+                                </div>
+                            </td>
+                            <td>
+                                <div class="action-flex">
+                                    <button class="btn-table-edit"
+                                        data-user="{{ review.user.nickname if review.user.nickname else review.user.email }}"
+                                        data-tour="{{ review.tour.title }}"
+                                        data-location="{{ review.tour.country }}, {{ review.tour.city }}"
+                                        data-rating="{{ review.rating }}"
+                                        data-date="{{ review.timestamp.day }} {{ months[review.timestamp.month] }} {{ review.timestamp.year }}"
+                                        data-text="{{ review.text }}" onclick="prepareDetails(this)">
+                                        Детальніше
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </main>
+        <div id="detailsModal" class="modal-overlay" style="display: none;">
+            <div class="modal-content-custom detail-modal">
+                <h2 id="deleteModalTitle">Деталі відгуку</h2>
+
+                <div class="modal-detail-row">
+                    <span class="detail-label">Від:</span>
+                    <span id="detailUser" class="detail-value"></span>
+                </div>
+                <div class="detail-divider"></div>
+
+                <div class="modal-detail-row">
+                    <span class="detail-label">Тур:</span>
+                    <span id="detailTour" class="detail-value"></span>
+                </div>
+                <div class="detail-divider"></div>
+
+                <div class="modal-detail-row">
+                    <span class="detail-label">Напрямок:</span>
+                    <span id="detailLocation" class="detail-value"></span>
+                </div>
+                <div class="detail-divider"></div>
+
+                <div class="modal-detail-row">
+                    <span class="detail-label">Оцінка:</span>
+                    <div id="detailRating" class="admin-review-stars">
+                    </div>
+                </div>
+                <div class="detail-divider"></div>
+
+                <div class="modal-detail-row">
+                    <span class="detail-label">Дата публікації:</span>
+                    <span id="detailDate" class="detail-value"></span>
+                </div>
+                <div class="detail-divider"></div>
+
+                <div class="form-group-custom text-section">
+                    <label class="detail-label">Текст відгуку:</label>
+                    <p id="detailText" class="detail-text-p"></p>
+                </div>
+
+                <div class="modal-actions-center">
+                    <button class="btn-table cancel" onclick="closeDetailsModal()">Закрити</button>
+                </div>
+            </div>
+        </div>
+
+        <script src="{{ url_for('static', filename='js/admin.js') }}"></script>
+        <script src="{{ url_for('static', filename='js/base.js') }}"></script>
+        <script src="{{ url_for('static', filename='js/admin_reviews.js') }}"></script>
+</body>
+
+</html>

@@ -1,0 +1,233 @@
+/* Сітка для карток зі статистикою з адаптивним розміром колонок */
+.dashboard-cards 
+{
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+/* Стиль окремої картки показника */
+.stat-card 
+{
+    background: var(--mini-cards);
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    text-align: center;
+}
+
+/* Числове значення статистики */
+.stat-value 
+{
+    font-size: 28px;
+    font-weight: bold;
+    color: #000;
+}
+
+/* Підпис до числового значення */
+.stat-label 
+{
+    color: #000;
+    font-size: 14px;
+    margin-top: 5px;
+}
+
+/* Контейнер для графіків та аналітики */
+.dashboard-charts 
+{
+    background: var(--mini-cards);
+    padding: 25px;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    max-width: 600px; /* Обмежуємо ширину графіка */
+    height: 400px;
+    margin: 0 auto;
+}
+
+/* Область для малювання самого графіка */
+.chart-container 
+{
+    height: 300px;
+    position: relative;
+}
+
+/* Заголовок всередині блоку з графіком */
+.chart-container h3 
+{
+    text-align: center;
+    margin-bottom: 15px;
+    color: #000;
+}
+
+/* Адаптація для мобільних пристроїв */
+
+@media (max-width: 1024px) 
+{
+    .dashboard-charts 
+    {
+        max-width: 100%;
+        height: auto;
+        min-height: 350px;
+    }
+}
+
+@media (max-width: 768px) 
+{
+    .dashboard-cards 
+    {
+        grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); 
+        gap: 15px;
+    }
+
+    .stat-card 
+    {
+        padding: 15px;
+    }
+
+    .stat-value 
+    {
+        font-size: 24px;
+    }
+}
+
+@media (max-width: 600px) 
+{
+    .dashboard-charts 
+    {
+        padding: 15px;
+    }
+
+    .chart-container 
+    {
+        height: 250px;
+    }
+}
+
+@media (max-width: 600px) 
+{
+    .dashboard-cards 
+    {
+        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)) !important; 
+        gap: 10px !important;
+        width: 100% !important;
+    }
+
+    .stat-card 
+    {
+        padding: 10px !important;
+        min-width: 0 !important; 
+        width: 100% !important;
+    }
+
+    .stat-value 
+    {
+        font-size: 20px !important;
+    }
+
+    .dashboard-charts 
+    {
+        width: 100% !important;
+        max-width: 100% !important;
+        padding: 10px !important;
+        height: auto !important;
+    }
+
+    .chart-container 
+    {
+        width: 100% !important;
+        height: 200px !important; 
+    }
+
+    .admin-header 
+    {
+        width: 100% !important;
+        padding: 10px !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        gap: 10px !important;
+    }
+
+    .admin-sidebar 
+    {
+        width: 100% !important;
+        padding: 10px !important;
+        margin: 0 !important;
+    }
+
+    .admin-menu 
+    {
+        display: flex !important;
+        flex-direction: column !important; 
+        width: 100% !important;
+    }
+
+    .admin-menu-item 
+    {
+        width: 100% !important;
+        font-size: 16px !important;
+        padding: 12px !important;
+    }
+
+    .admin-container 
+    {
+        padding: 10px !important;
+        width: 100% !important;
+        overflow-x: hidden !important; 
+    }
+
+    .admin-content 
+    {
+        padding: 15px !important;
+        width: 100% !important;
+        min-width: 0 !important; 
+    }
+}
+
+@media (max-width: 500px) 
+{
+    .dashboard-cards 
+    {
+        grid-template-columns: 1fr;
+        gap: 10px;
+    }
+
+    .stat-card 
+    {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        min-width: 0; 
+    }
+
+    .dashboard-charts 
+    {
+        padding: 10px;
+        border-radius: 10px;
+    }
+
+    .chart-container 
+    {
+        height: 200px;
+    }
+}
+
+@media (max-width: 400px) 
+{
+    .stat-value 
+    {
+        font-size: 20px;
+    }
+
+    .stat-label 
+    {
+        font-size: 12px;
+    }
+
+    .chart-container h3 
+    {
+        font-size: 14px;
+    }
+}

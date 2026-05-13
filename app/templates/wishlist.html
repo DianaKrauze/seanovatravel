@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+
+{% block title %}Список бажань - SeaNova Travel{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/profile.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/wishlist.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="profile-container">
+    <aside class="profile-sidebar">
+        <div class="user-info">
+            <div class="avatar-container">
+                <img src="{{ url_for('static', filename='images/user.png') }}" alt="Аватар" class="profile-big-avatar">
+            </div>
+            <div class="nickname-container">
+                <div id="nickname-display" style="display: flex; align-items: center; gap: 10px;">
+                    <h2 class="user-email" id="current-nickname">
+                        {{ current_user.nickname if current_user.nickname else current_user.email }}
+                    </h2>
+                    <img src="{{ url_for('static', filename='images/pencil.png') }}" alt="Редагувати"
+                        class="pencil-icon" onclick="enterEditMode()">
+                </div>
+
+                <form id="nickname-form" action="{{ url_for('update_nickname') }}" method="POST" style="display: none;">
+                    <input type="text" name="new_nickname" id="nickname-input" class="edit-input" maxlength="50"
+                        value="{{ current_user.nickname if current_user.nickname else current_user.email }}">
+                </form>
+            </div>
+        </div>
+
+        <nav class="profile-menu">
+            <a href="{{ url_for('profile') }}" class="menu-item">Мої замовлення</a>
+            <a href="{{ url_for('wishlist') }}" class="menu-item active">Список бажань</a>
+            <a href="{{ url_for('chat') }}" class="menu-item">Чат з менеджером</a>
+            <a href="{{ url_for('reviews') }}" class="menu-item">Мої відгуки</a>
+            <a href="{{ url_for('logout') }}" class="menu-item logout-item">Вийти</a>
+        </nav>
+    </aside>
+
+    <main class="profile-content">
+        <h1 class="content-title">Список бажань</h1>
+        <p class="content-subtitle">Збережені тури, які вас зацікавили — щоб не загубити та повернутися пізніше</p>
+
+        <div class="wishlist-items-container">
+            {% if tours %}
+            {% for tour in tours %}
+            
+            <div class="wishlist-card" id="tour-{{ tour.id }}">
+                <img src="{{ url_for('static', filename='uploads/tours/' + tour.image_filename) if tour.image_filename else url_for('static', filename='images/default-tour.jpg') }}"
+                    class="wish-img">
+
+                <div class="wish-info">
+                    <h3 class="wish-title">{{ tour.title }} {{ tour.stars }}*</h3>
+                    <p class="wish-location">{{ tour.country }}, {{ tour.city }}</p>
+                    <p class="wish-meal">{{ tour.meal_type }}</p>
+                    <p class="wish-date">{{ format_ua_date(tour.departure_date) }} на {{ format_nights(tour.duration) }}
+                    </p>
+                    <p class="wish-price">{{ "{:,.0f}".format(tour.price).replace(',', ' ') }} за одного</p>
+                </div>
+
+                <div class="wish-actions">
+                    
+                    <button class="heart-btn" onclick="toggleHeart('{{ tour.id }}', this)">
+                        <img src="{{ url_for('static', filename='images/heart_red.png') }}" alt="Видалити"
+                            class="heart-icon">
+                    </button>
+                    <a href="{{ url_for('tour_details', tour_id=tour.id) }}" class="btn-details">Деталі</a>
+                </div>
+            </div>
+            
+            {% endfor %}
+            {% else %}
+            <div class="empty-state">
+                <p>Ваш список бажань поки порожній. <a href="{{ url_for('tours') }}">Знайти ідеальний тур?</a></p>
+            </div>
+            {% endif %}
+        </div>
+
+        <script src="{{ url_for('static', filename='js/wishlist.js') }}"></script>
+    </main>
+
+    <script src="{{ url_for('static', filename='js/user.js') }}"></script>
+</div>
+{% endblock %}

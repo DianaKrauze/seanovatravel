@@ -1,0 +1,186 @@
+{% extends "base.html" %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/search.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="search-main-wrapper">
+    <div class="search-content">
+      
+        <aside class="sidebar-filters">
+            <form action="{{ url_for('search_tours') }}" method="GET" id="filterForm">
+                
+                <div class="filter-header-row">
+                    <span class="filter-title">Фільтри</span>
+                    <a href="{{ url_for('search_tours') }}" class="reset-btn-top">Скинути все</a>
+                </div>
+
+                <!-- Країна -->
+                <div class="filter-section country-row">
+                    <label class="label-main">Країна</label>
+                    <select name="country" class="select-country" onchange="this.form.submit()">
+                        <option value="">Оберіть країну</option>
+                        {% for country in all_countries %}
+                        <option value="{{ country }}" {{ 'selected' if country==selected_country }}>{{ country }}
+                        </option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <!-- Курорт/місто -->
+                <div class="filter-section">
+                    <label class="label-main">Курорт/місто</label>
+                    <div class="checkbox-grid">
+                        <label><input type="checkbox" name="city" value="all"> Всі курорти</label>
+                        {% for city in available_cities %}
+                        <label>
+                            <input type="checkbox" name="city" value="{{ city }}" {{ 'checked' if city in
+                                selected_cities }}>
+                            {{ city }}
+                        </label>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <!-- Зірковість готелю -->
+                <div class="filter-section">
+                    <label class="label-main">Зірковість готелю</label>
+                    <div class="stars-row">
+                        {% for i in range(1, 6) %}
+                        <input type="checkbox" name="stars" value="{{ i }}" id="star{{ i }}" class="star-checkbox"
+                            {{ 'checked' if i|string in selected_stars }}>
+                        <label for="star{{ i }}" class="star-label">{{ i }}</label>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <!-- Тип харчування -->
+                <div class="filter-section">
+                    <label class="label-main">Тип харчування</label>
+                    <div class="checkbox-grid">
+                        {% for m in ['AI', 'HB', 'BB', 'OB'] %}
+                        <label>
+                            <input type="checkbox" name="meal" value="{{ m }}" {{ 'checked' if m in selected_meals }}>
+                            {{ m }}
+                        </label>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <div class="filter-section">
+                    <label class="label-main">Транспорт</label>
+                    <div class="transport-row">
+                        <!-- Жоден/Всі -->
+                        <input type="checkbox" name="transport" value="none" id="trans_none" class="trans-checkbox"
+                            {{ 'checked' if 'none' in selected_trans }}>
+                        <label for="trans_none" class="trans-label">Без тр.</label>
+
+                        <!-- Автобус -->
+                        <input type="checkbox" name="transport" value="bus" id="trans_bus" class="trans-checkbox"
+                            {{ 'checked' if 'bus' in selected_trans }}>
+                        <label for="trans_bus" class="trans-label">Автобус</label>
+
+                        <!-- Літак -->
+                        <input type="checkbox" name="transport" value="flight" id="trans_flight" class="trans-checkbox"
+                            {{ 'checked' if 'flight' in selected_trans }}>
+                        <label for="trans_flight" class="trans-label">Літак</label>
+                    </div>
+                </div>
+
+                <!-- Дата виїзду -->
+                <div class="filter-section date-row-align">
+                    <label class="label-main">Дата виїзду</label>
+                    <div class="date-container-row">
+                        <!-- Група З -->
+                        <div class="date-input-group">
+                            <span class="date-label">З</span>
+                            <input type="date" name="date_from" class="input-date-custom"
+                                value="{{ request.args.get('date_from', '') }}">
+                        </div>
+                        <!-- Група До -->
+                        <div class="date-input-group">
+                            <span class="date-label">До</span>
+                            <input type="date" name="date_to" class="input-date-custom"
+                                value="{{ request.args.get('date_to', '') }}">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Тривалість -->
+                <div class="filter-section">
+                    <div class="duration-row">
+                        <label class="label-main">Тривалість(ночей)</label>
+                        <input type="number" name="duration" class="input-num" min="1"
+                            value="{{ request.args.get('duration', '') }}">
+                    </div>
+                </div>
+
+                <!-- Ціна -->
+                <div class="filter-section price-inline-row">
+                    <label class="label-main">Ціна за особу(грн)</label>
+                    <div class="price-row">
+                        <span>Від</span>
+                        <input type="number" name="price_min" class="input-price" min="0"
+                            value="{{ request.args.get('price_min', '') }}">
+                        <span>До</span>
+                        <input type="number" name="price_max" class="input-price" min="0"
+                            value="{{ request.args.get('price_max', '') }}">
+                    </div>
+                </div>
+
+                <button type="submit" class="apply-filters-btn">Застосувати фільтри</button>
+            </form>
+        </aside>
+
+        <main class="results-container">
+            <div class="tours-grid"> 
+                {% for tour in tours %}
+                <div class="tour-card-vertical">
+                    
+                    <div class="card-img-top">
+                        <img
+                            src="{{ url_for('static', filename='uploads/tours/' + tour.image_filename) if tour.image_filename else url_for('static', filename='images/no-photo.png') }}">
+                    </div>
+
+                    <div class="card-body">
+                        
+                        <h4 class="card-title">{{ tour.title }} {{ tour.stars }}*</h4>
+                        <p class="card-location">{{ tour.country }}, {{ tour.city }}</p>
+                        <p class="card-meal">{{ tour.meal_type }}</p>
+                        <p class="card-date">
+                            {{ format_ua_date(tour.departure_date) }}
+                            <span>на {{ format_nights(tour.duration) }}</span>
+                        </p>
+                        <p class="card-price">{{ "{:,.0f}".format(tour.price).replace(',', ' ') }} грн <span>за одного</span></p>
+                        <div class="card-actions">
+                            <a href="{{ url_for('tour_details', tour_id=tour.id) }}" class="btn-details">Детальніше</a>
+
+                            <button type="button"
+                                class="btn-favorite {{ 'active' if current_user.is_authenticated and tour.id in user_wish_ids }}"
+                                onclick="toggleHeart('{{ tour.id }}', this)">
+                                {% if current_user.is_authenticated and tour.id in user_wish_ids %}
+                                <img src="{{ url_for('static', filename='images/heart_red.png') }}" alt="heart">
+                                {% else %}
+                                <img src="{{ url_for('static', filename='images/heart_black.png') }}" alt="heart">
+                                {% endif %}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                {% else %}
+                
+                <div class="no-results">
+                    <img src="{{ url_for('static', filename='images/search-empty.png') }}" alt="Empty"
+                        class="empty-img">
+                    <h3>За вашим запитом нічого не знайдено</h3>
+                    <p>Спробуйте змінити параметри фільтрації або скинути всі налаштування.</p>
+                    <a href="{{ url_for('search_tours') }}" class="reset-link-error">Скинути всі фільтри</a>
+                </div>
+                {% endfor %}
+            </div>
+        </main>
+    </div>
+</div>
+<script src="{{ url_for('static', filename='js/wishlist.js') }}"></script>
+{% endblock %}

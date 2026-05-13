@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="uk">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Звіти - SeaNova Travel</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/admin_reports.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@700&family=Pattaya&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+    {% include 'flash.html' %}
+    <header class="admin-header">
+        <div class="logo">SeaNova <span>Travel</span></div>
+        <div class="header-right">
+            <button class="theme-toggle admin-theme-btn">
+                <img src="{{ url_for('static', filename='images/sun.png') }}" alt="Світла тема" class="icon-img">
+            </button>
+            <div class="admin-avatar-static">
+                <img src="{{ url_for('static', filename='images/user.png') }}" alt="Адмін" class="admin-icon-img">
+            </div>
+            <div class="admin-welcome-container">
+                <div id="nickname-display" class="admin-welcome">
+                    <span id="current-nickname">Вітаємо, {{ current_user.nickname if current_user.nickname else
+                        current_user.email }}!</span>
+                    <img src="{{ url_for('static', filename='images/pencil.png') }}" alt="Редагувати"
+                        class="pencil-icon" onclick="enterEditMode()">
+                </div>
+                <form id="nickname-form" action="{{ url_for('update_nickname_admin') }}" method="POST"
+                    style="display: none;">
+                    <input type="text" name="new_nickname" id="nickname-input" class="edit-input-admin" maxlength="50"
+                        value="{{ current_user.nickname if current_user.nickname else current_user.email }}">
+                </form>
+            </div>
+        </div>
+    </header>
+
+    <div class="admin-container">
+        <aside class="admin-sidebar">
+            <nav class="admin-menu">
+                <a href="{{ url_for('admin_panel') }}" class="admin-menu-item">Дашборд</a>
+                <a href="{{ url_for('admin_tours') }}" class="admin-menu-item">Управління турами</a>
+                <a href="{{ url_for('admin_bookings') }}" class="admin-menu-item">Бронювання</a>
+                <a href="{{ url_for('admin_users') }}" class="admin-menu-item">Користувачі</a>
+                <a href="{{ url_for('admin_reviews') }}" class="admin-menu-item">Відгуки</a>
+                <a href="{{ url_for('admin_reports') }}" class="admin-menu-item active">Звіти</a>
+                <a href="{{ url_for('admin_chat') }}" class="admin-menu-item">Чат</a>
+                <a href="{{ url_for('logout') }}" class="admin-menu-item logout-btn">Вийти</a>
+            </nav>
+        </aside>
+
+        <main class="admin-content">
+            <h1 class="page-title">Звітність та аналітика</h1>
+
+            <div class="reports-grid">
+                <div class="report-card">
+                    <div class="report-icon-container">
+                        <img src="{{ url_for('static', filename='images/analytics.png') }}" alt="Аналітика"
+                            class="report-icon-img">
+                    </div>
+                    <h3>Статистичний звіт</h3>
+                    <p>Детальна інформація про всі здійснені бронювання, включаючи статуси та ціни.</p>
+                    <a href="{{ url_for('export_report', report_type='bookings') }}" class="admin-btn">Завантажити
+                        Excel</a>
+                </div>
+
+                <div class="report-card">
+                    <div class="report-icon-container">
+                        <img src="{{ url_for('static', filename='images/map.png') }}" alt="Карта"
+                            class="report-icon-img">
+                    </div>
+                    <h3>Популярність напрямків</h3>
+                    <p>Аналітичний звіт про те, які країни обирають найчастіше та який прибуток вони приносять.</p>
+                    <a href="{{ url_for('export_report', report_type='destinations') }}" class="admin-btn">Завантажити
+                        Excel</a>
+                </div>
+
+                <div class="report-card">
+                    <div class="report-icon-container">
+                        <img src="{{ url_for('static', filename='images/clients.png') }}" alt="Клієнти"
+                            class="report-icon-img">
+                    </div>
+                    <h3>Активність клієнтів</h3>
+                    <p>Рейтинг найбільш лояльних клієнтів на основі кількості їхніх замовлень.</p>
+                    <a href="{{ url_for('export_report', report_type='clients') }}" class="admin-btn">Завантажити
+                        Excel</a>
+                </div>
+            </div>
+        </main>
+
+        <script src="{{ url_for('static', filename='js/admin.js') }}"></script>
+        <script src="{{ url_for('static', filename='js/base.js') }}"></script>
+</body>
+
+</html>

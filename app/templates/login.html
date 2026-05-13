@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block title %}Реєстрація - SeaNova Travel{% endblock %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}">
+{% endblock %}
+
+
+{% block header %}{% endblock %}
+{% block footer %}{% endblock %}
+{% block content %}
+<div class="auth-container">
+    <div class="auth-card">
+        <div class="logo">
+            SeaNova <span>Travel</span>
+        </div>
+        <div class="user-icon">
+           <img src="{{ url_for('static', filename='images/user.png') }}" alt="Користувач">
+        </div>
+        
+        <h2>Вхід</h2>
+        <p class="subtitle">Подорожуй по всім містам разом з нами!</p>
+        
+        <form action="{{ url_for('login') }}" method="POST">
+            <div class="input-group">
+                <label>Email</label>
+                <input type="email" name="email" value="{{ email if email else '' }}" placeholder="email@example.com" required>
+            </div>
+            
+            <div class="input-group">
+                <label>Пароль</label>
+                <input type="password" name="password" placeholder="Ваш пароль" required>
+            </div>
+            
+            <div class="checkbox-group">
+                <input type="checkbox" id="terms">
+                <label for="terms">Запам'ятати мене</label>
+            </div>
+            
+            <button type="submit" class="auth-btn">Увійти</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

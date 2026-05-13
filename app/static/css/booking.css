@@ -1,0 +1,290 @@
+/* Основна обгортка сторінки бронювання */
+.booking-page-wrapper 
+{
+    padding: 50px 0;
+    display: flex;
+    justify-content: center;
+    background: transparent;
+}
+
+/* Картка з формою бронювання */
+.booking-card 
+{
+    background-color: #B4D3EE; 
+    width: 100%;
+    max-width: 1100px;
+    border-radius: 25px;
+    padding: 40px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+}
+
+/* Головний заголовок форми */
+.booking-title 
+{
+    text-align: center;
+    font-size: 32px;
+    margin-bottom: 5px;
+    color: #000;
+}
+
+/* Підзаголовок */
+.booking-subtitle 
+{
+    text-align: center;
+    font-size: 24px;
+    font-family: 'Pattaya', sans-serif;
+    margin-bottom: 30px;
+}
+
+/* Структура форми на кілька колонок */
+.booking-form 
+{
+    display: flex;
+    justify-content: space-between;
+    gap: 30px;
+}
+
+
+/* Стилі для окремих стовпчиків форми */
+.booking-col 
+{
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+/* Заголовки всередині стовпчиків */
+.col-title 
+{
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+/* Підписи до інформаційних блоків */
+.info-group label 
+{
+    color: #3E70B0;
+    font-weight: bold;
+    display: block;
+    margin-bottom: 5px;
+    font-size: 18px;
+}
+
+/* Відображення статичних значень */
+.info-value 
+{
+    font-weight: bold;
+    margin-bottom: 15px;
+    
+}
+
+/* Акцент на ціні туру */
+.price-highlight 
+{
+    font-size: 20px;
+    color: #45A8FF;
+}
+
+/* Підписи до полів вводу */
+.input-group label 
+{
+    color: #3E70B0;
+    font-weight: bold;
+    display: block;
+    margin-bottom: 5px;
+}
+
+/* Загальні стилі для інпутів та текстових полів */
+.input-group input, .input-group textarea 
+{
+    width: 100%;
+    padding: 10px 15px;
+    border-radius: 12px !important;
+    border: none;
+    outline: none;
+    font-size: 14px;
+}
+
+/* Оформлення полів лише для читання */
+.readonly-input 
+{
+    background-color: #f9f9f9;
+    color: #666;
+}
+
+/* Блок розрахунку фінальної вартості */
+.price-calculation-box 
+{
+    margin-top: 80px;
+}
+
+/* Заголовок блоку розрахунку */
+.calc-title 
+{
+    color: #000;
+    font-size: 18px;
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+/* Рядок з окремим пунктом розрахунку */
+.calc-row 
+{
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 5px;
+}
+
+/* Виділення назви послуги в розрахунку */
+.calc-row span:first-child 
+{
+    color: #3E70B0;
+    font-weight: bold;
+}
+
+/* Рядок з підсумковою сумою */
+.total-row {
+    margin-top: 10px;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+/* Контейнер для позиціонування кнопки підтвердження */
+.relative-col 
+{
+    position: relative;
+    padding-bottom: 80px; 
+}
+
+/* Кнопка відправки форми бронювання */
+.btn-submit-booking 
+{
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    background-color: #5079B5; 
+    color: #FFF;
+    font-family: 'Pattaya', sans-serif;
+    font-size: 24px;
+    padding: 10px 40px;
+    border: none;
+    border-radius: 15px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+/* Ефект наведення на кнопку */
+.btn-submit-booking:hover 
+{
+    background-color: #3e6194;
+}
+
+/* Налаштування текстового поля для коментарів */
+textarea 
+{
+    resize: none; 
+    min-height: 120px; 
+    max-height: 300px;
+}
+
+/* Великі планшети (до 1100px) */
+@media (max-width: 1100px) 
+{
+    .booking-card 
+    {
+        padding: 30px;
+    }
+    
+    .booking-form 
+    {
+        gap: 25px;
+    }
+}
+
+/* Середні екрани (до 950px) */
+@media (max-width: 950px) 
+{
+    .booking-form 
+    {
+        flex-direction: column;
+        gap: 30px;
+    }
+
+    .booking-title 
+    { 
+        font-size: 26px; 
+    }
+    
+    .relative-col 
+    {
+        padding-bottom: 0;
+    }
+
+    .btn-submit-booking 
+    {
+        position: static;
+        width: 100%;
+        margin-top: 20px;
+    }
+
+    .price-calculation-box 
+    {
+        margin-top: 10px;
+    }
+}
+
+/* Малі пристрої (до 600px) */
+@media (max-width: 600px) 
+{
+    .booking-card 
+    {
+        padding: 20px;
+        border-radius: 15px;
+    }
+
+    .booking-title 
+    { 
+        font-size: 22px; 
+    }
+    
+    .booking-subtitle 
+    { 
+        font-size: 18px; 
+        margin-bottom: 25px; 
+    }
+
+    .info-group label, .input-group label 
+    {
+        font-size: 14px;
+    }
+
+    .info-value 
+    {
+        font-size: 16px;
+    }
+
+    .input-group input, .input-group textarea 
+    {
+        font-size: 16px; 
+    }
+
+    .calc-row 
+    {
+        font-size: 14px;
+    }
+}
+
+/* Дуже малі екрани (до 380px) */
+@media (max-width: 380px) 
+{
+    .booking-page-wrapper 
+    {
+        padding: 10px 5px;
+    }
+    
+    .total-row 
+    {
+        font-size: 18px;
+    }
+}

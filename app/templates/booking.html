@@ -1,0 +1,125 @@
+{% extends "base.html" %}
+
+{% block title %}Оформлення бронювання - SeaNova Travel{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/booking.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="booking-page-wrapper">
+    <div class="booking-card">
+        <h1 class="booking-title">Оформлення бронювання</h1>
+        <p class="booking-subtitle">Заповніть форму нижче - менеджер підтвердить бронювання протягом кількох годин</p>
+
+        <form action="{{ url_for('book_tour', tour_id=tour.id) }}" method="POST" class="booking-form" id="booking-form">
+            <input type="hidden" id="base-price" value="{{ tour.price }}">
+
+            <!-- Стовпчик 1: Інформація про тур -->
+            <div class="booking-col">
+                <h2 class="col-title">Інформація про тур</h2>
+                
+                <div class="info-group">
+                    <label>Назва туру</label>
+                    <p class="info-value"><strong>{{ tour.title }}</strong></p>
+                </div>
+                
+                <div class="info-group">
+                    <label>Країна(напрямок)</label>
+                    <p class="info-value">{{ tour.country }}, {{ tour.city }}</p>
+                </div>
+                
+                <div class="info-group">
+                    <label>Дата виїзду</label>
+                    <p class="info-value">{{ format_ua_date(tour.departure_date) }}</p>
+                </div>
+                
+                <div class="info-group">
+                    <label>Тривалість</label>
+                    <p class="info-value">{{ format_nights(tour.duration) }}</p>
+                </div>
+
+                <div class="info-group">
+                    <label>Тип транспорту</label>
+                    <p class="info-value">
+                        {% if tour.transport_type == 'bus' %}Автобус
+                        {% elif tour.transport_type == 'flight' %}Літак
+                        {% else %}Не включено{% endif %}
+                    </p>
+                </div>
+
+                <div class="info-group">
+                    <label>Тип харчування</label>
+                    <p class="info-value">{{ tour.meal_type }}</p>
+                </div>
+
+                <div class="info-group">
+                    <label>Тип номера</label>
+                    <p class="info-value">{{ tour.room_type }}</p>
+                </div>
+
+                <div class="info-group">
+                    <label>Ціна за 1 особу</label>
+                    <p class="info-value price-highlight">{{ tour.price }} грн</p>
+                </div>
+            </div>
+
+            <!-- Стовпчик 2: Дані клієнта -->
+            <div class="booking-col">
+                <h2 class="col-title">Дані клієнта</h2>
+
+                <div class="input-group">
+                    <label for="full_name">ПІБ</label>
+                    <input type="text" name="full_name" id="full_name" placeholder="Іванченко Надія Василівна" required>
+                </div>
+
+                <div class="input-group">
+                    <label>Email</label>
+                    <input type="email" value="{{ current_user.email }}" readonly class="readonly-input">
+                </div>
+
+                <div class="input-group">
+                    <label for="phone-input">Телефон</label>
+                    <input type="tel" name="phone" id="phone-input" placeholder="+380_________" required>
+                    <small id="phone-error" style="color: #d9534f; display: none;">Введіть коректний номер +380...</small>
+                </div>
+
+                <div class="price-calculation-box">
+                    <h3 class="calc-title">Розрахунок вартості</h3>
+                    <div class="calc-row">
+                        <span>Ціна за 1 особу</span>
+                        <span class="calc-val">{{ tour.price }} грн</span>
+                    </div>
+                    <div class="calc-row">
+                        <span>Кількість осіб</span>
+                        <span class="calc-val" id="res-people-count">1</span>
+                    </div>
+                    <div class="calc-row total-row">
+                        <span>Загальна вартість</span>
+                        <span class="calc-val" id="res-total-price">{{ tour.price }} грн</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Стовпчик 3: Деталі бронювання -->
+            <div class="booking-col relative-col">
+                <h2 class="col-title">Деталі бронювання</h2>
+
+                <div class="input-group">
+                    <label for="people-input">Кількість осіб</label>
+                    <input type="number" name="people_count" id="people-input" min="1" max="50" value="1" required>
+                </div>
+
+                <div class="input-group">
+                    <label for="comment">Коментар</label>
+                    <textarea name="comment" id="comment" placeholder="Ваші побажання щодо туру..."></textarea>
+                </div>
+
+                <button type="submit" class="btn-submit-booking">Забронювати</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script src="{{ url_for('static', filename='js/booking.js') }}"></script>
+{% endblock %}

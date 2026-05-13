@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="uk">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Панель керування - SeaNova Travel</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@700&family=Pattaya&display=swap"
+        rel="stylesheet">
+</head>
+
+
+<body>
+    {% include 'flash.html' %}
+    <header class="admin-header">
+        <div class="logo">SeaNova <span>Travel</span></div>
+        <div class="header-right">
+            <button class="theme-toggle admin-theme-btn">
+                <img src="{{ url_for('static', filename='images/sun.png') }}" alt="Світла тема" class="icon-img">
+            </button>
+
+            <div class="admin-avatar-static">
+                <img src="{{ url_for('static', filename='images/user.png') }}" alt="Адмін" class="admin-icon-img">
+            </div>
+
+            <div class="admin-welcome-container">
+                <div id="nickname-display" class="admin-welcome">
+                    <span id="current-nickname">Вітаємо, {{ current_user.nickname if current_user.nickname else
+                        current_user.email }}!</span>
+                    <img src="{{ url_for('static', filename='images/pencil.png') }}" alt="Редагувати"
+                        class="pencil-icon" onclick="enterEditMode()">
+                </div>
+
+                <form id="nickname-form" action="{{ url_for('update_nickname_admin') }}" method="POST"
+                    style="display: none;">
+                    <input type="text" name="new_nickname" id="nickname-input" class="edit-input-admin" maxlength="50"
+                        value="{{ current_user.nickname if current_user.nickname else current_user.email }}">
+                </form>
+            </div>
+        </div>
+    </header>
+
+    <div class="admin-container">
+        <aside class="admin-sidebar">
+            <nav class="admin-menu">
+                <a href="#" class="admin-menu-item active">Дашборд</a>
+                <a href="{{ url_for('admin_tours') }}" class="admin-menu-item">Управління турами</a>
+                <a href="{{ url_for('admin_bookings') }}" class="admin-menu-item">Бронювання</a>
+                <a href="{{ url_for('admin_users') }}" class="admin-menu-item">Користувачі</a>
+                <a href="{{ url_for('admin_reviews') }}" class="admin-menu-item">Відгуки</a>
+                <a href="{{ url_for('admin_reports') }}" class="admin-menu-item">Звіти</a>
+                <a href="{{ url_for('admin_chat') }}" class="admin-menu-item">Чат</a>
+                <a href="{{ url_for('logout') }}" class="admin-menu-item logout-btn">Вийти</a>
+            </nav>
+        </aside>
+
+        <main class="admin-content">
+            <h1 class="page-title">Панель керування</h1>
+
+            <div class="dashboard-cards">
+                <div class="stat-card">
+                    <div class="stat-value">{{ new_bookings }}</div>
+                    <div class="stat-label">Нові замовлення</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">{{ pending_orders }}</div>
+                    <div class="stat-label">Очікують оплати</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">{{ total_clients }}</div>
+                    <div class="stat-label">Усього клієнтів</div>
+                </div>
+            </div>
+
+            <div class="dashboard-charts">
+                <div class="chart-container">
+                    <h3>Популярні напрямки</h3>
+                    <canvas id="popularDestinationsChart"></canvas>
+                </div>
+            </div>
+        </main>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        const chartLabels = JSON.parse('{{ labels|tojson|safe }}');
+        const chartData = JSON.parse('{{ data|tojson|safe }}');
+    </script>
+    <script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/admin.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/base.js') }}"></script>
+</body>
+
+</html>

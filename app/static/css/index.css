@@ -1,0 +1,150 @@
+
+/*Гнучке розташування карток*/
+.features-grid 
+{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 35px;
+    width: 100%;
+}
+
+/* Картка */
+.card 
+{
+    background-color: var(--card-bg);
+    border-radius: 30px;
+    padding: 40px 30px;
+    width: 360px; 
+    min-height: 480px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: transform 0.3s ease;
+}
+
+/* Ефект при наведенні на картку */
+.card:hover 
+{
+    transform: translateY(-15px);
+    background-color: var(--hover); 
+}
+/* Іконка картки */
+.card-icon 
+{
+    margin-bottom: 20px;
+}
+/* Зображення іконки */
+.icon-img 
+{
+    width: 100px;
+    height: 100px;
+    object-fit: contain;
+}
+/* Заголовок картки */
+.card h3 
+{
+    font-size: 20px;
+    color: var(--accent-color);
+    margin-bottom: 20px;
+    font-weight: 800;
+}
+/* Текст картки */
+.card p 
+{
+    font-family: 'Pattaya', sans-serif;
+    font-weight: 400; 
+    font-size: 18px;
+    color: #000;
+    line-height: 1.6;
+    margin-bottom: 25px;
+}
+/* Кнопка в картці */
+.card-btn 
+{
+    background-color: var(--btn-login-bg);
+    color: var(--btn-text);
+    border: none;
+    text-decoration: none;
+    padding: 14px 28px;
+    border-radius: 15px;
+    cursor: pointer;
+    font-family: 'Pattaya', sans-serif;
+    font-size: 19px;
+    transition: all 0.3s ease;
+}
+/* Hover ефект кнопки */
+.card-btn:hover 
+{
+    background-color: #2a4d74;
+    transform: scale(1.05);
+}
+
+/* Адаптивність для планшетів (до 1024px) */
+@media (max-width: 1024px) 
+{
+    .features-grid 
+    {
+        gap: 20px; 
+    }
+
+    .card 
+    {
+        width: 320px; 
+        padding: 30px 20px;
+        min-height: 450px;
+    }
+}
+
+/* Адаптивність для мобільних пристроїв (до 768px) */
+@media (max-width: 768px) 
+{
+    .features-grid 
+    {
+        padding: 0 10px; 
+    }
+
+    .card 
+    {
+        width: 100%; 
+        max-width: 400px; 
+        min-height: auto; 
+        border-radius: 20px; 
+        padding: 25px 20px;
+    }
+
+    .icon-img 
+    {
+        width: 80px; 
+        height: 80px;
+    }
+
+    .card h3 
+    {
+        font-size: 18px; 
+        margin-bottom: 15px;
+    }
+
+    .card p 
+    {
+        font-size: 16px; 
+        margin-bottom: 20px;
+    }
+     
+    .card:hover 
+    {
+        transform: none;
+    }
+}
+
+/* Зовсім маленькі екрани (до 480px) */
+@media (max-width: 480px) 
+{
+    .card-btn 
+    {
+        width: 100%; 
+        padding: 12px;
+        font-size: 17px;
+    }
+}

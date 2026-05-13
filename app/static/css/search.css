@@ -1,0 +1,769 @@
+/* Основний контейнер пошуку зі структурою сайдбару та результатів */
+.search-content 
+{
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    gap: 30px;
+    max-width: auto;
+    margin: 20px auto;
+    padding: 0 15px;
+}
+
+/* Ліва панель фільтрів, що залишається видимою при скролі */
+.sidebar-filters 
+{
+    position: sticky;
+    width: 500px;
+    min-width: 500px;
+    background-color: var(--card-bg);
+    border-radius: 10px;
+    padding: 20px;
+    color: #2c4a7c;
+    font-family: Arial, sans-serif;
+}
+
+/* Верхній рядок фільтрів із заголовком та кнопкою скидання */
+.filter-header-row 
+{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+/* Стилізація заголовка блоку фільтрів */
+.filter-title 
+{ 
+    font-size: 24px; 
+    font-weight: bold; 
+    color: #000;
+}
+
+/* Кнопка швидкого скидання всіх обраних параметрів */
+.reset-btn-top 
+{
+    background-color: var(--btn-profile);
+    color: var(--btn-text);
+    text-decoration: none;
+    padding: 5px 70px;
+    border-radius: 5px;
+    font-size: 24px;
+    font-family: 'Pattaya', sans-serif;
+    transition: 0.3s;
+}
+
+.reset-btn-top:hover 
+{ 
+    background-color: #579CED; 
+}
+
+/* Окремий логічний блок фільтрації */
+.filter-section 
+{ 
+    margin-bottom: 20px; 
+}
+
+/* Головний підпис до кожного фільтра */
+.label-main 
+{
+    display: block;
+    font-weight: bold;
+    margin-bottom: 8px;
+    color: var(--accent-color);
+    font-size: 24px;
+}
+
+/* Стилізація селекту вибору країни */
+.select-country 
+{
+    flex: 1;                 
+    min-width: 265px;        
+    max-width: 355px;
+    border-radius: 5px;
+    background-color: var(--btn-profile);
+    font-family: 'Pattaya', sans-serif;
+    font-size: 24px;
+    padding: 5px 40px;
+    color: var(--btn-text);
+}
+
+/* Рядок вибору країни з горизонтальним вирівнюванням */
+.filter-section.country-row 
+{
+    display: flex;            
+    align-items: center;      
+    justify-content: space-between; 
+    gap: 10px;                
+}
+
+/* Налаштування тексту для рядка з країною */
+.filter-section.country-row .label-main 
+{
+    margin-bottom: 0;         
+    white-space: nowrap;  
+    color: var(--accent-color);   
+    font-size: 24px;
+}
+
+/* Корекція ширини селекту в рядку */
+.country-row .select-country 
+{
+    flex-grow: 1;             
+    max-width: 140px;        
+}
+
+/* Сітка для відображення чекбоксів */
+.checkbox-grid 
+{
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
+    gap: 20px;
+}
+
+/* Стилізація текстового підпису до чекбокса */
+.checkbox-grid label 
+{
+    font-size: 18px;
+    color: #000;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+}
+
+/* Рядок вибору кількості зірок готелю */
+.stars-row 
+{ 
+    display: flex; 
+    gap: 30px; 
+}
+
+/* Приховування чекбокса для кастомних кнопок-зірок */
+.star-checkbox 
+{ 
+    display: none; 
+}
+
+/* Кастомна кнопка вибору зірок */
+.star-label 
+{
+    background-color: var(--star-label);
+    color: var(--btn-text);
+    padding: 6px 14px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: 0.2s;
+}
+
+/* Стан обраної зірки */
+.star-checkbox:checked + .star-label 
+{
+    background-color: #579CED;
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.2);
+}
+
+/* Групування кнопок вибору виду транспорту */
+.transport-row 
+{
+    display: flex;
+    gap: 20px; 
+    flex-wrap: wrap; 
+}
+
+
+.trans-checkbox 
+{
+    display: none;
+}
+
+/* Кнопка вибору транспорту з текстом */
+.trans-label 
+{
+    background-color: var(--btn-profile); 
+    color: var(--btn-text);
+    padding: 8px 12px;
+    border-radius: 12px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    text-align: center;
+    flex: 1; 
+    min-width: 80px;
+    transition: 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Ефект наведення */
+.trans-label:hover 
+{
+    background-color: #579CED;
+}
+
+/* Стан обраного виду транспорту */
+.trans-checkbox:checked + .trans-label 
+{
+    background-color: #579CED; 
+    box-shadow: inset 0 2px 5px rgba(0,0,0,0.2);
+    outline: 2px solid #FFF; 
+}
+
+/* Вирівнювання полів вибору дати */
+.filter-section.date-row-align 
+{
+    display: flex;
+    align-items: flex-end; 
+    justify-content: space-between;
+    gap: 10px;
+}
+
+/* Групування інпутів для діапазону дат */
+.date-container-row 
+{
+    display: flex;
+    gap: 15px; 
+}
+
+/* Вертикальне групування підпису та календаря */
+.date-input-group 
+{
+    display: flex;
+    flex-direction: column; 
+    gap: 4px; 
+}
+
+/* Стиль підписів "з" та "до" */
+.date-label 
+{
+    font-size: 16px;
+    font-weight: bold;
+    color: #000;
+    text-align: center;
+}
+
+/* Дизайн поля введення дати */
+.input-date-custom 
+{
+    border: none;
+
+    border-radius: 8px;
+    padding: 8px 10px;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 14px;
+    width: 140px; 
+    background-color: var(--input-bg);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    outline: none;
+}
+
+/* Рядок вибору тривалості подорожі */
+.duration-row 
+{
+    display: flex;            
+    align-items: center;     
+    justify-content: flex-start; 
+    gap: 40px;                
+}
+
+
+.duration-row .label-main 
+{
+    margin-bottom: 0; 
+    white-space: nowrap;     
+}
+
+/* Маленьке числове поле для кількості днів */
+.input-num 
+{
+    min-width: 100px;              
+    height: 35px;             
+    border: none;
+    border-radius: 8px;
+    background-color: var(--input-bg);
+    text-align: center;      
+    font-weight: bold;
+    color: #000;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    outline: none;
+}
+
+/* Компактне відображення вибору ціни в один рядок */
+.price-inline-row 
+{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+
+.price-inline-row .label-main 
+{
+    margin-bottom: 0;
+    white-space: nowrap;
+}
+
+/* Блок з двома інпутами для діапазону цін */
+.price-row 
+{
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    flex-wrap: nowrap; 
+}
+
+.price-row span 
+{
+    font-weight: bold;
+    color: #000;
+    font-size: 18px;
+}
+
+/* Поле для введення суми */
+.input-price 
+{
+    width: 70px; 
+    border: none;
+    border-radius: 8px;
+    padding: 6px;
+    outline: none;
+    background-color: var(--input-bg);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    text-align: center;
+}
+
+/* Головна кнопка застосування фільтрів */
+.apply-filters-btn 
+{
+    width: 100%;
+    background-color: var(--btn-profile);
+    color: var(--btn-text);
+    border: none;
+    padding: 12px;
+    border-radius: 5px;
+    font-size: 24px;
+    font-family: 'Pattaya', sans-serif;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.apply-filters-btn:hover 
+{ 
+    background-color: #579CED; 
+}
+
+/* Контейнер для списку знайдених турів */
+.results-container 
+{
+    flex-grow: 1;
+}
+
+/* Гнучка сітка для карток турів (3 колонки) */
+.tours-grid 
+{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    width: 100%;
+}
+
+/* Стилізація вертикальної картки туру */
+.tour-card-vertical 
+{
+    background-color: var(--card-bg); 
+    border-radius: 15px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    transition: transform 0.2s;
+    min-height: 400px;
+}
+
+/* Ефект підняття картки при наведенні */
+.tour-card-vertical:hover 
+{
+    transform: translateY(-5px);
+}
+
+/* Контейнер для зображення у верхній частині картки */
+.card-img-top 
+{
+    width: 100%;
+    height: 100px;
+}
+
+.card-img-top img 
+{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Текстовий контент всередині картки */
+.card-body 
+{
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    flex-grow: 1;
+}
+
+.card-title 
+{
+    font-size: 24px;
+    font-weight: bold;
+    color: #000;
+    margin: 5px 0;
+}
+
+/* Відображення локації туру */
+.card-location 
+{
+    font-size: 18px;
+    color: var(--accent-color); 
+    font-weight: bold;
+}
+
+/* Інформація про харчування */
+.card-meal 
+{
+    font-size: 18px;
+    color: #5079B5;
+    opacity: 0.8;
+}
+
+/* Дати проведення туру */
+.card-date 
+{
+    font-size: 18px;
+    font-weight: bold;
+    color: #000;
+    margin: 5px 0;
+}
+
+.card-date span 
+{
+    font-weight: normal;
+}
+
+/* Ціна туру з акцентом */
+.card-price 
+{
+    font-size: 18px;
+    color: var(--accent-color);
+    font-weight: bold;
+    margin: 10px 0;
+}
+
+.card-price span 
+{
+    font-size: 16px;
+    color: #000;
+    font-weight: normal;
+}
+
+/* Нижня частина картки з кнопками */
+.card-actions 
+{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    margin-top: auto;
+    padding-bottom: 15px;
+}
+
+/* Кнопка переходу до детальної інформації */
+.btn-details 
+{
+    background-color: var(--btn-profile);
+    color: var(--btn-text);
+    text-decoration: none;
+    padding: 8px 18px;
+    border-radius: 8px;
+    font-size: 18px;
+    font-family: 'Pattaya', sans-serif;
+    transition: 0.3s;
+}
+
+.btn-details:hover 
+{
+    background-color: #45A8FF;
+}
+
+/* Кнопка додавання туру в обране */
+.btn-favorite 
+{
+    background-color: var(--card-bg); 
+    border: 2px solid var(--btn-profile);
+    width: 50px; 
+    height: 50px;
+    flex-shrink: 0;
+    flex-grow: 0;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    padding: 0;
+    align-self: center;
+}
+
+/* Стилізація іконки серця */
+.btn-favorite img 
+{
+    width: 24px; 
+    height: 24px;
+    object-fit: contain;
+    transition: filter 0.3s ease;
+}
+
+.btn-favorite:hover 
+{
+    background-color: #5079B5;
+}
+
+/* Стан кнопки, коли тур вже в обраному */
+.btn-favorite.active 
+{
+    background-color: var(--btn-favorite); 
+}
+
+.btn-favorite:hover img 
+{
+    filter: brightness(0) invert(1);
+}
+
+/* Блок повідомлення, якщо за фільтрами нічого не знайдено */
+.no-results 
+{
+    grid-column: 1 / -1; 
+    text-align: center;
+    padding: 60px 20px;
+    background: var(--card-bg); 
+    border-radius: 15px;
+    color: #000;
+    min-height: 300px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.no-results h3
+{
+    font-size: 28px;
+    margin-bottom: 10px;
+}
+
+.no-results p 
+{
+    font-family: 'Pattaya', sans-serif;
+    font-size: 18px;
+    margin-bottom: 20px;
+}
+
+/* Посилання для скидання параметрів при помилці пошуку */
+.reset-link-error 
+{
+    background-color: var(--btn-profile);
+    color: var(--btn-text);
+    text-decoration: none;
+    padding: 10px 25px;
+    border-radius: 8px;
+    font-size: 20px;
+    font-family: 'Pattaya', sans-serif;
+    transition: 0.3s;
+}
+
+.reset-link-error:hover 
+{
+    background-color: #45A8FF;
+}
+
+/* Корекція гнучкості правої частини результатів */
+.results-container 
+{
+    flex-grow: 1;
+    min-width: 0; 
+}
+
+/* Адаптивність для планшетів (1100px) */
+@media (max-width: 1150px) 
+{
+    .sidebar-filters 
+    {
+        width: 350px;
+        min-width: 350px;
+    }
+
+    .duration-row, .price-inline-row 
+    {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+    }
+    .input-num, .price-row 
+    {
+        width: 100%;
+        max-width: 200px; 
+    }
+
+    .filter-header-row 
+    {
+        flex-direction: column; 
+        align-items: flex-start;
+        gap: 10px;
+    }
+
+    .filter-title 
+    {
+        font-size: 20px;
+    }
+
+    .reset-btn-top 
+    {
+        font-size: 16px; 
+        padding: 5px 20px; 
+        width: 100%; 
+        box-sizing: border-box;
+    }
+
+    .filter-section.country-row 
+    {
+        flex-direction: column; 
+        align-items: flex-start;
+        gap: 8px;
+    }
+
+    .country-row .select-country 
+    {
+        max-width: 100%; 
+        width: 100%;
+        font-size: 18px; 
+    }
+    
+    .filter-section.date-row-align 
+    {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+
+    .date-container-row 
+    {
+        width: 100%;
+        justify-content: flex-start;
+    }
+
+    .tours-grid 
+    {
+        grid-template-columns: repeat(2, 1fr) !important;
+    }
+}
+
+
+@media (max-width: 850px) 
+{
+    .search-content 
+    {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .sidebar-filters 
+    {
+        width: 100% !important;
+        min-width: 100% !important;
+        position: relative;
+        top: 0;
+    }
+
+    .tours-grid 
+    {
+        grid-template-columns: repeat(2, 1fr) !important;
+    }
+
+    .country-row .select-country 
+    {
+        max-width: 100%;
+        flex: 1;
+    }
+}
+
+/* Мобільні пристрої */
+@media (max-width: 768px) 
+{
+    .filter-header-row 
+    {
+        flex-direction: column;
+        gap: 15px;
+        text-align: center;
+    }
+
+    .reset-btn-top 
+    {
+        width: 100%;
+    }
+
+    .filter-section.country-row,.filter-section.date-row-align,.duration-row,.price-inline-row 
+    {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 10px;
+    }
+
+    .date-container-row 
+    {
+        width: 100%;
+    }
+
+    .date-input-group 
+    {
+        flex: 1;
+    }
+
+    .input-date-custom, .input-num, .input-price 
+    {
+        width: 100% !important;
+        box-sizing: border-box;
+    }
+
+    .tours-grid 
+    {
+        grid-template-columns: 1fr !important;
+    }
+
+    .trans-label 
+    {
+        width: calc(50% - 10px); 
+        flex: none;
+    }
+}
+
+/* Малі екрани */
+@media (max-width: 450px) 
+{
+    .trans-label 
+    {
+        width: 100%; 
+    }
+
+    .filter-title 
+    {
+        font-size: 20px;
+    }
+
+    .label-main 
+    {
+        font-size: 18px;
+    }
+}

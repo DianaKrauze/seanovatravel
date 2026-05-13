@@ -1,0 +1,252 @@
+/* Вертикальний контейнер для списку обраних турів */
+.wishlist-items-container 
+{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    margin-top: 20px;
+}
+
+/* Картка обраного туру з горизонтальним розміщенням елементів */
+.wishlist-card 
+{
+    position: relative;
+    display: flex;
+    align-items: center;
+    background: var(--mini-cards);
+    border-radius: 15px;
+    padding: 15px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    transition: transform 0.2s;
+}
+
+/* Зображення туру в списку обраного */
+.wish-img 
+{
+    width: 200px;
+    height: 120px;
+    object-fit: cover;
+    border-radius: 10px;
+}
+
+/* Блок з текстовою інформацією про тур */
+.wish-info 
+{
+    flex-grow: 1;
+    padding: 0 25px;
+}
+
+/* Назва туру в картці обраного */
+.wish-title 
+{
+    margin: 0 0 5px 0;
+    color: #000;
+    font-size: 24px;
+}
+
+/* Відображення локації туру */
+.wish-location 
+{
+    color:var(--text);
+}
+
+/* Дати проведення туру */
+.wish-date
+{
+    color: #000;
+}
+
+/* Вартість туру */
+.wish-price
+{
+    color:var(--text);
+}
+
+/* Інформація про тип харчування */
+.wish-meal 
+{
+    color: #5079B5;
+}
+
+/* Контейнер для кнопок дії */
+.wish-actions 
+{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 15px;
+}
+
+/* Кнопка-серце для видалення зі списку обраного */
+.heart-btn 
+{
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+}
+
+/* Стилізація іконки серця та ефект збільшення */
+.heart-icon 
+{
+    width: 60px;
+    height: auto;
+    transition: scale 0.2s;
+}
+
+.heart-btn:hover .heart-icon 
+{
+    transform: scale(1.2);
+}
+
+/* Кнопка переходу до повного опису туру */
+.btn-details 
+{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--btn-profile); 
+    color: var(--btn-text) !important; 
+    text-decoration: none;
+    font-family: 'Pattaya', sans-serif; 
+    font-size: 28px;
+    padding: 10px 30px;
+    border-radius: 12px;
+    width: 140px; 
+    text-align: center;
+    transition: background 0.3s;
+    margin-top: 50px; 
+    margin-right: 100px;
+}
+
+/* Ефект зміни кольору фону при наведенні */
+.btn-details:hover 
+{
+    background-color: #4a6fa5;
+}
+
+/* Планшети та середні екрани (до 1024px) */
+@media (max-width: 1024px) 
+{
+    .wish-img 
+    {
+        width: 180px;
+        height: 110px;
+    }
+
+    .wish-title 
+    {
+        font-size: 20px;
+    }
+
+    .btn-details 
+    {
+        margin-right: 0; 
+        font-size: 22px;
+        padding: 8px 20px;
+        width: auto;
+    }
+}
+
+/* Для смартфонів */
+@media (max-width: 850px) 
+{
+    .wishlist-card {
+        flex-direction: column; 
+        align-items: center;
+        text-align: center;
+        padding: 20px;
+    }
+
+    .wish-img 
+    {
+        width: 100%; 
+        height: 200px;
+        margin-bottom: 15px;
+    }
+
+    .wish-info 
+    {
+        padding: 0;
+        width: 100%;
+        margin-bottom: 20px;
+    }
+
+    .wish-actions 
+    {
+        width: 100%;
+        flex-direction: row; 
+        justify-content: space-between;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .btn-details 
+    {
+        margin: 10px auto 0 auto !important;
+        display: flex !important; 
+        justify-content: center;
+        align-items: center;
+        width: 200px !important; 
+        max-width: 100%;
+        position: static !important;
+    }
+
+    .heart-icon 
+    {
+        width: 45px;
+    }
+}
+
+/* Малі мобільні пристрої (до 480px) */
+@media (max-width: 480px) 
+{
+    .wishlist-items-container 
+    {
+        gap: 15px;
+        padding: 0 10px;
+    }
+
+    .wishlist-card 
+    {
+        padding: 15px;
+        border-radius: 12px;
+    }
+
+    .wish-img 
+    {
+        height: 160px;
+    }
+
+    .wish-title 
+    {
+        font-size: 18px;
+    }
+
+    .wish-info p 
+    {
+        font-size: 14px;
+        margin: 4px 0;
+    }
+
+    .wish-actions 
+    {
+        flex-direction: column; 
+        align-items: stretch;
+    }
+
+    .btn-details 
+    {
+        width: 100% !important;
+        font-size: 20px;
+        padding: 10px;
+    }
+
+    .heart-icon 
+    {
+        width: 40px;
+    }
+}

@@ -1,0 +1,139 @@
+/* Головний контейнер сторінки контактів */
+.contacts-container 
+{
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 0 20px;
+}
+
+/* Верхній блок з вітальним текстом */
+.contacts-hero 
+{
+    background: var(--card-bg);
+    padding: 40px;
+    border-radius: 20px;
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+/* Головний заголовок сторінки */
+.contacts-hero h1 
+{
+    color: var(--accent-color);
+    font-size: 32px;
+    margin-bottom: 15px;
+}
+
+/* Текст опису в верхньому блоці */
+.contacts-hero p
+{
+    color: var(--text-color);
+    font-size: 24px;
+    font-family: 'Pattaya', sans-serif;
+    margin-bottom: 15px;
+}
+
+/* Сітка для карток з контактними даними */
+.contacts-grid 
+{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 25px;
+}
+
+/* Стилі окремої картки контакту */
+.contact-card 
+{
+    background: var(--card-bg);
+    padding: 30px;
+    border-radius: 20px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Заголовки всередині карток */
+.contact-card h2 
+{
+    color: var(--accent-color);
+    font-size: 32px;
+    margin-bottom: 20px;
+}
+
+/* Текстовий контент всередині карток */
+.card-content p 
+{
+    font-family: 'Pattaya', sans-serif;
+    font-size: 24px;
+    margin-bottom: 15px;
+    line-height: 1.5;
+    color: var(--text-color);
+}
+
+/* Адаптація для планшетів та смартфонів (до 992px) */
+@media (max-width: 992px) 
+{
+    .contacts-grid 
+    {
+        grid-template-columns: 1fr; /* Картки стають одна під одною */
+        gap: 20px;
+    }
+
+    .contacts-hero 
+    {
+        padding: 30px 20px;
+    }
+
+    .contacts-hero h1 
+    {
+        font-size: 28px;
+    }
+}
+
+/* Для стандартних смартфонів (до 768px) */
+@media (max-width: 768px) 
+{
+    .contacts-container 
+    {
+        margin: 20px auto;
+        padding: 0 10px;
+    }
+
+    /* Зменшуємо шрифти для зручності */
+    .contacts-hero p, 
+    .card-content p 
+    {
+        font-size: 18px; /* Замість 24px, щоб текст не розтягував картку */
+    }
+
+    .contact-card h2 
+    {
+        font-size: 24px; /* Замість 32px */
+        margin-bottom: 15px;
+    }
+
+    .contact-card 
+    {
+        padding: 20px;
+    }
+}
+
+/* Для дуже малих екранів */
+@media (max-width: 380px) 
+{
+    .contacts-hero h1 
+    {
+        font-size: 22px;
+    }
+
+    .contacts-hero p, 
+    .card-content p 
+    {
+        font-size: 16px;
+    }
+
+    .contact-card h2 
+    {
+        font-size: 20px;
+    }
+}

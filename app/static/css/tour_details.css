@@ -1,0 +1,312 @@
+/* Основний контейнер для центрування картки деталей туру */
+.tour-details-container 
+{
+    padding: 40px 20px;
+    display: flex;
+    justify-content: center;
+}
+
+/* Головна картка з розділенням на фото та інформацію */
+.tour-details-card 
+{
+    background-color: var(--card-bg);
+    border-radius: 15px;
+    display: flex;
+    max-width: 1000px;
+    width: 100%;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    min-height: 500px; 
+}
+
+/* Секція для відображення головного фото туру */
+.tour-image-section 
+{
+    flex: 1;
+    min-width: 50%;
+}
+
+/* Налаштування заповнення зображенням всієї лівої області */
+.main-tour-img 
+{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+/* Права колонка з текстовим описом та характеристиками */
+.tour-info-section 
+{
+    flex: 1;
+    padding: 30px;
+    color: #2c4a7c;
+    display: flex;
+    flex-direction: column; 
+}
+
+/* Заголовок з назвою обраного туру */
+.tour-title 
+{
+    color: #000;
+    font-size: 28px;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+/* Текст з локацією туру */
+.tour-location 
+{
+    font-size: 18px;
+    color: var(--accent-color);
+    margin-bottom: 20px;
+}
+
+/* Основний блок з детальним описом програми */
+.tour-description 
+{
+    margin-bottom: 20px;
+    line-height: 1.4;
+}
+
+/* Список основних параметрів */
+.info-grid 
+{
+    margin-bottom: 20px;
+}
+
+/* Рядок окремого параметра */
+.info-item 
+{
+    margin-bottom: 5px;
+    display: block; 
+}
+
+/* Колір та накреслення назви категорії */
+.info-label 
+{
+    font-weight: bold;
+    color: #5079B5; 
+    margin-right: 5px;
+}
+
+/* Стилізація значення параметра */
+.info-value 
+{
+    color: #000000; 
+    font-weight: 500;
+}
+
+/* Блок з додатковими тегами послуг */
+.included-services 
+{
+    margin-bottom: 30px;
+}
+
+/* Заголовок списку послуг */
+.services-title 
+{
+    font-weight: bold;
+    font-size: 18px;
+    margin-bottom: 10px;
+    color: #5079B5;
+}
+
+/* Контейнер для гнучкого розміщення тегів послуг */
+.services-list 
+{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+/* Стилізація окремого тега послуги */
+.service-tag 
+{
+    background-color: var(--btn-register-bg); 
+    color: var(--btn-text); 
+    padding: 8px 20px;
+    border-radius: 10px;
+    font-size: 18px;
+    font-family: 'Pattaya', sans-serif; 
+    border: none;
+}
+
+/* Блок кнопок взаємодії внизу картки */
+.tour-actions 
+{
+    margin-top: auto; 
+    display: flex;
+    gap: 15px;
+    align-items: center;
+}
+
+/* Кнопка швидкого бронювання туру */
+.btn-book 
+{
+    background-color: var(--btn-profile); 
+    color: var(--btn-text);
+    border: none;
+    padding: 12px 30px;
+    border-radius: 12px;
+    font-size: 24px;
+    font-family: 'Pattaya', sans-serif;
+    font-weight: bold;
+    cursor: pointer;
+    flex: 1; 
+    transition: 0.3s;
+    text-align: center;
+}
+
+.btn-book:hover 
+{
+    background-color: #579CED;
+}
+
+/* Квадратна кнопка додавання в обране */
+.btn-wishlist 
+{
+    background-color: var(--btn-profile); 
+    border: 2px solid #5079B5;
+    width: 58px;
+    height: 58px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: 0.3s;
+    padding: 0;
+}
+
+.btn-wishlist:hover 
+{
+    background-color: #5079B5;
+}
+
+/* Розмір та поведінка іконки серця */
+.heart-icon 
+{
+    width: 30px;
+    height: 30px;
+    object-fit: contain;
+}
+
+/* Інверсія кольору іконки при наведенні на кнопку */
+.btn-wishlist:hover .heart-icon 
+{
+    filter: brightness(0) invert(1);
+}
+
+/* Стан кнопки при активному додаванні в обране */
+.btn-wishlist.active 
+{
+    background-color: var(--btn-profile); 
+}
+
+/* Планшети */
+@media (max-width: 992px) 
+{
+    .tour-details-container 
+    {
+        padding: 20px 15px;
+    }
+
+    .tour-details-card 
+    {
+        flex-direction: column; 
+        max-width: 700px;
+        min-height: auto;
+    }
+
+    .tour-image-section 
+    {
+        min-width: 100%;
+        height: 350px; 
+    }
+
+    .tour-info-section 
+    {
+        padding: 25px;
+    }
+}
+
+/* Малі планшети та смартфони (до 768px) */
+@media (max-width: 768px) 
+{
+    .tour-title 
+    {
+        font-size: 24px;
+    }
+
+    .tour-image-section 
+    {
+        height: 250px; 
+    }
+
+    .service-tag 
+    {
+        font-size: 16px;
+        padding: 6px 15px;
+    }
+
+    .btn-book 
+    {
+        font-size: 20px;
+        padding: 10px 20px;
+    }
+
+    .btn-wishlist 
+    {
+        width: 50px;
+        height: 50px;
+    }
+}
+
+/* Мобільні пристрої (до 480px) */
+@media (max-width: 480px) 
+{
+    .tour-info-section 
+    {
+        padding: 15px;
+    }
+
+    .tour-title 
+    {
+        font-size: 22px;
+    }
+
+    .tour-image-section 
+    {
+        height: 200px;
+    }
+
+    .tour-actions 
+    {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 10px;
+    }
+
+    .btn-book 
+    {
+        width: 100%;
+    }
+
+    .btn-wishlist 
+    {
+        width: 100%; 
+        height: 45px;
+    }
+
+    .heart-icon 
+    {
+        width: 24px;
+        height: 24px;
+    }
+
+    .services-list 
+    {
+        justify-content: center; 
+    }
+}

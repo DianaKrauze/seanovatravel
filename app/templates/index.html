@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block title %}Головна - SeaNova Travel{% endblock %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
+{% endblock %}
+
+{% block content %}
+    <main class="features-grid">
+        <article class="card">
+            <div>
+                <div class="card-icon">
+                    <img src="{{ url_for('static', filename='images/map.png') }}" alt="Карта" class="icon-img">
+                </div>
+                <h3>50+ міжнародних турів у 10 країнах</h3>
+                <p>Від пляжного відпочинку в Туреччині до екзотики Таїланду - знайдіть ідеальний тур для себе та своєї родини в нашому каталозі.</p>
+            </div>
+            <a href="{{ url_for('tours') }}" class="card-btn">Переглянути тури</a>
+        </article>
+
+        <article class="card">
+            <div>
+                <div class="card-icon">
+                    <img src="{{ url_for('static', filename='images/booking.png') }}" alt="Бронювання" class="icon-img">
+                </div>
+                <h3>Швидке онлайн-бронювання без черг</h3>
+                <p>Оформіть бронювання за лічені хвилини прямо з дому. Жодних черг і зайвих дзвінків - все через зручний особистий кабінет.</p>
+            </div>
+            <a href="{{ url_for('tours') }}" class="card-btn">Забронювати зараз</a>
+        </article>
+
+        <article class="card">
+            <div>
+                <div class="card-icon">
+                    <img src="{{ url_for('static', filename='images/manager.png') }}" alt="Менеджер" class="icon-img">
+                </div>
+                <h3>Персональний менеджер та підтримка 24/7</h3>
+                <p>Наші досвідчені менеджери допоможуть підібрати тур, відповісти на запитання та супроводять вас від бронювання до повернення додому.</p>
+            </div>
+            <a href="{{ url_for('contacts') }}" class="card-btn">Зв’язатися з нами</a>
+        </article>
+    </main>
+{% endblock %}

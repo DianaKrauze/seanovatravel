@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+
+{% block content %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/tour_details.css') }}">
+
+<div class="tour-details-container">
+    <div class="tour-details-card">
+        
+        <div class="tour-image-section">
+            <img src="{{ url_for('static', filename='uploads/tours/' + tour.image_filename) if tour.image_filename else url_for('static', filename='img/default_tour.jpg') }}"
+                alt="{{ tour.title }}" class="main-tour-img">
+        </div>
+
+        <div class="tour-info-section">
+            <h1 class="tour-title">{{ tour.title }} {{ tour.stars }}*</h1>
+            <p class="tour-location">{{ tour.country }}, {{ tour.city }}</p>
+
+            <div class="tour-description">
+                {{ tour.description }}
+            </div>
+
+            <div class="info-grid">
+                <div class="info-item">
+                    <span class="info-label">Дата відправлення:</span>
+                    <span class="info-value">{{ format_ua_date(tour.departure_date) }}</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Тривалість:</span>
+                    <span class="info-value">{{ format_nights(tour.duration) }}</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Транспорт:</span>
+                    <span class="info-value">
+                        {% if tour.transport_type == 'bus' %}Автобус
+                        {% elif tour.transport_type == 'flight' %}Літак
+                        {% else %}Не включено{% endif %}
+                    </span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Тип харчування:</span>
+                    <span class="info-value">{{ tour.meal_type }}</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Тип номера:</span>
+                    <span class="info-value">{{ tour.room_type }}</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Ціна за 1 особу:</span>
+                    <span class="info-value">{{ tour.price}}</span>
+                </div>
+            </div>
+
+            {% if tour.has_insurance or tour.has_transfer or tour.has_visa %}
+            <div class="included-services">
+                <p class="services-title">У вартість включено:</p>
+                <div class="services-list">
+                    {% if tour.has_insurance %}
+                    <span class="service-tag">Страховка</span>
+                    {% endif %}
+                    {% if tour.has_transfer %}
+                    <span class="service-tag">Трансфер</span>
+                    {% endif %}
+                    {% if tour.has_visa %}
+                    <span class="service-tag">Віза</span>
+                    {% endif %}
+                </div>
+            </div>
+            {% endif %}
+
+            <div class="tour-actions">
+                <a href="{{ url_for('book_tour', tour_id=tour.id) }}" style="text-decoration: none;">
+                    <button class="btn-book">Забронювати</button>
+                </a>
+
+                <button class="btn-wishlist {{ 'active' if is_wishlisted }}"
+                    onclick="toggleHeart('{{ tour.id }}', this)">
+                    {% if current_user.is_authenticated and is_wishlisted %}
+                    
+                    <img src="{{ url_for('static', filename='images/heart_red.png') }}" alt="Обране" class="heart-icon">
+                    {% else %}
+                    
+                    <img src="{{ url_for('static', filename='images/heart_black.png') }}" alt="Обране"
+                        class="heart-icon">
+                    {% endif %}
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="{{ url_for('static', filename='js/wishlist.js') }}"></script>
+{% endblock %}

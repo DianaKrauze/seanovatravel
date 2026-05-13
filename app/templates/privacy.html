@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block title %}Політика конфіденційності - SeaNova Travel{% endblock %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/info.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="info-container">
+    <h1 class="info-title">Політика конфіденційності</h1>
+    <p class="last-updated">Останнє оновлення: 25 квітня 2026 року</p>
+
+    <section class="info-section">
+        <h2>1. Збір інформації</h2>
+        <p>Ми збираємо персональну інформацію, яку ви добровільно надаєте нам при реєстрації на сайті SeaNova Travel. Це включає вашу електронну пошту та пароль.</p>
+    </section>
+
+    <section class="info-section">
+        <h2>2. Використання даних</h2>
+        <h2>Ваші дані використовуються виключно для:</h2>
+        <ul>
+            <li>Створення та керування вашим особистим кабінетом;</li>
+            <li>Бронювання обраних вами туристичних турів;</li>
+            <li>Надання підтримки через наших персональних менеджерів.</li>
+        </ul>
+    </section>
+
+    <section class="info-section">
+        <h2>3. Захист інформації</h2>
+        <p>Ми впроваджуємо сучасні заходи безпеки, щоб захистити вашу конфіденційну інформацію від несанкціонованого доступу. Ми не передаємо ваші дані третім особам, крім випадків, необхідних для бронювання авіаквитків або готелів.</p>
+    </section>
+
+    <div class="back-link-container">
+        <a href="{{ url_for('home') }}" class="back-link">Повернутися на головну</a>
+    </div>
+</div>
+{% endblock %}

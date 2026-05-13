@@ -1,0 +1,217 @@
+{% extends "base.html" %}
+
+{% block title %}Особистий кабінет - SeaNova Travel{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/profile.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="profile-container">
+    <aside class="profile-sidebar">
+        <div class="user-info">
+            <div class="avatar-container">
+                <img src="{{ url_for('static', filename='images/user.png') }}" alt="Аватар" class="profile-big-avatar">
+            </div>
+
+            <div class="nickname-container">
+                <div id="nickname-display" style="display: flex; align-items: center; gap: 10px;">
+                    <h2 class="user-email" id="current-nickname">
+                        {{ current_user.nickname if current_user.nickname else current_user.email }}
+                    </h2>
+                    <img src="{{ url_for('static', filename='images/pencil.png') }}" alt="Редагувати"
+                        class="pencil-icon" onclick="enterEditMode()">
+                </div>
+
+                <form id="nickname-form" action="{{ url_for('update_nickname') }}" method="POST" style="display: none;">
+                    <input type="text" name="new_nickname" id="nickname-input" class="edit-input" maxlength="50"
+                        value="{{ current_user.nickname if current_user.nickname else current_user.email }}">
+                </form>
+            </div>
+        </div>
+
+        <nav class="profile-menu">
+            <a href="{{ url_for('profile') }}" class="menu-item active">Мої замовлення</a>
+            <a href="{{ url_for('wishlist') }}" class="menu-item">Список бажань</a>
+            <a href="{{ url_for('chat') }}" class="menu-item">Чат з менеджером</a>
+            <a href="{{ url_for('reviews') }}" class="menu-item">Мої відгуки</a>
+            <a href="{{ url_for('logout') }}" class="menu-item logout-item">Вийти</a>
+        </nav>
+    </aside>
+
+    <main class="profile-content">
+        <h1 class="content-title">Мої замовлення</h1>
+        <p class="content-subtitle">Тут відображаються всі ваші бронювання та їхні статуси</p>
+
+        <div class="bookings-list">
+            {% if current_user.bookings %}
+            {% for booking in current_user.bookings|sort(attribute='timestamp', reverse=True) %}
+            <div class="booking-card">
+                <div class="booking-header">
+                    <div class="booking-id-top">Замовлення №{{ booking.id }}</div>
+                    <span
+                        class="status-badge status-{{ 'pending' if booking.status == 'Очікує підтвердження' else 'confirmed' }}">
+                        {{ booking.status }}
+                    </span>
+                </div>
+
+                <div class="booking-container">
+                    <div class="booking-image-box">
+                        {% if booking.tour.image_filename %}
+                        <img src="{{ url_for('static', filename='uploads/tours/' + booking.tour.image_filename) }}"
+                            alt="Tour Image">
+                        {% else %}
+                        <img src="{{ url_for('static', filename='images/default_tour.png') }}" alt="Default">
+                        {% endif %}
+                    </div>
+
+                    <div class="booking-info">
+                        <div class="info-row main-row">
+                            <h4 class="card-title">{{ booking.tour.title }} {{ booking.tour.stars }}*</h4>
+                        </div>
+                        <div class="info-row">
+                            <span class="location">{{ booking.tour.country }}, {{ booking.tour.city }}</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="label">Харчування:</span> {{ booking.tour.meal_type }}
+                        </div>
+                        <div class="info-row">
+                            <span class="label">Виїзд:</span> {{ format_ua_date(booking.tour.departure_date) }} на {{
+                            format_nights(booking.tour.duration) }}
+                        </div>
+
+                        <div class="price-section">
+                            <div class="price-per-one">{{ (booking.total_price / booking.people_count)|round(0)|int }}
+                                грн за одного</div>
+                            <div class="people-count">{{ booking.people_count }} {% if booking.people_count == 1
+                                %}особа{% elif booking.people_count < 5 %}особи{% else %}осіб{% endif %}</div>
+                                    <div class="total-row">
+                                        <span class="total-sum">Разом: {{ booking.total_price|int }} грн</span>
+                                    </div>
+                            </div>
+                        </div>
+
+                        <div class="booking-actions">
+                            {% if booking.status == 'Очікує підтвердження' %}
+                            <a href="{{ url_for('tour_details', tour_id=booking.tour.id) }}"
+                                class="btn-profile">Деталі</a>
+                            <button type="button" class="btn-profile btn-cancel" data-booking-id="{{ booking.id }}"
+                                data-url="{{ url_for('cancel_booking', booking_id=booking.id) }}"
+                                onclick="openCancelModal(this)">
+                                Скасувати
+                            </button>
+
+                            {% elif booking.status == 'Підтверджено' %}
+                            <div class="status-info-text">Підтверджено менеджером</div>
+                            <a href="{{ url_for('tour_details', tour_id=booking.tour.id) }}"
+                                class="btn-profile">Деталі</a>
+                            <button type="button" class="btn-profile btn-cancel" data-booking-id="{{ booking.id }}"
+                                data-url="{{ url_for('cancel_booking', booking_id=booking.id) }}"
+                                onclick="openCancelModal(this)">
+                                Скасувати
+                            </button>
+                            <span class="timer-trigger" data-booking-id="{{ booking.id }}"
+                                data-updated="{{ booking.updated_at.strftime('%Y-%m-%dT%H:%M:%SZ') }}">
+                            </span>
+
+                            {% elif booking.status == 'Очікує оплати' %}
+                            <a href="{{ url_for('tour_details', tour_id=booking.tour.id) }}"
+                                class="btn-profile">Деталі</a>
+                            <button type="button" class="btn-profile btn-pay"
+                                onclick="openPaymentModal('{{ booking.id }}')">
+                                Оплатити
+                            </button>
+
+                            {% elif booking.status == 'Скасовано менеджером' or booking.status == 'Скасовано' %}
+                            <div
+                                class="status-info-text {{ 'danger' if booking.status == 'Скасовано менеджером' else '' }}">
+                                {{ 'Замовлення скасовано менеджером' if booking.status == 'Скасовано менеджером' else
+                                'Ви
+                                скасували це замовлення' }}
+                            </div>
+                            <form action="{{ url_for('delete_booking', booking_id=booking.id) }}" method="POST">
+                                <button type="submit" class="btn-profile btn-delete">Видалити</button>
+                            </form>
+
+                            {% elif booking.status == 'Оплачено' %}
+                            <a href="{{ url_for('download_voucher', booking_id=booking.id) }}"
+                                class="btn-profile">Ваучер</a>
+                            <a href="{{ url_for('reviews') }}" class="btn-profile">Відгук</a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+                {% else %}
+                <div class="empty-state">
+                    <p>У вас поки немає замовлень. <a href="{{ url_for('search_tours') }}">Переглянути тури?</a></p>
+                </div>
+                {% endif %}
+            </div>
+    </main>
+    <script src="{{ url_for('static', filename='js/user.js') }}"></script>
+</div>
+
+<!-- Модальне вікно скасування -->
+<div id="cancelModal" class="custom-cancel-modal">
+    <div class="modal-content">
+        <h2 class="modal-title">Скасування замовлення</h2>
+        <p class="modal-text">Ви впевнені, що хочете скасувати замовлення <span id="modalBookingId"></span>?</p>
+        <div class="modal-buttons">
+            <form id="confirmCancelForm" method="POST">
+                <button type="submit" class="btn-modal btn-confirm">Так, скасувати</button>
+            </form>
+            <button class="btn-modal btn-back" onclick="closeModal()">Назад</button>
+        </div>
+    </div>
+</div>
+
+<!-- Модальне вікно оплати -->
+<div class="modal fade" id="paymentModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content payment-modal-content">
+            <div class="modal-header payment-header">
+                <h5 class="modal-title">Оплата</h5>
+            </div>
+            <div class="modal-body">
+                <form id="fake-payment-form">
+                    <input type="hidden" id="current-booking-id">
+                    <div class="mb-3">
+                        <label class="form-label">Номер картки</label>
+                        <input type="text" class="form-control card-input" id="card-number"
+                            placeholder="0000 0000 0000 0000" maxlength="19" required>
+                    </div>
+                    <div class="row">
+                        <div class="col-6 mb-3">
+                            <label class="form-label">Термін дії</label>
+                            <input type="text" class="form-control card-input" id="card-expiry" placeholder="ММ/РР"
+                                maxlength="5" required>
+                        </div>
+                        <div class="col-6 mb-3">
+                            <label class="form-label">CVV</label>
+                            <input type="text" class="form-control card-input" id="card-cvv" placeholder="000"
+                                maxlength="3" required>
+                        </div>
+                    </div>
+                    <div class="payment-buttons">
+                        <button type="submit" class="btn-pay-confirm">Оплатити</button>
+                        <button type="button" class="btn-pay-cancel" data-bs-dismiss="modal">Скасувати</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Модальне вікно успіху -->
+<div class="modal fade" id="successModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-sm">
+        <div class="modal-content success-modal-content">
+            <img src="{{ url_for('static', filename='images/confirm.png') }}" alt="Success" class="success-check-img">
+            <h4>Оплата успішна!</h4>
+            <p>Ваше замовлення оплачено.</p>
+        </div>
+    </div>
+</div>
+<script src="{{ url_for('static', filename='js/profile.js') }}"></script>
+{% endblock %}

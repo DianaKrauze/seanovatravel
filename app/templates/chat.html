@@ -1,0 +1,105 @@
+{% extends "base.html" %}
+
+{% block title %}Чат з менеджером - SeaNova Travel{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/profile.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="profile-container">
+    <aside class="profile-sidebar">
+        <div class="user-info">
+            <div class="avatar-container">
+                <img src="{{ url_for('static', filename='images/user.png') }}" alt="Аватар" class="profile-big-avatar">
+            </div>
+            <div class="nickname-container">
+                <div id="nickname-display" style="display: flex; align-items: center; gap: 10px;">
+                    <h2 class="user-email" id="current-nickname">
+                        {{ current_user.nickname if current_user.nickname else current_user.email }}
+                    </h2>
+                    <img src="{{ url_for('static', filename='images/pencil.png') }}" alt="Редагувати"
+                        class="pencil-icon" onclick="enterEditMode()">
+                </div>
+
+                <form id="nickname-form" action="{{ url_for('update_nickname') }}" method="POST" style="display: none;">
+                    <input type="text" name="new_nickname" id="nickname-input" class="edit-input" maxlength="50"
+                        value="{{ current_user.nickname if current_user.nickname else current_user.email }}">
+                </form>
+            </div>
+        </div>
+
+        <nav class="profile-menu">
+            <a href="{{ url_for('profile') }}" class="menu-item">Мої замовлення</a>
+            <a href="{{ url_for('wishlist') }}" class="menu-item">Список бажань</a>
+            <a href="{{ url_for('chat') }}" class="menu-item active">Чат з менеджером</a>
+            <a href="{{ url_for('reviews') }}" class="menu-item">Мої відгуки</a>
+            <a href="{{ url_for('logout') }}" class="menu-item logout-item">Вийти</a>
+        </nav>
+    </aside>
+
+    <main class="profile-content">
+        <h1 class="content-title">Чат з менеджером</h1>
+        <p class="content-subtitle">Задайте питання - менеджер відповість протягом кількох хвилин</p>
+
+        <div class="user-chat-container">
+            <div class="chat-sidebar">
+                <div class="sidebar-header">Менеджери</div>
+                <div class="managers-list">
+                    {% for manager in managers %}
+                    <div class="manager-item"
+                        onclick="openManagerChat('{{ manager.id }}', '{{ (manager.nickname or manager.email)|e }}')">
+                        <div class="manager-avatar">
+                            <img src="{{ url_for('static', filename='images/user.png') }}" alt="Avatar">
+                            <span class="status-dot {{ 'online' if manager.is_online else 'offline' }}"
+                                id="status-{{ manager.id }}"></span>
+                        </div>
+                        <div class="manager-info">
+                            <div class="manager-name">{{ manager.nickname or manager.email }}</div>
+                            <div class="manager-status-text" id="status-text-{{ manager.id }}">
+                                {{ 'В мережі' if manager.is_online else 'Не в мережі' }}
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <div class="chat-main">
+                <div id="noChatSelected" class="empty-chat">
+                    <p>Оберіть менеджера для спілкування</p>
+                </div>
+
+                <div id="activeChat" style="display: none; flex-direction: column; height: 100%;">
+                    <div class="chat-header">
+                        Чат з: <span id="activeManagerName"></span>
+                    </div>
+                    <div class="messages-display" id="messagesDisplay"></div>
+
+                    <form class="message-input-area" id="chatForm" enctype="multipart/form-data">
+                       
+                        <label for="chatFileInput" class="btn-attach">
+                            <img src="{{ url_for('static', filename='images/attach.png') }}" alt="Attach">
+                        </label>
+                        <input type="file" id="chatFileInput" style="display: none;">
+
+                        <input type="text" id="messageInput" placeholder="Напишіть повідомлення..." autocomplete="off">
+
+                        <button type="submit" class="btn-send-user">
+                            <img src="{{ url_for('static', filename='images/send.png') }}" alt="Send"
+                                style="width: 20px; filter: brightness(0) invert(1);">
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <input type="hidden" id="current-user-id" value="{{ current_user.id }}">
+    </main>
+
+    <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
+    <script src="{{ url_for('static', filename='js/user_chat.js') }}"></script>
+
+    <script src="{{ url_for('static', filename='js/user.js') }}"></script>
+</div>
+{% endblock %}

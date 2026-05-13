@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+
+{% block title %}Реєстрація - SeaNova Travel{% endblock %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/register.css') }}">
+{% endblock %}
+
+
+{% block header %}{% endblock %}
+{% block footer %}{% endblock %}
+
+{% block content %}
+<div class="auth-container">
+    <div class="auth-card">
+        <div class="logo">
+            SeaNova <span>Travel</span>
+        </div>
+        <div class="user-icon">
+           <img src="{{ url_for('static', filename='images/user.png') }}" alt="Користувач">
+        </div>
+        
+        <h2>Реєстрація</h2>
+        <p class="subtitle">Подорожуй по всім містам разом з нами!</p>
+        
+        <form action="{{ url_for('register') }}" method="POST">
+            <div class="input-group">
+                <label>Email</label>
+                <input type="email" name="email" value="{{ email if email else '' }}" placeholder="email@example.com" required>
+            </div>
+            
+            <div class="input-group">
+                <label>Пароль</label>
+                <input type="password" name="password" placeholder="Мінімум 8 символів" required>
+            </div>
+            
+            <div class="input-group">
+                <label>Підтвердження паролю</label>
+                <input type="password" name="confirm_password" placeholder="Повторіть пароль" required>
+            </div>
+            
+            <div class="checkbox-group">
+                <input type="checkbox" id="terms" required>
+                <label for="terms">Я погоджуюся з умовами використання та політикою конфіденційності</label>
+            </div>
+            
+            <button type="submit" class="auth-btn">Зареєструватися</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

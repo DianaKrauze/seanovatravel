@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <title>Voucher {{ booking.id }}</title>
+</head>
+<body>
+    <div class="header">
+        <div class="header-top">
+            <div class="logo">SeaNova <span>Travel</span></div>
+            <div class="voucher-number">
+                <small>НОМЕР ВАУЧЕРА</small><br>
+                <strong>TV-2026-{{ "%04d" | format(booking.id) }}</strong>
+            </div>
+        </div>
+        <h1 class="voucher-title">ТУРИСТИЧНИЙ ВАУЧЕР</h1>
+        <p class="subtitle">Підтвердження на туристичне обслуговування</p>
+    </div>
+
+    <table class="info-table">
+        <tr>
+            <td class="label">ПІБ ТУРИСТА</td>
+            <td class="value">{{ booking.full_name }}</td>
+        </tr>
+        <tr>
+            <td class="label">КРАЇНА / МІСТО</td>
+            <td class="value">{{ booking.tour.country }}, {{ booking.tour.city }}</td>
+        </tr>
+        <tr>
+            <td class="label">ГОТEЛЬ</td>
+            <td class="value">{{ booking.tour.title }} {{ booking.tour.stars }}*</td>
+        </tr>
+        <tr>
+            <td class="label">ДАТИ ТУРУ</td>
+            <td class="value">
+                {{ booking.tour.departure_date.strftime('%d.%m.%Y') }} — 
+                {{ (booking.tour.departure_date + timedelta(days=booking.tour.duration)).strftime('%d.%m.%Y') }}
+            </td>
+        </tr>
+        <tr>
+            <td class="label">ТИП ХАРЧУВАННЯ</td>
+            <td class="value">{{ booking.tour.meal_type }}</td>
+        </tr>
+
+        {# Динамічні послуги #}
+        {% if booking.tour.has_transfer %}
+        <tr>
+            <td class="label">ТРАНСФЕР</td>
+            <td class="value">Включено (Груповий)</td>
+        </tr>
+        {% endif %}
+
+        {% if booking.tour.has_insurance %}
+        <tr>
+            <td class="label">СТРАХОВКА</td>
+            <td class="value">Медичне страхування включено</td>
+        </tr>
+        {% endif %}
+
+        {% if booking.tour.has_visa %}
+        <tr>
+            <td class="label">ВІЗА</td>
+            <td class="value">Оформлено (Туристична)</td>
+        </tr>
+        {% endif %}
+
+        <tr>
+            <td class="label">СТАТУС ОПЛАТИ</td>
+            <td class="value"><span class="status-paid">ОПЛАЧЕНО</span></td>
+        </tr>
+    </table>
+
+    <div class="signature-section">
+        <div class="qr-code">
+            <div class="qr-box">
+                <small>QR ПЕРЕВІРКА</small>
+            </div>
+            <p>Перевірка ваучера</p>
+        </div>
+        <div class="manager-info">
+            <p><strong>ПІДПИС МЕНЕДЖЕРА</strong></p>
+            <div class="line"></div>
+            <p>Марія Ковальчук</p>
+            <p><small>Дата видачі: {{ booking.updated_at.strftime('%d.%m.%Y') }}</small></p>
+        </div>
+    </div>
+
+    <div class="footer">
+        <p><strong>КОНТАКТИ ПІДТРИМКИ</strong></p>
+        <p>+38 (067) 123 45 67 | seanovatravel@gmail.com</p>
+        <p>м. Харків, вул. Туристична, 15</p>
+    </div>
+</body>
+</html>

@@ -1,0 +1,599 @@
+/* Для світлої теми */
+:root 
+{
+    --bg-image: url('../images/tour_world.png');
+    --header-footer-bg: #B4D3EE;
+    --header: #FFF;
+    --content-bg: #F4F7F9;
+    --card-bg: #B4D3EE;
+    --container-background: #FFF;
+    --mini-cards: #B4D3EE;
+    --text-color: #000;
+    --tittle: #4973B1;
+    --accent-color: #4973B1;
+    --input-bg: #fff;
+    --toggle-border: #6fbef3;
+    --btn-login-bg: #3B699A;
+    --btn-register-bg: #45A8FF;
+    --btn-text: #fff;
+    --text: #45A8FF;
+    --btn-active: #45A8FF;
+    --btn: #82A6D1;
+    --btn-profile: #5079B5;
+    --hover: #a9d3f7;
+    --status: #53AFFE;
+    --chat-main: #E8F1F8;
+    --chat-header: #FFF;
+    --chat-sidebar: #f8fbff;
+    --block: #182635;
+    --message-received: #FFF;
+    --message-text: #000;
+    --message-sent: #5079B5;
+    --btn-attach: #f0f4f8;
+    --btn-edit-review: #1D579C;
+    --btn-submit-review: #82A6D1;
+    --star-label: #567fb3;
+    --btn-favorite: #5d81bc;
+}
+
+/* Для темної теми */
+[data-theme="dark"] 
+{
+    --bg-image: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url('../images/tour_world.png');
+    --header-footer-bg: #1a2a3a;
+    --header: #182635;
+    --content-bg: #121212;
+    --card-bg: #1e2d3d;
+    --container-background: #1e2d3d;
+    --mini-cards: #213347;
+    --text-color: #777;
+    --accent-color: #3d81ae;
+    --input-bg: #2b2b2b;
+    --toggle-border: #8D8C8C;
+    --btn-login-bg: #132741;
+    --btn-register-bg: #256fa0;
+    --btn-text: #777;
+    --text: #327ab9;
+    --btn-active: #3d81ae;
+    --btn: #132741;
+    --btn-profile: #14243c;
+    --hover: #2a435e;
+    --status: #2c5d89;
+    --chat-main: #1b3a5d;
+    --chat-header: #182635;
+    --chat-sidebar: #213347;
+    --message-received: #173367;
+    --message-text: #3f8ac7;
+    --message-sent: #365482;
+    --btn-attach: #24405c;
+    --btn-edit-review: #132741;
+    --btn-submit-review: #132741;
+    --star-label: #132741;
+    --btn-favorite: #14243c;
+}
+
+/* скидання відступів та налаштування шрифту */
+* 
+{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Open Sans', sans-serif;
+}
+
+/* базові налаштування фону та структури сторінки */
+body 
+{
+    background: var(--bg-image) no-repeat center center fixed;
+    background-size: cover;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    color: var(--text-color);
+    align-items: center;
+    overflow-x: hidden;
+    padding: 30px;
+    transition: background 0.3s, color 0.3s;
+}
+
+/* стилі шапки сайту */
+header 
+{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: var(--header-footer-bg);
+    padding: 0 40px;
+    height: 60px;
+    width: 100%;
+    max-width: 1300px;
+    box-sizing: border-box;
+    transition: background-color 0.3s;
+    position: fixed;      
+    top: 0;            
+    z-index: 1000;
+}
+
+header a 
+{
+    text-decoration: none;
+    color: var(--accent-color);
+}
+
+/* Активне посилання при наведенні */
+nav ul li a:hover,nav ul li a.active 
+{
+    color: var(--accent-color);
+}
+
+/* оформлення логотипу */
+.logo 
+{
+    font-size: 24px;
+    color: var(--accent-color);
+    ;
+    font-weight: 800;
+}
+
+.logo span 
+{
+    color: var(--text-color);
+}
+
+/* головне меню навігації */
+nav ul 
+{
+    display: flex;
+    list-style: none;
+    gap: 25px;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+}
+
+nav ul li a 
+{
+    font-family: 'Open Sans', sans-serif;
+    text-decoration: none;
+    color: var(--text-color);
+    font-size: 18px;
+    font-weight: 700;
+    transition: color 0.3s;
+}
+
+/* блок з кнопками та перемикачем теми */
+.header-actions 
+{
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+/* кнопка зміни колірної теми */
+.theme-toggle 
+{
+    background-color: var(--input-bg);
+    border: 2px solid var(--toggle-border);
+    border-radius: 30px;
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.3s ease;
+}
+
+.theme-toggle:hover 
+{
+    transform: scale(1.1);
+}
+
+.theme-toggle .icon-img 
+{
+    width: 26px;
+    height: 26px;
+    object-fit: contain;
+}
+
+/* кнопки входу та реєстрації */
+.btn-login,.btn-register 
+{
+    font-family: 'Pattaya', sans-serif;
+    border: none;
+    padding: 10px 25px;
+    border-radius: 12px;
+    cursor: pointer;
+    color: var(--btn-text) !important;
+    font-size: 17px;
+    transition: background 0.3s, transform 0.2s;
+}
+
+.btn-login 
+{
+    background-color: var(--btn-login-bg);
+    border: 1px solid var(--toggle-border);
+}
+
+.btn-register 
+{
+    background-color: var(--btn-register-bg);
+}
+
+.btn-login:hover 
+{
+    background-color: #2a4d74;
+}
+
+.btn-register:hover 
+{
+    background-color: #3596eb;
+}
+
+/* навігація для авторизованого користувача */
+.user-nav 
+{
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+/* аватар користувача */
+.user-avatar 
+{
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid var(--toggle-border);
+    vertical-align: middle;
+}
+
+.welcome-text 
+{
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text-color);
+}
+
+.btn-logout 
+{
+    color: var(--text-color);
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.btn-logout:hover 
+{
+    color: var(--accent-color);
+}
+
+/* головний контейнер для основного контенту */
+.app-container 
+{
+    background-color: var(--content-bg);
+    width: 100%;
+    max-width: 1300px;
+    padding: 60px 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    flex-grow: 0;
+    transition: background-color 0.3s;
+}
+
+/* нижня частина сайту (футер) */
+footer 
+{
+    width: 100%;
+    max-width: 1300px;
+    background-color: var(--header-footer-bg);
+    padding: 20px 40px;
+    margin: 0 auto;
+    transition: background-color 0.3s;
+}
+
+.footer-content 
+{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: var(--text-color);
+    font-size: 16px;
+}
+
+.footer-content p 
+{
+    margin: 0;
+    padding: 0;
+}
+
+.footer-links 
+{
+    display: flex;
+    gap: 20px;
+}
+
+.footer-links a 
+{
+    text-decoration: none;
+    color: var(--accent-color);
+    transition: color 0.3s;
+}
+
+.footer-links a:hover 
+{
+    color: var(--text-color);
+}
+
+/* системні повідомлення */
+.flash-message 
+{
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    padding: 15px 25px;
+    background-color: #e74c3c;
+    color: #FFF;
+    border-radius: 8px;
+    z-index: 9999;
+    font-family: 'Open Sans', sans-serif;
+}
+
+.alert-warning 
+{
+    background-color: #f39c12;
+}
+
+.alert-success 
+{
+    background-color: #2ecc71;
+}
+
+/* кнопка для доступу до адмін-панелі */
+.btn-admin 
+{
+    margin-left: 5px;
+    background-color: #5079B5 !important;
+    color: #FFF !important;
+    border: 1px solid #3d5d8a;
+    transition: background-color 0.3s ease;
+}
+
+.btn-admin:hover 
+{
+    background-color: #3d5d8a !important;
+}
+
+/* адаптивні стилі для середніх екранів */
+@media (max-width: 1100px) 
+{
+
+    html, body 
+    {
+        overflow-x: hidden;
+        width: 100%;
+        margin: 0;
+        padding: 0;
+    }
+    header, .app-container, footer 
+    {
+        width: 100% !important;
+        max-width: 100% !important;
+        border-radius: 0 !important; 
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+        left: 0 !important;
+        right: 0 !important;
+        box-sizing: border-box;
+    }
+
+    .app-container 
+    {
+        margin: 0 !important; 
+    }
+
+    header 
+    {
+        height: auto !important;
+        flex-direction: column;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        z-index: 1000;
+        padding: 15px !important;
+        gap: 15px;
+    }
+
+    body
+    {
+        padding-top: 170px !important;
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+        
+    }
+
+    .header-actions 
+    {
+        width: 100%;
+        justify-content: center;
+        padding-bottom: 10px;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    }
+
+    nav 
+    {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+    }
+
+    .nav-links 
+    {
+        width: 100%;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 10px 15px !important;
+    }
+}
+
+/* адаптивні стилі для мобільних пристроїв */
+@media (max-width: 768px) 
+{
+    body 
+    {
+        padding-top: 340px !important;
+    }
+
+    header,.app-container,footer 
+    {
+        width: 100% !important;
+        max-width: 100vw !important;
+        border-radius: 0 !important;
+        margin: 0 !important;
+    }
+
+    .app-container 
+    {
+        padding: 30px 15px !important;
+    }
+
+    .nav-links 
+    {
+        flex-direction: column !important;
+        align-items: center;
+        gap: 8px !important;
+    }
+
+    .nav-links li a 
+    {
+        font-size: 16px;
+        padding: 5px 0;
+        display: block;
+    }
+
+    .header-actions 
+    {
+        width: 100%;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+
+    .btn-login,.btn-register 
+    {
+        padding: 8px 15px;
+    
+        font-size: 15px;
+    }
+
+    .welcome-text 
+    {
+        display: none !important;
+    }
+
+
+    .logo 
+    {
+        font-size: 20px;
+    }
+
+    footer
+    {
+        padding: 20px 15px !important;
+    }
+
+    .footer-content 
+    {
+        flex-direction: column !important;
+        gap: 15px;
+        text-align: center;
+    }
+
+    .footer-links 
+    {
+        flex-direction: column;
+        gap: 10px;
+        width: 100%;
+    }
+
+    .footer-content p 
+    {
+        margin-bottom: 5px;
+        font-size: 14px;
+        line-height: 1.4;
+    }
+}
+
+/* Зовсім маленькі екрани (до 360px) */
+@media (max-width: 360px) 
+{
+    body 
+    {
+        padding-top: 300px !important;
+    }
+
+    .logo 
+    {
+        font-size: 18px;
+    }
+
+    header 
+    {
+        padding: 15px 10px !important;
+        height: auto !important;
+    }
+
+    .nav-links li a 
+    {
+        font-size: 13px;
+    }
+
+    .theme-toggle 
+    {
+        width: 34px;
+        height: 34px;
+    }
+}
+
+/* Контейнер для повідомлень */
+.js-flash-container 
+{
+    position: sticky;
+    top: 20px;
+    z-index: 1000;
+    width: 100%;
+}
+
+/* Стиль самого повідомлення */
+.success-status-update 
+{
+    background-color: #e3f2fd; 
+    color: #0d47a1;
+    padding: 16px 20px;
+    margin-bottom: 20px;
+    border-left: 5px solid #2196f3;
+    border-radius: 4px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    animation: slideInDown 0.5s ease-out; /* Анімація появи */
+}
+
+/* Анімація появи зверху */
+@keyframes slideInDown 
+{
+    from 
+    {
+        transform: translateY(-20px);
+        opacity: 0;
+    }
+    to 
+    {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
