@@ -777,7 +777,7 @@ def delete_tour(tour_id):
         abort(404)
     
     if tour.image_filename:
-        file_path = os.path.join(UPLOAD_FOLDER_TOURS, tour.image_filename)
+        file_path = os.path.join(app.config['UPLOAD_FOLDER_TOURS'], tour.image_filename)
         if os.path.exists(file_path):
             try:
                 os.remove(file_path)
