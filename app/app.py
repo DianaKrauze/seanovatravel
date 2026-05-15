@@ -73,6 +73,9 @@ class User(db.Model, UserMixin):
     # Зв'язки для доступу до повідомлень користувача
     sent_messages = db.relationship('Message', foreign_keys='Message.sender_id', back_populates='sender', cascade="all, delete-orphan")
     received_messages = db.relationship('Message', foreign_keys='Message.receiver_id', back_populates='receiver', cascade="all, delete-orphan")
+    bookings = db.relationship('Booking', back_populates='user', cascade="all, delete-orphan")
+    reviews = db.relationship('Review', back_populates='user', cascade="all, delete-orphan")
+    wishlist_items = db.relationship('Wishlist', backref='user', cascade="all, delete-orphan")
 
 # Повідомлення внутрішнього чату підтримки
 class Message(db.Model):
@@ -131,7 +134,7 @@ class Booking(db.Model):
     timestamp = db.Column(db.DateTime, default=datetime.now)
     updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
 
-    user = db.relationship('User', backref='bookings')
+    user = db.relationship('User', back_populates='bookings')
     tour = db.relationship('Tour', backref='bookings')
 
 # Відгуки клієнтів про поїздки
@@ -144,7 +147,7 @@ class Review(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     tour_id = db.Column(db.Integer, db.ForeignKey('tours.id'), nullable=False)
     
-    user = db.relationship('User', backref=db.backref('reviews', lazy=True))
+    user = db.relationship('User', back_populates='reviews')
     tour = db.relationship('Tour', backref=db.backref('reviews', lazy=True))
 
     def __repr__(self):

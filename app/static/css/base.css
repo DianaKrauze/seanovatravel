@@ -561,10 +561,10 @@ footer
 /* Контейнер для повідомлень */
 .js-flash-container 
 {
-    position: sticky;
-    top: 20px;
-    z-index: 1000;
-    width: 100%;
+    position: fixed !important;
+    top: 20px !important;
+    z-index: 2000 !important;
+    width: 90% !important;
 }
 
 /* Стиль самого повідомлення */
