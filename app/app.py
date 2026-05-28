@@ -13,6 +13,7 @@ import io
 from flask import send_file
 import pdfkit
 import platform
+import uuid
 
 # Ініціалізація Flask додатка
 app = Flask(__name__)
@@ -152,6 +153,21 @@ class Review(db.Model):
 
     def __repr__(self):
         return f'<Review {self.id} by User {self.user_id}>'
+
+# Оплата
+class Payment(db.Model):
+    __tablename__ = 'payments'
+    id = db.Column(db.Integer, primary_key=True)
+    booking_id = db.Column(db.Integer, db.ForeignKey('bookings.id', ondelete='CASCADE'), nullable=False, unique=True)
+    amount = db.Column(db.Float, nullable=False)                
+    card_mask = db.Column(db.String(19), nullable=False)         
+    transaction_id = db.Column(db.String(50), unique=True, nullable=False) 
+    timestamp = db.Column(db.DateTime, default=datetime.utcnow, nullable=False)
+    # Зв'язок один-до-одного (1:1) з бронюванням
+    booking = db.relationship('Booking', backref=db.backref('payment', uselist=False, cascade="all, delete-orphan"))
+
+    def __repr__(self):
+        return f'<Payment {self.transaction_id} for Booking {self.booking_id}>'
 
 # Допоміжні функції для форматування даних у шаблонах
 @login_manager.user_loader
@@ -338,21 +354,56 @@ def update_to_pay(booking_id):
 def pay_booking(booking_id):
     booking = Booking.query.get_or_404(booking_id)
     
+    # Перевірка безпеки (чи це бронювання поточного користувача)
     if booking.user_id != current_user.id:
-        if request.headers.get('Content-Type') == 'application/json':
-            return {'status': 'error', 'message': 'Forbidden'}, 403
+        if request.headers.get('Content-Type') == 'application/json' or request.is_json:
+            return jsonify({'status': 'error', 'message': 'Forbidden'}), 403
         flash('Доступ заборонено!', 'danger')
         return redirect(url_for('profile'))
     
-    # Змінення статусу
-    booking.status = 'Оплачено'
-    db.session.commit()
-    
-    # Якщо запит прийшов від JavaScript (fetch)
+    # Обробка асинхронного запиту від JS (FETCH POST)
     if request.method == 'POST':
-        return {'status': 'success'}, 200
+        data = request.get_json()
+        raw_card = data.get('card_number', '') if data else ''
         
-    # Якщо запит прийшов через звичайне посилання 
+        # Видалення пробілів, які додав маскувальник у JS
+        clean_card = raw_card.replace(" ", "")
+        
+        # Формування безпечної маски: перші 4 та останні 4 цифри відкриті
+        if len(clean_card) >= 16:
+            card_mask = f"{clean_card[:4]} **** **** {clean_card[-4:]}"
+        else:
+            card_mask = "**** **** **** ****" 
+            
+        try:
+            # Створення фінансового запису у таблиці 'payments'
+            payment_record = Payment(
+                booking_id=booking.id,
+                amount=booking.total_price,
+                card_mask=card_mask,
+                # Створення унікального фінансового ідентифікатору транзакції за допомогою UUID
+                transaction_id=f"PAY-{str(uuid.uuid4())[:8].upper()}",
+                timestamp=datetime.utcnow()
+            )
+            
+            # Змінення статусу бронювання
+            booking.status = 'Оплачено'
+            booking.updated_at = datetime.utcnow()
+            
+            db.session.add(payment_record)
+            db.session.commit()
+            
+            return jsonify({'status': 'success'}), 200
+        except Exception as e:
+            db.session.rollback()
+            return jsonify({'status': 'error', 'message': str(e)}), 500
+
+    # Обробка get запиту
+    if booking.status != 'Оплачено':
+        booking.status = 'Оплачено'
+        booking.updated_at = datetime.utcnow()
+        db.session.commit()
+        
     flash('Тур успішно оплачено! Тепер ви можете завантажити ваучер.', 'success')
     return redirect(url_for('profile'))
 
